@@ -7,6 +7,14 @@
 image:https://app.codacy.com/project/badge/Grade/31829078ea6246e1af7a8cce734fa2a6["Codacy code quality", link="https://app.codacy.com/gh/jmbruel/paranote/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"]
 //---------------------------------------- Badges --------------------------------------
 
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
 
 Outil de check pré/post vol.
 
