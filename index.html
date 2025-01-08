@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carnet de Débriefing</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, textarea, select, button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #5cb85c;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .checkbox-grid div {
+            display: flex;
+            align-items: center;
+        }
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .stars {
+            display: flex;
+            gap: 5px;
+            font-size: 24px;
+        }
+        .stars input {
+            display: none;
+        }
+        .stars label {
+            cursor: pointer;
+            color: lightgray;
+        }
+        .stars input:checked ~ label,
+        .stars label:hover,
+        .stars label:hover ~ label {
+            color: gold;
+        }
+        .radar-section {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Carnet de Débriefing</h1>
+        <h2>Avant Vol</h2>
+        <form>
+            <!-- Section 1: General Information -->
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="session">Site</label>
+            <input type="text" id="session" name="session" placeholder="Entrer un site" required>
+
+            <label for="participants">Ma météo intérieure</label>
+            <textarea id="participants" name="participants" rows="3" placeholder="Ma météo intérieure"></textarea>
+
+            <!-- Section 4: Activity Type -->
+            <label for="activity-type">Type d'activité  (exemple 1)</label>
+            <select id="activity-type" name="activity-type" required>
+                <option value="">-- Select an activity --</option>
+                <option value="cross">Cross</option>
+                <option value="record">Record</option>
+                <option value="cfd">CFD</option>
+                <option value="accro">Accro</option>
+                <option value="repose-deco">Repose Déco</option>
+                <option value="compet">Compét</option>
+                <option value="exos">Exos</option>
+                <option value="soaring">Soaring</option>
+                <option value="loisir">Loisir</option>
+                <option value="plaisir">Plaisir</option>
+            </select>
+
+            <!-- Section 5: Activity Selection -->
+            <label>Type d'activité  (exemple 2)</label>
+            <div class="checkbox-grid">
+                <div>
+                    <input type="checkbox" id="cross" name="activity-options" value="cross">
+                    <label for="cross">Cross</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="record" name="activity-options" value="record">
+                    <label for="record">Record</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="cfd" name="activity-options" value="cfd">
+                    <label for="cfd">CFD</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="accro" name="activity-options" value="accro">
+                    <label for="accro">Accro</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="repose-deco" name="activity-options" value="repose-deco">
+                    <label for="repose-deco">Repose Déco</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="compet" name="activity-options" value="compet">
+                    <label for="compet">Compét</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="exos" name="activity-options" value="exos">
+                    <label for="exos">Exos</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="soaring" name="activity-options" value="soaring">
+                    <label for="soaring">Soaring</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="loisir" name="activity-options" value="loisir">
+                    <label for="loisir">Loisir</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="plaisir" name="activity-options" value="plaisir">
+                    <label for="plaisir">Plaisir</label>
+                </div>
+            </div>
+
+            <!-- Section 6: Flight Data -->
+            <label>Données de vol</label>
+            <div class="two-columns">
+                <div>
+                    <label for="duration">Durée</label>
+                    <input type="time" id="duration" name="duration">
+                </div>
+                <div>
+                    <label for="alti-deco">Alti déco (m)</label>
+                    <input type="number" id="alti-deco" name="alti-deco" placeholder="Enter altitude">
+                </div>
+                <div>
+                    <label for="alti-max">Alti max (m)</label>
+                    <input type="number" id="alti-max" name="alti-max" placeholder="Enter altitude">
+                </div>
+                <div>
+                    <label for="conditions">Conditions</label>
+                    <select id="conditions" name="conditions">
+                        <option value="sad">😟 Très compliqué</option>
+                        <option value="neutral">😐 Neutre</option>
+                        <option value="happy">🙂 Content</option>
+                        <option value="very-happy">😀 Top</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="vz-plus-max">Vz+max</label>
+                    <input type="number" id="vz-plus-max" name="vz-plus-max" placeholder="Enter max speed">
+                </div>
+                <div>
+                    <label for="vz-minus-max">Vz-max</label>
+                    <input type="number" id="vz-minus-max" name="vz-minus-max" placeholder="Enter max speed">
+                </div>
+            </div>
+
+            <!-- Section 7: Overall Rating -->
+            <label>Note Globale</label>
+            <div class="stars">
+                <input type="radio" id="star-1" name="rating" value="1">
+                <label for="star-1">★</label>
+                <input type="radio" id="star-2" name="rating" value="2">
+                <label for="star-2">★</label>
+                <input type="radio" id="star-3" name="rating" value="3">
+                <label for="star-3">★</label>
+                <input type="radio" id="star-4" name="rating" value="4">
+                <label for="star-4">★</label>
+                <input type="radio" id="star-5" name="rating" value="5">
+                <label for="star-5">★</label>
+            </div>
+
+            <!-- Section 2: Notes and Observations -->
+            <label for="notes">Notes & Observations</label>
+            <textarea id="notes" name="notes" rows="5" placeholder="Vos notes ici..."></textarea>
+
+            <!-- Section 8: Radar Chart -->
+            <div class="radar-section">
+                <label>Radar Chart</label>
+                <canvas id="radarChart" width="400" height="400"></canvas>                    
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Save</button>
+        </form>
+    </div>
+    <script>
+        const ctx = document.getElementById('radarChart').getContext('2d');
+        const radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['AIR', 'CNS', 'MAT', 'PHY', 'COS', 'STS', 'GES', 'DEC', 'ENV', 'PIL', 'SIV'],
+                datasets: [
+                    {
+                        label: 'Radar Data',
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: true
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 4,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function(value) {
+                                switch(value) {
+                                    case 1: return 'S';
+                                    case 2: return 'A';
+                                    case 3: return 'M';
+                                    case 4: return 'I';
+                                    default: return '';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Add interactivity to update values on click
+        document.getElementById('radarChart').addEventListener('click', (event) => {
+            const points = radarChart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
+            if (points.length) {
+                const index = points[0].index;
+                const newValue = prompt(`Set value for ${radarChart.data.labels[index]} (1=S, 2=A, 3=M, 4=I):`);
+                if (newValue >= 1 && newValue <= 4) {
+                    radarChart.data.datasets[0].data[index] = parseInt(newValue);
+                    radarChart.update();
+                }
+            }
+        });
+    </script>
+    </body>
+</html>

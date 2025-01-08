@@ -1,0 +1,7 @@
+= Paranote
+:icons: font
+:seb: mailto:s.richard@ffvl.fr[Sébastien Richard]
+
+Outil de check pré/post vol.
+
+NOTE: Sur une idée originale et une link:files/carnetA4.pdf[fiche existante] de {seb}.
