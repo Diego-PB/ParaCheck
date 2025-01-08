@@ -2,6 +2,12 @@
 :icons: font
 :seb: mailto:s.richard@ffvl.fr[Sébastien Richard]
 
+
+//---------------------------------------- Badges --------------------------------------
+image:https://app.codacy.com/project/badge/Grade/31829078ea6246e1af7a8cce734fa2a6["Codacy code quality", link="https://app.codacy.com/gh/jmbruel/paranote/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"]
+//---------------------------------------- Badges --------------------------------------
+
+
 Outil de check pré/post vol.
 
 NOTE: Sur une idée originale et une link:files/carnetA4.pdf[fiche existante] de {seb}.
