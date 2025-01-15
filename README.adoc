@@ -1,4 +1,14 @@
-= Paranote
+// ------------------------------------------
+//  Created by Jean-Michel Bruel on 2025-01.
+//  Copyright (c) 2025 IRIT/U. Toulouse. All rights reserved.
+// ------------------------------------------
+= Dpt-Info : FAQ & infos utiles image:https://img.shields.io/badge/Contribute-here-blue[link="https://github.com/IUT-Blagnac/dptinfo-faq"]
+Jean-Michel Bruel (jean-michel.bruel@univ-tlse2.fr)
+v2024.1, {localdate}
+
+= Paranote image:https://img.shields.io/badge/Contribute-here-blue[link="https://github.com/jmbruel/paranote"]
+Jean-Michel Bruel (jean-michel.bruel@univ-tlse2.fr)
+v2025.1, {localdate}
 :icons: font
 :seb: mailto:s.richard@ffvl.fr[Sébastien Richard]
 
