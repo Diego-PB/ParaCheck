@@ -132,6 +132,49 @@
     .delete-btn:hover {
       background-color: #c9302c;
     }
+    <!-- Style pour la météo intérieure -->
+
+    .question {
+      margin: 10px 0;
+  }
+  .options label {
+      margin-right: 10px;
+      padding: 5px;
+      border-radius: 5px;
+      display: inline-block;
+      cursor: pointer;
+      opacity: 0.5;
+    }
+  .options input {
+      display: none;
+  }
+  .options label[for*='Non'] {
+      background-color: red;
+      color: white;
+  }
+  .options label[for*='Bof'] {
+      background-color: orange;
+      color: black;
+  }
+  .options label[for*='Oui'] {
+      background-color: green;
+      color: white;
+  }
+  .options input:checked + label {
+    opacity: 1;
+  }
+
+  #warning {
+    margin-top: 20px;
+    font-weight: bold;
+    color: red;
+    display: none;
+  }
+
+  #debrieform {
+    display: none;
+  }
+
   </style>
 </head>
 <body>
@@ -163,9 +206,80 @@
 
       <!-- 3: Météo intérieure -->
       <label for="participants">Ma météo intérieure</label>
-      <textarea id="participants" name="participants" rows="3" placeholder="Ma météo intérieure"></textarea>
+      <div class="question">Je me sens en forme ?
+        <div class="options">
+          <input type="radio" id="formeNon" name="forme" value="Non">
+          <label for="formeNon"> Non</label>
+          <input type="radio" id="formeBof" name="forme" value="Bof">
+          <label for="formeBof"> Bof</label>
+          <input type="radio" id="formeOui" name="forme" value="Oui">
+          <label for="formeOui"> Oui</label>
+        </div>
+      </div>
+      
+      <div class="question">J'ai suffisamment mangé ?
+        <div class="options">
+          <input type="radio" id="mangeNon" name="mange" value="Non">
+          <label for="mangeNon"> Non</label>
+          <input type="radio" id="mangeBof" name="mange" value="Bof">
+          <label for="mangeBof"> Bof</label>
+          <input type="radio" id="mangeOui" name="mange" value="Oui">
+          <label for="mangeOui"> Oui</label>
+        </div>
+      </div>
 
-      <!-- 4: Type d'activité (exemple 1) -->
+      <div class="question">Je me sens bien dans ma peau ?
+        <div class="options">
+          <input type="radio" id="peauNon" name="peau" value="Non">
+          <label for="peauNon"> Non</label>
+          <input type="radio" id="peauBof" name="peau" value="Bof">
+          <label for="peauBof"> Bof</label>
+          <input type="radio" id="peauOui" name="peau" value="Oui">
+          <label for="peauOui"> Oui</label>
+        </div>
+      </div>
+
+      <div class="question">J'ai confiance en moi, en mes capacités ?
+        <div class="options">
+          <input type="radio" id="confNon" name="conf" value="Non">
+          <label for="confNon"> Non</label>
+          <input type="radio" id="confBof" name="conf" value="Bof">
+          <label for="confBof"> Bof</label>
+          <input type="radio" id="confOui" name="conf" value="Oui">
+          <label for="confOui"> Oui</label>
+        </div>
+      </div>
+
+      <div class="question">Je suis préoccupé ?
+        <div class="options">
+          <input type="radio" id="busyOui" name="busy" value="Non">
+          <label for="busyOui"> Oui</label>
+          <input type="radio" id="busyBof" name="busy" value="Bof">
+          <label for="busyBof"> Bof</label>
+          <input type="radio" id="busyNon" name="busy" value="Oui">
+          <label for="busyNon"> Non</label>
+        </div>
+      </div>
+
+      <div class="question">Je suis stressé ?
+        <div class="options">
+          <input type="radio" id="stresseOui" name="stresse" value="Non">
+          <label for="stresseOui"> Oui</label>
+          <input type="radio" id="stresseBof" name="stresse" value="Bof">
+          <label for="stresseBof"> Bof</label>
+          <input type="radio" id="stresseNon" name="stresse" value="Oui">
+          <label for="stresseNon"> Non</label>
+        </div>
+    </div>
+
+    <button type="button" onclick="evaluateMeteo()">Je peux voler ?</button>
+    </form>
+
+    <p id="warning">⚠ Attention : Conditions non optimales !</p>
+
+    <form id="debrieform">
+
+      <!-- 4: Type d'activité (exemple 1) 
       <label for="activity-type">Type d'activité  (exemple 1)</label>
       <select id="activity-type" name="activity-type" required>
         <option value="">-- Select an activity --</option>
@@ -180,9 +294,9 @@
         <option value="loisir">Loisir</option>
         <option value="plaisir">Plaisir</option>
       </select>
-
+-->
       <!-- 5: Type d'activité (exemple 2) : Cases à cocher -->
-      <label>Type d'activité  (exemple 2)</label>
+      <label>Type d'activité</label>
       <div class="checkbox-grid">
         <div>
           <input type="checkbox" id="cross" name="activity-options" value="cross">
@@ -595,6 +709,23 @@
 
     // Au premier chargement, on affiche le formulaire
     tabNew.click();
+
+    /**************************/
+    /***   Météo warning   ****/
+    /**************************/
+    function evaluateMeteo() {
+      let reds = document.querySelectorAll('input[value="Non"]:checked').length;
+      let oranges = document.querySelectorAll('input[value="Bof"]:checked').length;
+      
+      let warning = document.getElementById("warning");
+      if (reds >= 2 || (reds + oranges) >= 3 || oranges > 2 ) {
+        warning.style.display = "block";
+        debrieform.style.display = "none";
+      } else {
+          warning.style.display = "none";
+          debrieform.style.display = "block";
+      }
+    }
   </script>
 </body>
 </html>
