@@ -1,0 +1,3 @@
+final test = () {
+  print("test");
+};
