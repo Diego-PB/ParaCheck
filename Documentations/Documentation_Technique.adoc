@@ -2,7 +2,7 @@
 
 = Documentation Technique sprint n°0 SAE-5.01-ParaCheck
 
-image::../../images/Document_tech1.png[align="center", width=100%]
+image::../img/Paracheck_logo.png[align="center", width=100%]
 
 
 == Sommaire
