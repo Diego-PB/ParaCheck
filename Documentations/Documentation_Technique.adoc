@@ -9,14 +9,15 @@ image::../../images/Document_tech1.png[align="center", width=100%]
 toc::[]
 
 
-== Equipe 2024 - 2025
+== Equipe 2025 - 2026
 
-- link:https://github.com/boubast[BOUVET Bastien] -- Scrum Master / Développeur
-- link:https://github.com/YolanBrun[BRUN Yolan] --  Rédacteur / Développeur
-- link:https://github.com/leonardo-correiamendes[CORREIA MENDES Leonardo] -- Chef de projet / Développeur
-- link:https://github.com/Diego-PB[PENICAUD-BERNAL Diego] -- Responsable base de donnée / Développeur
-- link:https://github.com/DanerSharifi-FR[SHARIFI Daner] -- Responsable serveur web / Développeur
-- link:https://github.com/Smogita[CRISTINI Aidan] -- Git Master / Développeur
+- link:https://github.com/leonardo-correiamendes[CORREIA MENDES Leonardo] -- Scrum Master / Développeur
+- link:https://github.com/Smogita[CRISTINI Aidan] -- Git Master / Product Owner / Développeur
+- link:https://github.com/YolanBrun[BRUN Yolan] --  Développeur
+- link:https://github.com/Diego-PB[PENICAUD-BERNAL Diego] -- Développeur
+- link:https://github.com/marwane-ibrahim[IBRAHIM Marwane] -- Développeur
+- link:https://github.com/adrian-guerrero[GUERRERO Adrian] -- Développeur
+
 
 == Présentation du projet
 
