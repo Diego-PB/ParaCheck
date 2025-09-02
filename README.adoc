@@ -14,10 +14,10 @@ toc::[]
 
 Projet réalisé par::
 
-- link:https://github.com/adriang0309[GUERRERO Adrian] -- Scrum Master / Développeur
+- link:https://github.com/leonardo-correiamendes[CORREIA MENDES Leonardo] -- Scrum Master / Développeur
+- link:https://github.com/adriang0309[GUERRERO Adrian] -- Développeur
 - link:https://github.com/Smogita[CRISTINI Aidan] -- Product Owner / Développeur
 - link:https://github.com/YolanBrun[BRUN Yolan] --  Développeur
-- link:https://github.com/leonardo-correiamendes[CORREIA MENDES Leonardo] -- Développeur
 - link:https://github.com/Diego-PB[PENICAUD-BERNAL Diego] -- Développeur
 - link:https://github.com/Marwane-Ibrahim[IBRAHIM Marwane] -- Développeur
 
