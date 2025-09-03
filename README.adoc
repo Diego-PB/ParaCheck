@@ -6,7 +6,7 @@ v2025.1, {localdate}
 :toclevels: 3
 :sectanchors:
 
-image::../img/Paracheck_logo.png[align="center", width=50%]
+image::./img/Paracheck_logo.png[align="center", width=50%]
 
 == Sommaire :
 
