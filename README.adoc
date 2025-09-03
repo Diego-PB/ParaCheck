@@ -1,4 +1,4 @@
-= Paranote 
+= ParaCheck 
 v2025.1, {localdate}
 :icons: font
 :seb: mailto:s.richard@ffvl.fr[Sébastien Richard]
