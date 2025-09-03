@@ -1,16 +1,23 @@
 = ParaCheck 
-v2025.1, {localdate}
-:icons: font
-:seb: mailto:s.richard@ffvl.fr[Sébastien Richard]
 :toc: macro
-:toclevels: 3
-:sectanchors:
+
 
 image::./img/Paracheck_logo.png[align="center", width=50%]
 
 == Sommaire :
 
 toc::[]
+
+== Projet : 
+
+Le parapente est un sport à risque où la sécurité est importante.
+Il n’existe pas d’application dédiée.
+
+Un embryon a été initié l’an dernier sur la base d’un PDF utilisé par un moniteur et se trouve ici :
+https://github.com/jmbruel/paranote
+
+L’idée est de rendre cet outil robuste, sûr et validé par la fédération de vol libre pour inciter tous les parapentistes à l’utiliser.
+Pour ce sujet, il y a énormément d’ouvertures et d’extensions possibles (prise en compte de la météo en temps réel, analyse de risques, suivi en temps réel de la position, …).
 
 == Equipe :
 
@@ -23,14 +30,17 @@ Projet réalisé par::
 - link:https://github.com/marwane-ibrahim[IBRAHIM Marwane] -- Développeur
 - link:https://github.com/adrian-guerrero[GUERRERO Adrian] -- Développeur
 
-NOTE: Sur une idée originale et une link:files/carnetA4.pdf[fiche existante] de {seb}. Et avec l'aide des étudiants suivants avant SAE : https://github.com/enzofrnt[Enzo], ...
+NOTE: Sur une idée originale et une link:files/carnetA4.pdf[fiche existante]. Et avec l'aide des étudiants suivants avant SAE : https://github.com/enzofrnt[Enzo], ...
 
 == Client
 
-Jean-Michel Bruel (jean-michel.bruel@univ-tlse2.fr)
+Jean-Michel Bruel (jean-michel.bruel@univ-tlse2.fr / jbruel@gmail.com)
 
 == Version en ligne
+
 Outil de check pré/post vol. 
 La version en ligne est disponible ici : https://bit.ly/paranote.
 
+== Lien pratiques 
 
+Google Docs de l'équipe : https://docs.google.com/document/d/19lxhQWtVl5iOjcGk5RDnDcPW6BB6JSTkVWcardjvxzM/edit?usp=sharing
