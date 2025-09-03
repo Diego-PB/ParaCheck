@@ -1,10 +1,12 @@
-= Paranote 
+= ParaCheck 
 v2025.1, {localdate}
 :icons: font
 :seb: mailto:s.richard@ffvl.fr[Sébastien Richard]
 :toc: macro
 :toclevels: 3
 :sectanchors:
+
+image::./img/Paracheck_logo.png[align="center", width=50%]
 
 == Sommaire :
 
