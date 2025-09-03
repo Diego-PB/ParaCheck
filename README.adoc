@@ -1,5 +1,7 @@
 = ParaCheck 
 
+:toc: macro
+
 image::./img/Paracheck_logo.png[align="center", width=50%]
 
 == Sommaire :
@@ -38,5 +40,3 @@ Jean-Michel Bruel (jean-michel.bruel@univ-tlse2.fr / jbruel@gmail.com)
 
 Outil de check pré/post vol. 
 La version en ligne est disponible ici : https://bit.ly/paranote.
-
-
