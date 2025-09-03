@@ -1,6 +1,6 @@
 = ParaCheck 
-
 :toc: macro
+
 
 image::./img/Paracheck_logo.png[align="center", width=50%]
 
