@@ -1,8 +1,11 @@
 = ParaCheck 
 :toc: macro
 
-
-image::./img/Paracheck_logo.png[align="center", width=50%]
+++++
+<p align="center">
+  <img src="./img/Paracheck_logo.png" width="50%">
+</p>
+++++
 
 == Sommaire :
 
