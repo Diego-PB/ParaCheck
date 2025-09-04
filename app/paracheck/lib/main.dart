@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paracheck/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,9 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Paracheck',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: buildTheme(),
       home: const MyHomePage(title: 'Paracheck Home Page'),
       debugShowCheckedModeBanner: false,
     );
@@ -31,22 +30,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        
+
         title: Text(widget.title),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('Hello World'),
-          ],
+          children: <Widget>[const Text('Hello World')],
         ),
       ),
     );
