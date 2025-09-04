@@ -13,7 +13,7 @@ toc::[]
 Le parapente est un sport à risque où la sécurité est importante.
 Il n’existe pas d’application dédiée.
 
-Un embryon a été initié l’an dernier sur la base d’un PDF utilisé par un moniteur et se trouve ici :
+Un embryon a été initié sur la base d’un PDF utilisé par un moniteur et se trouve ici :
 https://github.com/jmbruel/paranote
 
 L’idée est de rendre cet outil robuste, sûr et validé par la fédération de vol libre pour inciter tous les parapentistes à l’utiliser.
