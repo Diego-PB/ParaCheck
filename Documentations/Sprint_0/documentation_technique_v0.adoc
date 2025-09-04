@@ -66,4 +66,24 @@ image::../../img/use_case_v0.png[]
 
 == Présentation des Fichiers Clés
 
-#### A COMPLETER 
+* `lib/` :  
+  Contient le code principal de l’application.  
+  Le fichier `main.dart` est le point d’entrée.
+
+* `pubspec.yaml` :  
+  Fichier de configuration qui liste les dépendances, assets et metadata du projet.
+
+* `android/` :  
+  Contient la partie Android native (gradle, manifeste, configurations SDK).
+
+* `ios/` :  
+  Contient la partie iOS native (Xcode, configurations du projet).
+
+* `assets/` (optionnel) :  
+  Dossier pour les images, polices et autres ressources.
+
+* `test/` :  
+  Contient les tests unitaires et widget tests.
+
+* `build/` :  
+  Généré automatiquement lors de la compilation, contient les fichiers compilés.

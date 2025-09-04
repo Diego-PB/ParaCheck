@@ -19,34 +19,42 @@ toc::[]
 
 == Présentation du projet
 
-=== *Contexte Général*
-Ce projet vise à exploiter les données des capteurs AM107 situés dans les salles du 1er étage du département d’informatique. Ces capteurs collectent des données telles que la présence (valeur d’activité), la luminosité (en lux) et le niveau de CO2, diffusées via un flux MQTT.
+=== Contexte Général
 
-L'objectif principal est de fournir un outil centralisé pour visualiser et analyser ces données à des fins de gestion et d'optimisation de l’utilisation des salles.
+Le parapente est un sport à risque où la sécurité est importante.
+À ce jour, il n’existe pas d’application spécifiquement dédiée à ce besoin.
 
-Les principaux utilisateurs de cette solution seront des **analystes de données**, qui pourront exploiter les informations présentées pour mieux comprendre l'utilisation des espaces et optimiser leur gestion.
+Un embryon a été initié sur la base d’un PDF utilisé par un moniteur et se trouve ici :
+https://github.com/jmbruel/paranote
 
 === Objectif du Projet
-Le projet consiste à développer une interface web qui permet :
 
-* De consulter les données en temps réel des capteurs.
-* De stocker ces données dans une base de données TimescaleDB pour disposer d'un historique.
-* De visualiser les données sur un plan SVG interactif des salles du bâtiment.
-* De réaliser des statistiques pour analyser l'occupation des salles.
+Le projet vise à transformer cet outil en une solution fiable, sécurisée et reconnue officiellement par la Fédération de vol libre, afin d’encourager son adoption par l’ensemble des parapentistes.
+Le champ des évolutions possibles est vaste : intégration de données météo en temps réel, analyse des risques, suivi en direct de la position des pilotes, et bien d’autres fonctionnalités.
 
-=== Installation
+== Installation
 
 Le guide d'installation est disponible, voici le lien :
-link:../guide_demarrage.md[Guide d'installation]
+link:../guide_installation.adoc[Guide d'installation]
 
 == Fonctionnalités
 
-Le site permet de visualiser la carte du 1er étage du bâtiment, incluant les salles équipées de capteurs AM107. L'interface offre les fonctionnalités suivantes :
+=== Fonctionnalités principales
 
-- **Visualisation des données des capteurs** : En cliquant sur une salle sur le plan SVG, l'utilisateur peut consulter les dernières données relevées par les capteurs de la salle (température, humidité, activité, etc.).
-- **Affichage de l'historique** : Accès à l'historique des mesures enregistrées dans la base de données TimescaleDB pour chaque salle.
-- **Mise à jour automatique** : Les données des capteurs sont mises à jour en temps réel dans la base de données via les flux MQTT traités par Node-RED.
+* **Vérification de la sécurité avant le vol**  
+** Questionnaire pour valider l’état du matériel  
+** Questionnaire pour valider l’état physique et mental du pilote  
 
-L'objectif principal est de fournir une interface claire et fonctionnelle permettant d'analyser les données des capteurs et de suivre l'occupation des salles à travers un historique visuel.
+* **Enregistrement des données de vol**  
+** Formulaire complet pour saisir les informations relatives au vol (site, météo, type de vol, observations) et les enregistrer  
 
+* **Consultation de l’historique des vols**  
+** Accéder à l’historique des vols précédents pour analyser les données et les incidents éventuels  
 
+=== Fonctionnalités secondaires
+
+* **Gestion des données de vol** : Les pilotes peuvent enregistrer et consulter les informations relatives à leurs vols, incluant les conditions météo, le type de site et les observations de sécurité.  
+* **Analyse des risques** : L’application propose des évaluations de risques basées sur les paramètres du vol et les conditions locales, afin d’aider les parapentistes à prendre des décisions éclairées.  
+* **Suivi en temps réel** : Possibilité de suivre la position d’un pilote pendant le vol grâce à l’intégration de données GPS.
+
+L’objectif principal est de fournir une interface claire et fiable pour que les parapentistes puissent planifier leurs vols, suivre leur activité et réduire les risques liés à la pratique du parapente.

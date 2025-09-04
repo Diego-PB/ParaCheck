@@ -1,0 +1,100 @@
+= 📱 Guide de Démarrage pour le Projet Flutter
+
+Bienvenue dans le projet Flutter !  
+Ce guide vous accompagne pour installer Flutter, configurer Visual Studio Code, lancer l’application sur un émulateur Android et résoudre les problèmes fréquents.  
+
+== 📋 Prérequis
+Avant de commencer, assurez-vous d’avoir :
+
+* Git installé (https://git-scm.com/downloads[Télécharger ici])
+* Flutter SDK installé (https://docs.flutter.dev/get-started/install[Guide officiel])
+* Android Studio installé (pour l’émulateur Android et le SDK)
+* Visual Studio Code installé (https://code.visualstudio.com/[Télécharger ici])
+* Extensions VS Code : *Flutter* et *Dart*
+
+== 🚀 Étapes de démarrage
+
+=== 1. Cloner le dépôt
+Exécutez la commande suivante pour cloner le dépôt GitHub du projet :
+
+[source,bash]
+----
+git clone https://github.com/utilisateur/mon-projet-flutter.git
+----
+
+Puis, naviguez dans le dossier du projet :
+
+[source,bash]
+----
+cd mon-projet-flutter
+----
+
+=== 2. Vérifier l’installation de Flutter
+Exécutez la commande suivante pour vérifier que Flutter est bien configuré :
+
+[source,bash]
+----
+flutter doctor
+----
+
+⚠️ Corrigez les éventuels problèmes signalés (ex. SDK manquant, émulateur non configuré).
+
+=== 3. Lancer un émulateur Android
+. Ouvrez *Android Studio*
+. Allez dans *Tools > Device Manager*
+. Créez ou démarrez un *émulateur Android (AVD)*
+. Vérifiez qu’il est reconnu par Flutter :
+
+[source,bash]
+----
+flutter devices
+----
+
+=== 4. Démarrer l’application depuis VS Code
+. Ouvrez le projet dans *Visual Studio Code*
+. Sélectionnez votre émulateur Android en bas à droite
+. Lancez l’application avec :
+
+[source,bash]
+----
+flutter run
+----
+
+Ou cliquez sur *▶ Run > Start Debugging (F5)* dans VS Code.
+
+=== 5. Arrêter l’application
+Dans le terminal où `flutter run` est actif, utilisez :
+
+[source,bash]
+----
+q
+----
+
+ou cliquez sur *Stop Debugging* dans VS Code.
+
+== ⚠️ Problèmes fréquents et solutions
+
+=== 1. Flutter non reconnu
+*Erreur* : `flutter : command not found`  
+*Solution* : Ajoutez Flutter au PATH (voir https://docs.flutter.dev/get-started/install[guide officiel]).
+
+=== 2. Aucun émulateur détecté
+*Erreur* : `No devices found`  
+*Solution* : Lancez un AVD depuis Android Studio, ou connectez un vrai smartphone en USB avec le *mode développeur* activé.
+
+=== 3. Ports déjà utilisés
+*Problème* : L’application ne démarre pas correctement.  
+*Solution* : Fermez l’ancienne instance de l’émulateur ou redémarrez VS Code.
+
+=== 4. Problème de dépendances
+*Erreur* lors du build.  
+*Solution* :
+
+[source,bash]
+----
+flutter clean
+flutter pub get
+----
+
+== 🎉 Merci !
+Merci d’utiliser notre projet Flutter 🚀✨
