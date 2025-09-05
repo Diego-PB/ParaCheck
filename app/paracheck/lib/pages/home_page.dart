@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/logo_widget.dart';
+import '../models/flights.dart'; // <-- Import du modèle de vols
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -22,13 +23,13 @@ class HomePage extends StatelessWidget {
               right: 16,
               bottom: 8,
             ),
-            child: Align(
-              alignment: Alignment.centerLeft,
+            child: Center(
               child: Text(
-                'Historique des vols',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                'Paracheck',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -36,48 +37,40 @@ class HomePage extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [
-                Card(
+                // Utilisation des données de sampleFlights
+                ...sampleFlights.map((flight) => Card(
                   color: Theme.of(context).colorScheme.primary,
                   child: ListTile(
                     leading: const Icon(Icons.paragliding, color: Colors.white),
-                    title: const Text(
-                      '12 août 2025',
-                      style: TextStyle(color: Colors.white),
+                    title: Text(
+                      flight.date,
+                      style: const TextStyle(color: Colors.white),
                     ),
-                    subtitle: const Text(
-                      'Durée : 1h32 | Altitude : 1450m',
-                      style: TextStyle(color: Colors.white70),
-                    ),
-                  ),
-                ),
-                Card(
-                  color: Theme.of(context).colorScheme.primary,
-                  child: ListTile(
-                    leading: const Icon(Icons.paragliding, color: Colors.white),
-                    title: const Text(
-                      '28 juillet 2025',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    subtitle: const Text(
-                      'Durée : 2h01 | Altitude : 1620m',
-                      style: TextStyle(color: Colors.white70),
+                    subtitle: Text(
+                      'Durée : ${flight.duration}   •   Altitude : ${flight.altitude}m',
+                      style: const TextStyle(color: Colors.white70),
                     ),
                   ),
-                ),
-                Card(
-                  color: Theme.of(context).colorScheme.primary,
-                  child: ListTile(
-                    leading: const Icon(Icons.paragliding, color: Colors.white),
-                    title: const Text(
-                      '15 juin 2025',
-                      style: TextStyle(color: Colors.white),
+                )),
+                const SizedBox(height: 12),
+                Center(
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.grey[200],
+                      foregroundColor: Colors.black87,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      side: BorderSide.none,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                     ),
-                    subtitle: const Text(
-                      'Durée : 1h15 | Altitude : 1380m',
-                      style: TextStyle(color: Colors.white70),
-                    ),
+                    onPressed: () {
+                      // Action à définir plus tard
+                    },
+                    child: const Text('Voir l\'historique'),
                   ),
                 ),
+                const SizedBox(height: 8),
               ],
             ),
           ),
@@ -99,14 +92,19 @@ class HomePage extends StatelessWidget {
                   elevation: 6,
                   color: Colors.white,
                   child: InkWell(
-                    customBorder: const CircleBorder(),
-                    onTap: () {}, // Ne fait rien pour l'instant
-                    child: SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: LogoWidget(size: 44),
+                    borderRadius: BorderRadius.circular(40),
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 56,
+                        height: 56,
+                        child: ClipOval(
+                          child: Image.asset(
+                            'lib/assets/Paracheck_logo.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
                   ),
