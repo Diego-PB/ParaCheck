@@ -1,0 +1,71 @@
+= Cahier de test
+:revnumber: 0.1
+:revdate: {localdate}
+:icons: font
+:toc: macro
+:toclevels: 3
+:sectnums:
+:sectanchors:
+:sectlinks:
+
+toc::[]
+
+== Introduction
+// TODO : contexte global, objectifs, périmètre, risques, critères de sortie…
+
+== Cas de test
+
+=== Test pour YYY — CT-001
+
+==== Contexte
+[cols="1,2"]
+|===
+|Contexte
+a|
+But : lorem
+|===
+
+
+==== Test à effectuer
+[cols="1,2"]
+|===
+|Test à effectuer
+a|
+lorem
+|===
+
+
+==== Suivi des tests
+[cols="^1,1,2,1,4",options="header"]
+|===
+|Date |Version |Testeur |Résultat |Commentaires / Pièces jointes
+|{localdate} |v0.1 |Diego |OK |Capture jointe
+|===
+
+
+=== Test pour XXX — CT-002
+
+==== Contexte
+[cols="1,2"]
+|===
+|Contexte
+a|
+But : lorem
+|===
+
+
+==== Test à effectuer
+[cols="1,2"]
+|===
+|Test à effectuer
+a|
+lorem
+|===
+
+
+==== Suivi des tests
+[cols="^1,1,2,1,4",options="header"]
+|===
+|Date |Version |Testeur |Résultat |Commentaires / Pièces jointes
+|{localdate} |v0.1 |Diego |OK |Capture jointe
+|===
