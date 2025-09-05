@@ -46,4 +46,28 @@ La version en ligne est disponible ici : https://bit.ly/paranote.
 
 == Lien pratiques 
 
-Google Docs de l'équipe : https://docs.google.com/document/d/19lxhQWtVl5iOjcGk5RDnDcPW6BB6JSTkVWcardjvxzM/edit?usp=sharing
+
+[cols="1,2,3,4,5",options="header"]
+|===
+| Date  | Version  | Nom              | Lien | Description
+|   |   | Sujet SAE    | https://webetud.iut-blagnac.fr/pluginfile.php/61576/mod_resource/content/1/SAES5.01_Support.pdf[Sujet SAE] | Sujet de la SAE, à retrouver sur Webetud
+|   |   | Backlog Produit Global | https://github.com/users/Diego-PB/projects/4/[Backlog Produit] | Backlog Produit Global
+|   |   | Google Docs de l'équipe | https://docs.google.com/document/d/19lxhQWtVl5iOjcGk5RDnDcPW6BB6JSTkVWcardjvxzM/edit?usp=sharing[Google Docs] | Google Docs de l'équipe
+| Sem.36 ( 01/09/25 - 05/09/25 )  | Sprint 0 | Sprint 0 | https://github.com/users/Diego-PB/projects/5[Sprint 0] | Sprint 0, avec User Story et tâches associées
+|   | Sprint 0 | Documentation Utilisateur | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_0/documentation_utilisateur_v0.adoc[Documentation Utilisateur] | Installation et présentation du projet avec ses fonctionnalités
+|   | Sprint 0 | Documentation Technique | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_0/documentation_technique_v0.adoc[Documentation Technique] | Fonctionnement et fichiers clés du projet
+|   | Sprint 0 | Release de fin de Sprint 0 | [Release de fin de Sprint 1] | Release de fin de Sprint 0
+|   | Sprint 0 | Prévision Sprint 1 | https://github.com/users/Diego-PB/projects/6[Prévision Sprint 1] | Prévision du prochain Sprint (1)
+| Sem.37-38 ( 08/09/25 - 19/09/25 ) | Sprint 1 | Sprint 1 | https://github.com/users/Diego-PB/projects/6[Sprint 1] | Sprint 1, avec User Story et tâches associées
+|   | Sprint 1 | Cahier de tests | [Cahier de tests] | Cahiers de tests
+|   | Sprint 1 | Documentation Utilisateur | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/documentation_utilisateur_v1.adoc[Documentation Utilisateur]| Installation et présentation du projet avec ses fonctionnalités
+|   | Sprint 1 | Documentation Technique | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/documentation_technique_v1.adoc[Documentation Technique] | Fonctionnement et fichiers clés du projet
+|   | Sprint 1 | Release de fin de Sprint 1 | [Release de fin de Sprint 2] | Release de fin de Sprint 2
+|   | Sprint 1 | Prévision Sprint 2 | https://github.com/users/Diego-PB/projects/7[Prévision Sprint 2] | Prévision du prochain Sprint (2) 
+| Sem.4 ( 20/01/25 - 26/01/25 )   | 3ème Sprint | Sprint 3 |  https://github.com/orgs/IUT-Blagnac/projects/303[Sprint 3] | 3ème Sprint, avec chaque User Story et tâches
+|   | 3ème Sprint | Cahier de tests |https://github.com/IUT-Blagnac/SAE-ALT-S3-Dev-24-25-Dashboard_du_departement-Equipe-3A01/blob/master/Documentation/Cahier_de_Test/Cahier_de_tests.md[Cahier de tests]| Cahiers de tests
+|   | 3ème Sprint | Documentation Utilisateur |  https://github.com/IUT-Blagnac/SAE-ALT-S3-Dev-24-25-Dashboard_du_departement-Equipe-3A01/blob/master/Documentation/Doc_Utilisateur/Doc_Utilisateur3.adoc[Documentation Utilisateur] |  Installation et présentation du docker avec ses fonctionnalités
+|   | 3ème Sprint  | Documentation Technique | https://github.com/IUT-Blagnac/SAE-ALT-S3-Dev-24-25-Dashboard_du_departement-Equipe-3A01/blob/master/Documentation/Doc_Technique/Doc_Technique3.adoc[Documentation Technique] | Fonctionnement et fichiers clés du docker
+|   | 3ème Sprint | Bilan Sprint 3 | https://github.com/IUT-Blagnac/SAE-ALT-S3-Dev-24-25-Dashboard_du_departement-Equipe-3A01/blob/master/Documentation/Bilans/Bilan_Sprint3.adoc[Bilan Sprint 3] | Bilan du troisième Sprint
+|   | 3ème Sprint | Release de fin de Sprint 3 | https://github.com/IUT-Blagnac/SAE-ALT-S3-Dev-24-25-Dashboard_du_departement-Equipe-3A01/releases/tag/3.0[Release de fin de Sprint 3] | Release de fin de Sprint 3
+|===
