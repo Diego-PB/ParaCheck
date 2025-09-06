@@ -1,6 +1,3 @@
-image::https://github.com/Diego-PB/ParaCheck/actions/workflows/flutter-ci.yml/badge.svg?branch=main[link=https://github.com/Diego-PB/ParaCheck/actions/workflows/flutter-ci.yml, alt="Flutter CI (Android + Web)"]
-
-
 = ParaCheck 
 :toc: macro
 
