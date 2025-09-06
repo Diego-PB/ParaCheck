@@ -1,10 +1,19 @@
-name: Flutter CI (Android + Web)
+name: Flutter CI (Android + Web + Pages)
 
 on:
   push:
     branches: [ main ]
   pull_request:
   workflow_dispatch:
+
+# Permissions et config requises par GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   test:
@@ -35,12 +44,10 @@ jobs:
         with: { distribution: temurin, java-version: '17' }
       - uses: subosito/flutter-action@v2
         with: { channel: stable }
-
       - name: Configure Android SDK & licenses
         run: |
           echo "sdk.dir=${ANDROID_SDK_ROOT}" > android/local.properties
           yes | ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --licenses || true
-
       - name: Cache Pub
         uses: actions/cache@v4
         with:
@@ -55,16 +62,17 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
-
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build apk --release
-
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-release.apk
-          path: app/paracheck/build/app/outputs/flutter-apk/app-release.apk
+          name: app-release-apk
+          path: |
+            app/paracheck/build/app/outputs/flutter-apk/*.apk
+            app/paracheck/build/app/outputs/apk/release/*.apk
+          if-no-files-found: warn
 
   web:
     needs: test
@@ -81,11 +89,33 @@ jobs:
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: ${{ runner.os }}-pub-
       - run: flutter config --enable-web
-      - run: flutter pub get
-      - run: flutter build web --release
-
+      # IMPORTANT: base-href pour GitHub Pages projet (/REPO_NAME/)
+      - name: Build Web (with base-href)
+        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
       - name: Upload Web artifact
         uses: actions/upload-artifact@v4
         with:
           name: web-build
           path: app/paracheck/build/web
+          if-no-files-found: warn
+
+  deploy_pages:
+    name: Deploy GitHub Pages
+    needs: web
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download web artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: ./dist
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
