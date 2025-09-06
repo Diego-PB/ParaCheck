@@ -6,7 +6,7 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     // Présence exacte de "Hello World"
-    expect(find.text('Hello World'), findsOneWidget);
+    expect(find.text('Hello World!'), findsOneWidget);
 
     // Absence d’un texte non attendu
     expect(find.text('Goodbye World'), findsNothing);
