@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import '../design/shadows.dart';
 import '../design/radius.dart';
 
-class StatLine extends StatelessWidget {
+class StatTile extends StatelessWidget {
   final String label;
   final String value;
   final IconData? icon;
 
-  const StatLine({super.key, required this.label, required this.value, required this.icon});
+  const StatTile({super.key, required this.label, required this.value, required this.icon});
 
   @override
   Widget build(BuildContext context) {

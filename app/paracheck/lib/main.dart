@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paracheck/pages/uikitdemopage.dart';
 import 'package:paracheck/theme.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Paracheck',
       theme: buildTheme(),
-      home: const MyHomePage(title: 'Paracheck Home Page'),
+      home: const UIKitDemoPage(),
       debugShowCheckedModeBanner: false,
     );
   }
