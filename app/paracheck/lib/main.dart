@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:paracheck/pages/uikitdemopage.dart';
+import 'package:paracheck/pages/meteo_int.dart';
+
 import 'package:paracheck/theme.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Paracheck',
       theme: buildTheme(),
-      home: const UIKitDemoPage(),
+      home: const MeteoIntPage(),
       debugShowCheckedModeBanner: false,
     );
   }
