@@ -1,1 +1,27 @@
+== Ordre du jour — 2^e^ rencontre avec JMB
 
+*Date* : 08/09/25 — *Durée* : 30 min  
+*Participants* : J.-M. Bruel (JMB), Équipe projet
+
+.Objectifs
+- Présentation de la **release V0**
+- Discussion sur la **compatibilité iOS** : la compilation de cette **version** nécessite un **Mac**, dont nous ne disposons pas
+- Vérification de l'accès GitHub du client
+- Définition de l'**objectif** du **sprint 1**
+- Explication et validation de la méthode de travail choisie :  
+  → **Pair Coding**  
+  → **Branches par Issues**
+
+.Agenda (timebox indicatif)
+1. **Présentation de la release V0** (5’)
+2. **Compatibilité iOS** (5’)  
+   - Compilation nécessitant un **Mac** (non disponible actuellement)
+3. **Vérification de l'accès GitHub du client** (5’)
+4. **Objectif du Sprint 1** (10’)
+5. **Méthode de travail** (5’)  
+   - **Pair Coding**  
+   - **Branches par Issues**
+
+.Décisions attendues
+- Trouver une **solution pour disposer d’un Mac**  
+  ou valider que pour les utilisateurs iOS, la **version Web** est suffisante
