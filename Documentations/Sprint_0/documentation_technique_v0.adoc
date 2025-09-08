@@ -41,6 +41,25 @@ Le champ des évolutions possibles est vaste : intégration de données météo 
 
 * **GitHub** : Gestion et suivi de projet.
 
+=== CI/CD (Intégration Continue)
+
+* **Outil** : GitHub Actions  
+* **Workflow** : `.github/workflows/flutter-ci.yml`  
+* **Démo Web** : link:https://diego-pb.github.io/ParaCheck/[GitHub Pages]
+
+*Déclencheurs*::
+- `push` sur `main`, Pull Requests, exécution manuelle.
+
+*Jobs (résumé)*::
+- **test** → `flutter test`
+- **android** → `flutter build apk --release` → artefact `app-release-apk.zip`
+- **web** → `flutter build web --release --base-href /ParaCheck/` → artefact `web-build.zip`
+- **deploy_pages** → publication sur GitHub Pages
+
+*Accès rapide*::
+- Actions → ouvrir un *run* → **Artifacts** (APK + Web)
+- Web en ligne : link:https://diego-pb.github.io/ParaCheck/[]
+
 == Cas d'Utilisation Global
 
 * Vérifier l'état du matériel et du parapentiste avant le décollage pour valider la sécurité du vol
