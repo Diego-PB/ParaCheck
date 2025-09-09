@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paracheck/widgets/home_button.dart';
 import 'package:paracheck/widgets/primary_button.dart';
 import '../models/flights.dart';
 import '../widgets/stat_tile.dart';
@@ -9,13 +10,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: PrimaryButton(
-        label: 'Nouveau vol',
-        icon: Icons.add,
-        onPressed: () {
-          // Action à définir plus tard
-        },
-      ),
+      // Suppression du floatingActionButton
       body: Column(
         children: [
           Padding(
@@ -28,10 +23,9 @@ class HomePage extends StatelessWidget {
             child: Center(
               child: Text(
                 'Paracheck',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -39,15 +33,18 @@ class HomePage extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [
-                ...sampleFlights.map((flight) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: StatTile(
-                    label: flight.date,
-                    value: 'Durée : ${flight.duration} • Altitude :${flight.altitude}m',
-                    icon: Icons.paragliding,
+                ...sampleFlights.map(
+                  (flight) => Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: StatTile(
+                      label: flight.date,
+                      value:
+                          'Durée : ${flight.duration} • Altitude :${flight.altitude}m',
+                      icon: Icons.paragliding,
+                    ),
                   ),
-                )),
-                const SizedBox(height: 12),
+                ),
+                const SizedBox(height: 16),
                 Center(
                   child: PrimaryButton(
                     label: "Voir l'historique",
@@ -58,7 +55,24 @@ class HomePage extends StatelessWidget {
                     size: 16,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 50),
+                // Deux gros boutons : Pré-vol et Post-vol
+                HomeButton(
+                  label: "Pré-vol",
+                  icon: Icons.checklist,
+                  onPressed: () {
+                    // Action à définir plus tard
+                  },
+                ),
+                const SizedBox(height: 50),
+                HomeButton(
+                  label: "Post-vol",
+                  icon: Icons.assignment_turned_in,
+                  onPressed: () {
+                    // Action à définir plus tard
+                  },
+                ),
+                const SizedBox(height: 16),
               ],
             ),
           ),
