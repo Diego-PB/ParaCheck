@@ -45,48 +45,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
-                ...sampleFlights.map(
-                  (flight) => Card(
-                    color: Theme.of(context).colorScheme.primary,
-                    child: ListTile(
-                      leading: const Icon(
-                        Icons.paragliding,
-                        color: Colors.white,
-                      ),
-                      title: Text(
-                        flight.date,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      subtitle: Text(
-                        'Durée : ${flight.duration}   •   Altitude : ${flight.altitude}m',
-                        style: const TextStyle(color: Colors.white70),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-
-                Center(
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.grey[200],
-                      foregroundColor: Colors.black87,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      side: BorderSide.none,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 10,
-                      ),
-                    ),
-                    onPressed: () {
-                      // Action à définir plus tard
-                    },
-                    child: const Text("Voir l'historique"),
-                  ),
-                ),
+                
 
                 const SizedBox(height: 50),
 
