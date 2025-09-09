@@ -16,12 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Paracheck',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 39, 195, 235)),
-      ),
       home: const SplashScreen(),
       theme: buildTheme(),
-      home: const UIKitDemoPage(),
       debugShowCheckedModeBanner: false,
     );
   }
