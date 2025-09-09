@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:paracheck/pages/rose.dart';
 
-import 'pages/splash_screen.dart';
-import 'package:paracheck/pages/uikitdemopage.dart';
 import 'package:paracheck/theme.dart';
 
 void main() {
@@ -16,8 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Paracheck',
-      home: const SplashScreen(),
       theme: buildTheme(),
+      home: const RosePage(),
       debugShowCheckedModeBanner: false,
     );
   }
