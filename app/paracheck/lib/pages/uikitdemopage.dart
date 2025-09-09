@@ -7,6 +7,7 @@ import 'package:paracheck/widgets/section_title.dart';
 import 'package:paracheck/design/spacing.dart';
 import 'package:paracheck/widgets/stat_tile.dart';
 import 'package:paracheck/widgets/tag_chip.dart';
+import 'package:paracheck/widgets/app_notice.dart';
 
 class UIKitDemoPage extends StatefulWidget {
   const UIKitDemoPage({super.key});
@@ -36,6 +37,37 @@ class _UIKitDemoPageState extends State<UIKitDemoPage> {
               SecondaryButton(label: 'Annuler', onPressed: () {}),
             ],
           ),
+
+          const SizedBox(height: AppSpacing.xl),
+
+          const SectionTitle('Messages'),
+          const SizedBox(height: AppSpacing.md),
+
+          // Succès (simple)
+          const AppNotice(
+            kind: NoticeKind.valid,
+            title: 'test',
+            message: 'Lorem ipsum dolor sit amet consectetur adipiscing elit.',
+          ),
+          const SizedBox(height: AppSpacing.md),
+
+          // Warning (variante bordée)
+          const AppNotice(
+            kind: NoticeKind.warning,
+            title: 'test',
+            message: 'Lorem ipsum dolor sit amet consectetur adipiscing elit',
+            outlined: true,
+          ),
+          const SizedBox(height: AppSpacing.md),
+
+          // Attention (variante compacte)
+          const AppNotice(
+            kind: NoticeKind.attention,
+            title: 'test',
+            message: 'Lorem ipsum dolor sit amet consectetur adipiscing elit',
+            compact: true,
+          ),
+
           const SizedBox(height: AppSpacing.xl),
 
           const SectionTitle('Champs de texte'),
@@ -53,11 +85,11 @@ class _UIKitDemoPageState extends State<UIKitDemoPage> {
           const Wrap(
             spacing: AppSpacing.md,
             children: [
-              TagChip('MAVIE', icon: Icons.checklist,),
+              TagChip('MAVIE', icon: Icons.checklist),
               TagChip('SAMI 3'),
               TagChip('Thermique'),
             ],
-          )
+          ),
         ],
       ),
     );

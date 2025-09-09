@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paracheck/pages/condition_vol.dart';
+import 'package:paracheck/pages/uikitdemopage.dart';
 
 import 'package:paracheck/theme.dart';
 
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Paracheck',
       theme: buildTheme(),
-      home: const ConditionVolPage(),
+      home: const UIKitDemoPage(),
       debugShowCheckedModeBanner: false,
     );
   }
