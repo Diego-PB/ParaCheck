@@ -34,5 +34,29 @@
     "answer_ok": "Non",
     "answer_bof": "Bof",
     "answer_nok": "Oui"
+  },
+  {
+    "question": "Avez-vous des difficultés à vous endormir ou à rester endormi ?",
+    "answer_ok": "Non",
+    "answer_bof": "Bof",
+    "answer_nok": "Oui"
+  },
+  {
+    "question": "Avez-vous des pensées négatives ?",
+    "answer_ok": "Non",
+    "answer_bof": "Bof",
+    "answer_nok": "Oui"
+  },
+  {
+    "question": "Avez-vous des idées noires ?",
+    "answer_ok": "Non",
+    "answer_bof": "Bof",
+    "answer_nok": "Oui"
+  },
+  {
+    "question": "Avez-vous des difficultés à vous concentrer ?",
+    "answer_ok": "Non",
+    "answer_bof": "Bof",
+    "answer_nok": "Oui"
   }
 ]

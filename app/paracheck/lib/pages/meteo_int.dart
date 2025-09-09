@@ -5,7 +5,6 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:paracheck/widgets/app_scaffold.dart';
 import 'package:paracheck/widgets/primary_button.dart';
 import 'package:paracheck/widgets/secondary.button.dart';
-import 'package:paracheck/widgets/section_title.dart';
 import 'package:paracheck/design/spacing.dart';
 
 class MeteoIntPage extends StatefulWidget {
@@ -83,11 +82,6 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
 
                 final q = _questions[i];
                 final selected = _answers[i];
-
-                // Labels de réponses
-                final ok = q['answer_ok']?.toString() ?? 'Oui';
-                final bof = q['answer_bof']?.toString() ?? 'Bof';
-                final nok = q['answer_nok']?.toString() ?? 'Non';
 
                 // Helper pour rendre visuel le choix en restant sur SecondaryButton :
                 String labelWithTick(String base) =>
