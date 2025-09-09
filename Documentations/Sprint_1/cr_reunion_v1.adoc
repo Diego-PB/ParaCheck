@@ -1,1 +1,52 @@
+= Compte rendu — Réunion avec Jean-Michel Bruel (JMB)
+YolanBrun & équipe
+v2025.09.08, {localdate}
+:toc:
+:icons: font
+:sectnums:
+:sectanchors:
+:sectlinks:
 
+toc::[]
+
+== Participants
+- **Client** : Jean-Michel Bruel (*JMB*)
+- **Équipe projet** :
+- link:https://github.com/leonardo-correiamendes[CORREIA MENDES Leonardo] -- Scrum Master / Développeur
+- link:https://github.com/Smogita[CRISTINI Aidan] -- Git Master / Product Owner / Développeur
+- link:https://github.com/YolanBrun[BRUN Yolan] -- Développeur
+- link:https://github.com/Diego-PB[PENICAUD-BERNAL Diego] -- Développeur
+- link:https://github.com/marwane-ibrahim[IBRAHIM Marwane] -- Développeur
+- link:https://github.com/adrian-guerrero[GUERRERO Adrian] -- Développeur
+
+== Contexte & objectifs
+- Présenter et valider la **release V0**.  
+- Vérifier le **paramétrage iOS** (tests nécessitant un iMac).  
+- Vérifier l’accès **GitHub** du client.  
+- Définir l’**objectif du Sprint 1**.  
+- Expliquer et valider la **méthode de travail** (Pair Coding, branches par Issue).  
+
+== Points abordés
+- **Release V0** : validée.  
+- **iOS** : récupération d’un iMac prévue pour la compilation et les tests.  
+- **Accès GitHub JMB** : validé (OK).  
+  - Action : ajouter le lien du guide d’installation dans le *README*.  
+- **Sprint 1** : objectif = remplacement complet du PDF (uniquement).  
+- **Méthode de travail** :  
+  - Pair Coding → vérifier à quelle *feature* correspond chaque ligne de code (accord client).  
+  - Commentaires de code :  
+    - Utiliser `flutter doc` pour générer la documentation.  
+    - Les commentaires sont jugés **essentiels** par JMB.  
+  - Branches par Issue pour garantir un code propre.  
+
+== Décisions actées
+- Validation de la **release V0**.  
+- Objectif Sprint 1 fixé : **remplacement du PDF**.  
+- Adoption de la méthode : **Pair Coding** + **Branches par Issue**.  
+- Importance capitale des **commentaires de code** soulignée.  
+- Besoin identifié d’un **iMac** pour compilation iOS.  
+
+== Actions
+- Ajouter le **lien du guide d’installation** dans le *README*.  
+- Prévoir la **mise à disposition d’un iMac** pour les tests iOS.  
+- Maintenir une **liste évolutive de questions** à traiter avec le client.  

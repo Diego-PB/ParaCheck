@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:paracheck/widgets/app_scaffold.dart';
 import '../models/flights.dart';
+import '../widgets/stat_tile.dart';
+import 'package:paracheck/widgets/app_scaffold.dart';
+import 'package:paracheck/widgets/home_button.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,6 +35,18 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [
                 ...sampleFlights.map(
+                  (flight) => Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: StatTile(
+                      label: flight.date,
+                      value:
+                          'Durée : ${flight.duration} • Altitude : ${flight.altitude}m',
+                      icon: Icons.paragliding,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ...sampleFlights.map(
                   (flight) => Card(
                     color: Theme.of(context).colorScheme.primary,
                     child: ListTile(
@@ -52,6 +66,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
+
                 Center(
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
@@ -69,10 +84,29 @@ class HomePage extends StatelessWidget {
                     onPressed: () {
                       // Action à définir plus tard
                     },
-                    child: const Text('Voir l\'historique'),
+                    child: const Text("Voir l'historique"),
                   ),
                 ),
-                const SizedBox(height: 8),
+
+                const SizedBox(height: 50),
+
+                // Deux gros boutons : Pré-vol et Post-vol
+                HomeButton(
+                  label: "Pré-vol",
+                  icon: Icons.checklist,
+                  onPressed: () {
+                    // Action à définir plus tard
+                  },
+                ),
+                const SizedBox(height: 50),
+                HomeButton(
+                  label: "Post-vol",
+                  icon: Icons.assignment_turned_in,
+                  onPressed: () {
+                    // Action à définir plus tard
+                  },
+                ),
+                const SizedBox(height: 16),
               ],
             ),
           ),
