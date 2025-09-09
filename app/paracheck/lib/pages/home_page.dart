@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import '../widgets/logo_widget.dart';
-import '../models/flights.dart'; // <-- Import du modèle de vols
+import 'package:paracheck/widgets/app_scaffold.dart';
+import '../models/flights.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {}, // Ne fait rien pour l'instant
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text('Nouveau vol', style: TextStyle(color: Colors.white)),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-      ),
+    return AppScaffold(
+      title: 'Paracheck',
+      fab: null,
       body: Column(
         children: [
           Padding(
@@ -26,10 +22,9 @@ class HomePage extends StatelessWidget {
             child: Center(
               child: Text(
                 'Paracheck',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -37,21 +32,25 @@ class HomePage extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [
-                // Utilisation des données de sampleFlights
-                ...sampleFlights.map((flight) => Card(
-                  color: Theme.of(context).colorScheme.primary,
-                  child: ListTile(
-                    leading: const Icon(Icons.paragliding, color: Colors.white),
-                    title: Text(
-                      flight.date,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    subtitle: Text(
-                      'Durée : ${flight.duration}   •   Altitude : ${flight.altitude}m',
-                      style: const TextStyle(color: Colors.white70),
+                ...sampleFlights.map(
+                  (flight) => Card(
+                    color: Theme.of(context).colorScheme.primary,
+                    child: ListTile(
+                      leading: const Icon(
+                        Icons.paragliding,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        flight.date,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      subtitle: Text(
+                        'Durée : ${flight.duration}   •   Altitude : ${flight.altitude}m',
+                        style: const TextStyle(color: Colors.white70),
+                      ),
                     ),
                   ),
-                )),
+                ),
                 const SizedBox(height: 12),
                 Center(
                   child: OutlinedButton(
@@ -62,7 +61,10 @@ class HomePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       side: BorderSide.none,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 10,
+                      ),
                     ),
                     onPressed: () {
                       // Action à définir plus tard
@@ -75,44 +77,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: SizedBox(
-        height: 70,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Container(height: 70, color: Theme.of(context).colorScheme.primary),
-            Positioned(
-              top: -30,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Material(
-                  shape: const CircleBorder(),
-                  elevation: 6,
-                  color: Colors.white,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(40),
-                    onTap: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: 56,
-                        height: 56,
-                        child: ClipOval(
-                          child: Image.asset(
-                            'lib/assets/Paracheck_logo.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

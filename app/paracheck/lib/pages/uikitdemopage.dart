@@ -45,7 +45,11 @@ class _UIKitDemoPageState extends State<UIKitDemoPage> {
           const SizedBox(height: AppSpacing.xl),
           const SectionTitle('Stats'),
           const SizedBox(height: AppSpacing.md),
-          const StatTile(label: 'Total vols', value: '12', icon: Icons.flight_takeoff),
+          const StatTile(
+            label: 'Total vols',
+            value: '12',
+            icon: Icons.flight_takeoff,
+          ),
 
           const SizedBox(height: AppSpacing.xl),
           const SectionTitle('Tags'),
@@ -53,11 +57,11 @@ class _UIKitDemoPageState extends State<UIKitDemoPage> {
           const Wrap(
             spacing: AppSpacing.md,
             children: [
-              TagChip('MAVIE', icon: Icons.checklist,),
+              TagChip('MAVIE', icon: Icons.checklist),
               TagChip('SAMI 3'),
               TagChip('Thermique'),
             ],
-          )
+          ),
         ],
       ),
     );
