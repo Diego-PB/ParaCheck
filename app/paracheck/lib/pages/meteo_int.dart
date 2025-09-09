@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:paracheck/widgets/app_scaffold.dart';
-import 'package:paracheck/widgets/primary_button.dart';
+import 'package:paracheck/widgets/primary_button.dart'; 
 import 'package:paracheck/widgets/secondary.button.dart';
-import 'package:paracheck/widgets/section_title.dart';
+import 'package:paracheck/widgets/app_notice.dart';
 import 'package:paracheck/design/spacing.dart';
 
 class MeteoIntPage extends StatefulWidget {
@@ -17,8 +17,13 @@ class MeteoIntPage extends StatefulWidget {
 
 class _MeteoIntPageState extends State<MeteoIntPage> {
   List<dynamic> _questions = [];
-  // index question -> valeur choisie (le libellé cliqué)
   final Map<int, String> _answers = {};
+  final Set<int> _locked = {};
+  int _visibleCount = 1;
+  int? _alertIndex;
+  bool _progressBlocked = false;
+
+  final _scrollCtrl = ScrollController();
 
   @override
   void initState() {
@@ -26,15 +31,92 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
     _loadQuestions();
   }
 
+  @override
+  void dispose() {
+    _scrollCtrl.dispose();
+    super.dispose();
+  }
+
   Future<void> _loadQuestions() async {
     final raw = await rootBundle.loadString('assets/questionnaire.json');
     final List<dynamic> data = json.decode(raw);
-    setState(() => _questions = data);
+    setState(() {
+      _questions = data;
+      _answers.clear();
+      _locked.clear();
+      _visibleCount = data.isEmpty ? 0 : 1;
+      _alertIndex = null;
+      _progressBlocked = false;
+    });
+  }
+
+  void _resetFlow() {
+    setState(() {
+      _answers.clear();
+      _locked.clear();
+      _visibleCount = _questions.isEmpty ? 0 : 1;
+      _alertIndex = null;
+      _progressBlocked = false;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollCtrl.hasClients) _scrollCtrl.jumpTo(0);
+    });
   }
 
   void _selectAnswer(int index, String value) {
-    setState(() => _answers[index] = value);
+    if (_progressBlocked || _locked.contains(index)) return; 
+
+    setState(() {
+      _answers[index] = value;
+      _locked.add(index); 
+
+      // Règle: 1 rouge OU 3 oranges
+      final c = _countStates();
+      final trigger = c.rouges >= 1 || c.oranges >= 3;
+
+      if (trigger) {
+        _progressBlocked = true; 
+        _alertIndex ??= index;   
+      } else {
+        _progressBlocked = false;
+        _alertIndex = null;
+
+        final isLastVisible = index == _visibleCount - 1;
+        if (isLastVisible && _visibleCount < _questions.length) {
+          _visibleCount += 1;
+        }
+      }
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
   }
+
+  void _scrollToBottom() {
+    if (!_scrollCtrl.hasClients) return;
+    _scrollCtrl.animateTo(
+      _scrollCtrl.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  // Comptage global des états
+  ({int oranges, int rouges}) _countStates() {
+    int oranges = 0;
+    int rouges = 0;
+    for (final entry in _answers.entries) {
+      final i = entry.key;
+      if (i < 0 || i >= _questions.length) continue;
+      final q = _questions[i] as Map<String, dynamic>;
+      final v = entry.value;
+      if (v == q['answer_bof']) oranges++;
+      if (v == q['answer_nok']) rouges++;
+    }
+    return (oranges: oranges, rouges: rouges);
+  }
+
+  bool get _allAnswered =>
+      _answers.length == _questions.length && _questions.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -42,92 +124,123 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
       title: 'Météo intérieure',
       body: _questions.isEmpty
           ? const Center(child: CircularProgressIndicator())
-          : ListView.separated(
+          : ListView(
+              controller: _scrollCtrl,
               padding: const EdgeInsets.all(AppSpacing.md),
-              itemCount: _questions.length + 1,
-              separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.lg),
-              itemBuilder: (context, i) {
-                // Dernier item : zone d’action (Valider)
-                if (i == _questions.length) {
-                  final allAnswered = _answers.length == _questions.length;
-                  return Align(
-                    alignment: Alignment.centerLeft,
-                    child: PrimaryButton(
-                      label: 'Valider',
-                      icon: Icons.check,
-                      onPressed: allAnswered
-                          ? () {
-                              // Démo : affiche les réponses
-                              final lines = _answers.entries.map((e) {
-                                final q = _questions[e.key];
-                                return 'Q${e.key + 1} — ${q["question"]}: ${e.value}';
-                              }).join('\n');
-                              showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                  title: const Text('Réponses'),
-                                  content: Text(lines),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          : null, // désactive si incomplet
+              children: [
+                // Questions visibles (chat)
+                for (int i = 0; i < _visibleCount; i++) ...[
+                  _QuestionBlock(
+                    index: i,
+                    question: _questions[i] as Map<String, dynamic>,
+                    selected: _answers[i],
+                    enabled: !_progressBlocked && !_locked.contains(i),
+                    onSelect: (value) => _selectAnswer(i, value),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+
+                  // Alerte inline sous la question déclenchante
+                  if (_alertIndex != null && _alertIndex == i) ...[
+                    const AppNotice(
+                      kind: NoticeKind.attention,
+                      title: 'Attention',
+                      message: 'Les conditions de vol ne sont pas optimales.',
+                      compact: true,
                     ),
-                  );
-                }
-
-                final q = _questions[i];
-                final selected = _answers[i];
-
-                // Labels de réponses
-                final ok = q['answer_ok']?.toString() ?? 'Oui';
-                final bof = q['answer_bof']?.toString() ?? 'Bof';
-                final nok = q['answer_nok']?.toString() ?? 'Non';
-
-                // Helper pour rendre visuel le choix en restant sur SecondaryButton :
-                String labelWithTick(String base) =>
-                    selected == base ? '✓ $base' : base;
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      q['question']?.toString() ?? 'Question',
-                      style: Theme.of(context).textTheme.titleMedium,
-                      softWrap: true,
-                      overflow: TextOverflow.visible,
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    Wrap(
-                      spacing: AppSpacing.md,
-                      runSpacing: AppSpacing.md,
+                    const SizedBox(height: AppSpacing.sm),
+                    Row(
                       children: [
                         SecondaryButton(
-                          label: q["answer_ok"],
-                          backgroundColor: Colors.green,
-                          onPressed: () => _selectAnswer(i, q["answer_ok"]),
-                        ),
-                        SecondaryButton(
-                          label: q["answer_bof"],
-                          backgroundColor: Colors.orange,
-                          onPressed: () => _selectAnswer(i, q["answer_bof"]),
-                        ),
-                        SecondaryButton(
-                          label: q["answer_nok"],
-                          backgroundColor: Colors.red,
-                          onPressed: () => _selectAnswer(i, q["answer_nok"]),
+                          label: 'Recommencer',
+                          onPressed: _resetFlow,
                         ),
                       ],
                     ),
-                  ],
-                );
-              },
+                    const SizedBox(height: AppSpacing.lg),
+                  ] else
+                    const SizedBox(height: AppSpacing.sm),
+                ],
+
+                // Succès (toutes les questions répondues, et aucune alerte)
+                if (_allAnswered && !_progressBlocked) ...[
+                  const AppNotice(
+                    kind: NoticeKind.valid,
+                    title: 'Conditions optimales',
+                    message:
+                      'Votre état mental est actuellement favorable pour le vol en parapente.',
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  Row(
+                    children: [
+                      SecondaryButton(
+                        label: 'Recommencer',
+                        onPressed: _resetFlow,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                ],
+              ],
             ),
+    );
+  }
+}
+
+class _QuestionBlock extends StatelessWidget {
+  final int index;
+  final Map<String, dynamic> question;
+  final String? selected;
+  final bool enabled;
+  final ValueChanged<String> onSelect;
+
+  const _QuestionBlock({
+    required this.index,
+    required this.question,
+    required this.selected,
+    required this.enabled,
+    required this.onSelect,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // "Message" de l'app (question)
+        Text(
+          question['question']?.toString() ?? 'Question',
+          style: Theme.of(context).textTheme.titleMedium,
+          softWrap: true,
+          overflow: TextOverflow.visible,
+        ),
+        const SizedBox(height: AppSpacing.md),
+
+        // "Message" de l'utilisateur (choix)
+        Wrap(
+          spacing: AppSpacing.md,
+          runSpacing: AppSpacing.md,
+          children: [
+            SecondaryButton(
+              label: question["answer_ok"],
+              backgroundColor: Colors.green,
+              selected: selected == question["answer_ok"],
+              onPressed: enabled ? () => onSelect(question["answer_ok"]) : null,
+            ),
+            SecondaryButton(
+              label: question["answer_bof"],
+              backgroundColor: Colors.orange,
+              selected: selected == question["answer_bof"],
+              onPressed: enabled ? () => onSelect(question["answer_bof"]) : null,
+            ),
+            SecondaryButton(
+              label: question["answer_nok"],
+              backgroundColor: Colors.red,
+              selected: selected == question["answer_nok"],
+              onPressed: enabled ? () => onSelect(question["answer_nok"]) : null,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
