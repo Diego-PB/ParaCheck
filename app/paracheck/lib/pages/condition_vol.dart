@@ -4,6 +4,7 @@ import 'package:paracheck/design/spacing.dart';
 import '../widgets/section_title.dart';
 import '../widgets/app_notice.dart';
 import '../widgets/primary_button.dart';
+import '../design/colors.dart';
 
 class ConditionVolPage extends StatefulWidget {
   const ConditionVolPage({super.key});
@@ -55,28 +56,40 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
               ),
             const Spacer(),
             Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.md),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.sm,
+              ),
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                padding: const EdgeInsets.symmetric(
+                  vertical: AppSpacing.sm,
+                  horizontal: AppSpacing.md,
+                ),
                 decoration: BoxDecoration(
-                  color: Colors.red.shade100,
+                  color: AppColors.danger.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Text(
                   'Une fermeture reste toujours une erreur de pilotage',
                   style: TextStyle(
-                    color: Colors.red,
+                    color: AppColors.danger,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
             ),
-            PrimaryButton(
-              label: 'Valider',
-              icon: Icons.check,
-              onPressed: () {},
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.sm,
+              ),
+              child: PrimaryButton(
+                label: 'Valider',
+                icon: Icons.check,
+                onPressed: () {},
+              ),
             ),
           ],
         ),
