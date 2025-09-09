@@ -1,0 +1,109 @@
+= Compte rendu — Réunion avec Jean-Michel Bruel (JMB)
+Diego P-B & équipe
+v2025.09.05, {localdate}
+:toc:
+:icons: font
+:sectnums:
+:sectanchors:
+:sectlinks:
+
+toc::[]
+
+== Participants
+- **Client** : Jean-Michel Bruel (*JMB*)
+- **Équipe projet** : 
+- link:https://github.com/leonardo-correiamendes[CORREIA MENDES Leonardo] -- Scrum Master / Développeur
+- link:https://github.com/Smogita[CRISTINI Aidan] -- Git Master / Product Owner / Développeur
+- link:https://github.com/YolanBrun[BRUN Yolan] --  Développeur
+- link:https://github.com/Diego-PB[PENICAUD-BERNAL Diego] -- Développeur
+- link:https://github.com/marwane-ibrahim[IBRAHIM Marwane] -- Développeur
+- link:https://github.com/adrian-guerrero[GUERRERO Adrian] -- Développeur
+
+== Contexte & objectifs
+- Créer une **appli** pouvant être **repris et prolongé** par d’autres devs.
+- Public cible : **débutants autonomes** en priorité, puis **habitués/moniteurs**.
+- **Open source**.
+- **DA** : carte blanche, mais **modifiable facilement** si besoin.
+
+== Périmètre minimal (MVP)
+. **Finir/coder le PDF** (générateur/éditeur exportable).
+. Base fonctionnelle **hors connexion réseau** pour l’essentiel des usages.
+
+== Extensions envisagées
+- **Rose de compétences** : refonte complète (version actuelle inutilisable).
+- **Analyse des risques** : évaluer automatiquement les risques **via IA** à partir des réponses utilisateur.
+- **Positionnement** : étude d’intégration d’une source existante
+  (ex. *XCTrack* Android) pour **récupérer la position** ; piste mentionnée « searide nav xl » à clarifier.
+- **Applications mobiles** : OK **Flutter** tant qu’on garantit à terme **Web + iOS + Android**.
+
+== Parcours utilisateur (journée type)
+. Consulter la **météo**.
+. Demander qui est **disponible** pour venir.
+. Organiser le **covoiturage**.
+. **Départ** sur le site et **re-check météo**.
+. Sur place : **repos**, **préparations** et **checks**.
+. Décollage si **OK** (le meilleur part en premier et donne le feu vert).
+. **Après-vol** : **débrief**, **échange de données**, **post-check incidents**.
+
+Matériel cité : **radio**, **téléphone**.
+
+== Décisions actées
+- **Cible prioritaire** : **appli web** (puis ouverture mobile via Flutter).
+- Projet **open-source**.
+- **Points chaque semaine**.
+- **Validation JMB** requise pour toute **décision importante**.
+
+== Exigences clés
+[IMPORTANT]
+====
+- **Configuration simple** pour un **non-informaticien**.
+- **Facile à maintenir** (code, doc, CI/CD).
+====
+
+== Modèle de chiffrage (à affiner)
+|===
+| Poste | Hypothèse / formule
+
+| Dév & gestion de projet | *Temps (h) × Taux horaire*
+| Licences & services | ex. **Gemini / Google**, autres APIs (coût mensuel ou à l’usage)
+| Marge d’erreur | **– marge d’erreur** (aléas)
+| Bénéfice | **+ bénéfice** (% cible)
+| Total | = (Temps × Taux) + Licences – Marge d’erreur + Bénéfice
+|===
+
+== Architecture & tech (proposé)
+- **Flutter** en option pour livrer **iOS/Android** en continuité.
+- **Stockage** fiables.
+- **Paramétrage** via fichiers/console d’admin simple (pas de DevOps requis pour l’usage standard).
+
+== Backlog initial
+
+**Sprint 0**
+- Structure du projet open-source (README, licence, guidelines).
+- Base de code (Hello world).
+
+**Sprint 1**
+Objectif principal_ : remplacement complet du PDF par l’application **ParaCheck**.
+
+**Sprint 2 — Should**
+- Ajout de fonctionnalités secondaires.
+
+== Actions 
+- **Ajouter JMB comme collaborateur** (accès dépôt/projets) 
+- **Décider piste position** (XCTrack / autre)
+
+== Planning (sprints)
+|===
+| Sprint | Objectif | Livrables clés
+
+| **Sprint 1** | **PDF opérationnel** | Générateur + modèle + export + doc
+| **Sprint 2** | **Nouvelles fonctionnalités** | Rose de compétences, intégration position (étude), etc
+|===
+
+== Suivi
+- **Point hebdomadaire** avec JMB.
+- Journal de décisions : consigner toute **validation JMB**.
+
+== Annexes
+- Référence DA : *garder l’idée du prof* (lien/maquette à joindre).
+- Notes techniques : **pas de connexion requise** pour les fonctions de base.

@@ -1,100 +1,98 @@
 = 📱 Guide de Démarrage pour le Projet Flutter
+:toc: macro
+:toclevels: 2
 
 Bienvenue dans le projet Flutter !  
-Ce guide vous accompagne pour installer Flutter, configurer Visual Studio Code, lancer l’application sur un émulateur Android et résoudre les problèmes fréquents.  
+Ce guide couvre l’installation locale, ainsi que l’utilisation des builds générés par la CI (APK Android + bundle Web).
 
-== 📋 Prérequis
-Avant de commencer, assurez-vous d’avoir :
+toc::[]
 
-* Git installé (https://git-scm.com/downloads[Télécharger ici])
-* Flutter SDK installé (https://docs.flutter.dev/get-started/install[Guide officiel])
-* Android Studio installé (pour l’émulateur Android et le SDK)
-* Visual Studio Code installé (https://code.visualstudio.com/[Télécharger ici])
-* Extensions VS Code : *Flutter* et *Dart*
+== 📋 Prérequis (pour un lancement en local)
+* Git (https://git-scm.com/downloads[Télécharger])
+* Flutter SDK (https://docs.flutter.dev/get-started/install[Guide officiel])
+* Android Studio (SDK + Émulateur)
+* Visual Studio Code (https://code.visualstudio.com/[Télécharger]) + extensions *Flutter* et *Dart*
 
-== 🚀 Étapes de démarrage
+== 🚀 Démarrer en local (développeur)
 
 === 1. Cloner le dépôt
-Exécutez la commande suivante pour cloner le dépôt GitHub du projet :
-
 [source,bash]
 ----
-git clone https://github.com/utilisateur/mon-projet-flutter.git
+git clone https://github.com/Diego-PB/ParaCheck.git
+cd ParaCheck/app/paracheck
 ----
 
-Puis, naviguez dans le dossier du projet :
-
-[source,bash]
-----
-cd mon-projet-flutter
-----
-
-=== 2. Vérifier l’installation de Flutter
-Exécutez la commande suivante pour vérifier que Flutter est bien configuré :
-
+=== 2. Vérifier l’installation
 [source,bash]
 ----
 flutter doctor
 ----
 
-⚠️ Corrigez les éventuels problèmes signalés (ex. SDK manquant, émulateur non configuré).
-
 === 3. Lancer un émulateur Android
-. Ouvrez *Android Studio*
-. Allez dans *Tools > Device Manager*
-. Créez ou démarrez un *émulateur Android (AVD)*
-. Vérifiez qu’il est reconnu par Flutter :
-
+Depuis Android Studio → *Tools > Device Manager* → démarrez un AVD.  
 [source,bash]
 ----
 flutter devices
 ----
 
-=== 4. Démarrer l’application depuis VS Code
-. Ouvrez le projet dans *Visual Studio Code*
-. Sélectionnez votre émulateur Android en bas à droite
-. Lancez l’application avec :
-
+=== 4. Démarrer l’application
 [source,bash]
 ----
 flutter run
 ----
 
-Ou cliquez sur *▶ Run > Start Debugging (F5)* dans VS Code.
+=== 5. Arrêter
+Dans le terminal de `flutter run` : `q`.
 
-=== 5. Arrêter l’application
-Dans le terminal où `flutter run` est actif, utilisez :
+== ✅ Utiliser les builds de la CI (sans rien installer)
 
+Les artefacts sont publiés dans **Releases** :
+* **Android** : `app-release-apk.zip` → contient l’APK.
+* **Web** : `web-build.zip` → contient `index.html`, `main.dart.js`, `assets/…`.
+
+=== Android (APK)
+. Téléchargez `app-release-apk.zip` depuis la page *Releases*.
+. Dézippez et copiez l’APK sur le téléphone.
+. Activez “Sources inconnues” si nécessaire.
+. Installez l’APK.
+
+=== Web (bundle)
+. Téléchargez `web-build.zip` depuis *Releases* et dézippez.
+. Ouvrez un terminal dans le dossier dézippé puis servez en HTTP :
++
 [source,bash]
 ----
-q
+# Windows
+python -m http.server 8000
+
+# macOS / Linux
+python3 -m http.server 8000
 ----
+. Ouvrez http://localhost:8000
+[NOTE]
+====
+C’est normal si `index.html` est “vide” : Flutter charge l’app via `main.dart.js`.
+====
 
-ou cliquez sur *Stop Debugging* dans VS Code.
+== 🌐 Démo en ligne (GitHub Pages)
+L’app Web est déployée automatiquement par la CI sur **GitHub Pages** :  
+`https://diego-pb.github.io/ParaCheck/`
 
-== ⚠️ Problèmes fréquents et solutions
+== 🔄 CI/CD (GitHub Actions)
+*Workflow* : `.github/workflows/flutter-ci.yml`  
+*Déclencheurs* : `push` sur `main`, Pull Requests, exécution manuelle.
 
-=== 1. Flutter non reconnu
-*Erreur* : `flutter : command not found`  
-*Solution* : Ajoutez Flutter au PATH (voir https://docs.flutter.dev/get-started/install[guide officiel]).
+*Jobs (résumé)* :
+- **test** : `flutter test`
+- **android** : `flutter build apk --release` → artefact **app-release-apk.zip**
+- **web** : `flutter build web --release --base-href /ParaCheck/` → artefact **web-build.zip**
+- **deploy_pages** : publie le bundle Web sur GitHub Pages
 
-=== 2. Aucun émulateur détecté
-*Erreur* : `No devices found`  
-*Solution* : Lancez un AVD depuis Android Studio, ou connectez un vrai smartphone en USB avec le *mode développeur* activé.
-
-=== 3. Ports déjà utilisés
-*Problème* : L’application ne démarre pas correctement.  
-*Solution* : Fermez l’ancienne instance de l’émulateur ou redémarrez VS Code.
-
-=== 4. Problème de dépendances
-*Erreur* lors du build.  
-*Solution* :
-
-[source,bash]
-----
-flutter clean
-flutter pub get
-----
+== 🧯 Dépannage rapide
+* `flutter : command not found` → ajouter Flutter au `PATH`.
+* Aucun device → lancer un AVD ou brancher un smartphone (mode développeur).
+* Web en local *page blanche* → ne pas ouvrir le fichier en `file://`, servir via HTTP (voir ci-dessus).
+* `index.html` “vide” → normal : l’UI est rendue par `main.dart.js`.
 
 == 🎉 Merci !
-Merci d’utiliser notre projet Flutter 🚀✨
+Merci d’utiliser ParaCheck 🚀

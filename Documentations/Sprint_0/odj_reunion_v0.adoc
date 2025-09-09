@@ -1,0 +1,32 @@
+== Ordre du jour — 1ʳᵉ rencontre avec JMB
+
+*Date* : 03/09/25 — *Durée* : 60 min
+*Participants* : J.-M. Bruel (JMB), Équipe projet
+
+.Objectifs
+- Comprendre le contexte, les besoins et les contraintes.
+- Recenser les pratiques et **outils actuellement utilisés** (documents, applis, process).
+- Valider les **plateformes cibles** et contraintes techniques (Web / mobile / offline).
+- Définir le **MVP** et des **critères d’acceptation**.
+- Aligner **deadlines, sprints** et **gouvernance** (points, validations).
+
+.Agenda (timebox indicatif)
+1. **Introduction & objectifs** (5’)
+2. **Contexte & problèmes actuels** côté terrain (10’)
+3. **Outils/supports actuels** (documents PDF, applis de navigation/suivi, checklists papier) (10’)
+4. **Utilisateurs cibles & scénarios clés** (pré-vol, sur site, post-vol) (10’)
+5. **Contraintes & préférences techniques**  
+   - Technologie imposée ?  
+   - Web-first acceptable ? Mobile attendu ?  
+   - Besoins **offline** ? (10’)
+6. **Données & confidentialité** (sauvegarde, partage) (10’)
+7. **MVP attendu & critères d’acceptation** (10’)
+8. **Planning & jalons** (deadlines, objectifs Sprint 0/1/2) (5’)
+9. **Gouvernance** (rythme des points, validations JMB, ajout en collaborateur) (3’)
+10. **Actions suivantes & responsables** (2’)
+
+.Décisions attendues
+- Plateformes cibles et **choix techno** (et éventuelles contraintes).
+- **Périmètre MVP** et critères d’acceptation.
+- **Deadlines** et objectifs de sprint.
+- Modalités de **gouvernance** (points hebdo, validations, collaboration).

@@ -1,0 +1,5 @@
+Document vide pour la V0.
+
+Aucun test réalisé car le développement commencera lors du Sprint 1 (debut : 15/11/2023).
+
+// template : https://github.com/Diego-PB/ParaCheck/blob/V0/Documentations/template/cahier_test.adoc

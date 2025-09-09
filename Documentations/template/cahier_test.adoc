@@ -1,0 +1,91 @@
+= Cahier de test
+:revnumber: 0.1
+:revdate: {localdate}
+:icons: font
+:toc: macro
+:toclevels: 3
+:sectnums:
+:sectanchors:
+:sectlinks:
+
+toc::[]
+
+== Cas de test
+
+=== Introduction
+
+==== Contexte Général
+Le parapente est un sport à risque où la sécurité est importante. À ce jour, il n’existe pas d’application spécifiquement dédiée à ce besoin.
+
+Un embryon a été initié sur la base d’un PDF utilisé par un moniteur et se trouve ici : https://github.com/jmbruel/paranote
+
+==== Objectif du Projet
+Le projet vise à transformer cet outil en une solution fiable, sécurisée et reconnue officiellement par la Fédération de vol libre, afin d’encourager son adoption par l’ensemble des parapentistes. Le champ des évolutions possibles est vaste : intégration de données météo en temps réel, analyse des risques, suivi en direct de la position des pilotes, et bien d’autres fonctionnalités.
+
+
+
+=== Test pour YYY
+
+==== Contexte
+[cols="1,2"]
+|===
+|Contexte
+a|
+But : lorem
+|===
+
+
+==== Test à effectuer
+[cols="1,2"]
+|===
+|Test à effectuer
+a|
+lorem
+|===
+
+
+==== Suivi des tests
+[cols="^1,1,2,1,4",options="header"]
+|===
+|Date |Version |Testeur |Résultat |Commentaires / Pièces jointes
+|{localdate} |v0.1 |Diego |OK |Capture jointe
+|===
+
+
+=== Test pour Consultation des conditions météo
+(ceci est un exemple)
+
+==== Contexte
+[cols="1,2"]
+|===
+|Contexte
+a|
+*But* : Vérifier l’affichage des conditions météo sur l’écran « Conditions de vol » à partir de la position GPS.
+*Préconditions* : Smartphone connecté à Internet ; autorisation de localisation accordée ; build Recette ; API météo joignable.
+*Données de test* : Position = Toulouse (43.604, 1.444) ; seuils internes : Vent ≤ 20 km/h, Rafales ≤ 30 km/h, Pluie = 0 mm.
+|===
+
+==== Test à effectuer
+[cols="1,2"]
+|===
+|Test à effectuer
+a|
+. Lancer l’application.
+. Ouvrir *Conditions de vol*.
+. Si demandé, accepter l’autorisation de localisation.
+. Attendre la fin du chargement.
+. Observer les valeurs affichées : Vent, Rafales, Pluie, Thermiques/Tendance, Indication globale (OK/À éviter).
+
+*Résultat(s) attendu(s)* :
+- Un indicateur de chargement s’affiche puis disparaît.
+- Les valeurs *Vent*, *Rafales*, *Pluie* sont renseignées (pas de « N/A »).
+- Le message d’état global correspond aux seuils (ex. « Vol possible » si toutes les valeurs sont sous les seuils).
+- En cas d’échec d’appel API, un message d’erreur non bloquant est affiché et un bouton *Réessayer* est proposé.
+|===
+
+==== Suivi des tests
+[cols="^1,1,2,1,4",options="header"]
+|===
+|Date |Version |Testeur |Résultat |Commentaires / Pièces jointes
+|{localdate} |v0.1 |Diego |OK |Capture de l’écran des conditions (Toulouse)
+|===
