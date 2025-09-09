@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../widgets/logo_widget.dart';
-import '../models/flights.dart'; // <-- Import du modèle de vols
+import 'package:paracheck/widgets/primary_button.dart';
+import '../models/flights.dart';
+import '../widgets/stat_tile.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,11 +9,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {}, // Ne fait rien pour l'instant
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text('Nouveau vol', style: TextStyle(color: Colors.white)),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+      floatingActionButton: PrimaryButton(
+        label: 'Nouveau vol',
+        icon: Icons.add,
+        onPressed: () {
+          // Action à définir plus tard
+        },
       ),
       body: Column(
         children: [
@@ -37,37 +39,23 @@ class HomePage extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [
-                // Utilisation des données de sampleFlights
-                ...sampleFlights.map((flight) => Card(
-                  color: Theme.of(context).colorScheme.primary,
-                  child: ListTile(
-                    leading: const Icon(Icons.paragliding, color: Colors.white),
-                    title: Text(
-                      flight.date,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    subtitle: Text(
-                      'Durée : ${flight.duration}   •   Altitude : ${flight.altitude}m',
-                      style: const TextStyle(color: Colors.white70),
-                    ),
+                ...sampleFlights.map((flight) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: StatTile(
+                    label: flight.date,
+                    value: 'Durée : ${flight.duration} • Altitude :${flight.altitude}m',
+                    icon: Icons.paragliding,
                   ),
                 )),
                 const SizedBox(height: 12),
                 Center(
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.grey[200],
-                      foregroundColor: Colors.black87,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      side: BorderSide.none,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                    ),
+                  child: PrimaryButton(
+                    label: "Voir l'historique",
+                    icon: Icons.history,
                     onPressed: () {
                       // Action à définir plus tard
                     },
-                    child: const Text('Voir l\'historique'),
+                    size: 16,
                   ),
                 ),
                 const SizedBox(height: 8),
