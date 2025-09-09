@@ -33,7 +33,7 @@ Projet réalisé par::
 - link:https://github.com/marwane-ibrahim[IBRAHIM Marwane] -- Développeur
 - link:https://github.com/adrian-guerrero[GUERRERO Adrian] -- Développeur
 
-NOTE: Sur une idée originale et une link:files/carnetA4.pdf[fiche existante]. Et avec l'aide des étudiants suivants avant SAE : https://github.com/enzofrnt[Enzo], ...
+NOTE: Sur une idée originale et une link:files/carnetA4.pdf[fiche existante].
 
 == Client
 
