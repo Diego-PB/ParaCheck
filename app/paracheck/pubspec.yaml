@@ -65,13 +65,13 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
   assets:
-    - lib/assets/Paracheck_logo.png
+    - assets/Paracheck_logo.png
 
   fonts:
     - family: Poppins
       fonts:
-        - asset: lib/assets/fonts/Poppins-Regular.ttf
-        - asset: lib/assets/fonts/Poppins-Bold.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
           weight: 700
 
   # An image asset can refer to one or more resolution-specific "variants", see
