@@ -3,6 +3,7 @@ import '../models/flights.dart';
 import '../widgets/stat_tile.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
 import 'package:paracheck/widgets/home_button.dart';
+import 'package:paracheck/widgets/primary_button.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -21,14 +22,6 @@ class HomePage extends StatelessWidget {
               right: 16,
               bottom: 8,
             ),
-            child: Center(
-              child: Text(
-                'Paracheck',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-              ),
-            ),
           ),
           Expanded(
             child: ListView(
@@ -45,7 +38,16 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                
+                const SizedBox(height: 24), // Plus d'espace avant le bouton historique
+                Center(
+                  child: PrimaryButton(
+                    label: "Voir l'historique",
+                    icon: Icons.history,
+                    onPressed: () {
+                      // Action à définir plus tard
+                    },
+                  ),
+                ),
 
                 const SizedBox(height: 50),
 
