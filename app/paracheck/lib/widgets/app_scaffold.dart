@@ -36,7 +36,20 @@ class _AppScaffoldState extends State<AppScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true, // Permet à l'overlay de passer sous la bottom bar
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(
+        title: Text(
+          widget.title,
+          style: const TextStyle(
+            fontFamily: 'Poppins', // Remplace par le nom de ta police si besoin
+            fontSize: 24,
+            letterSpacing: 1,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+      ),
       body: Stack(
         children: [
           // Contenu
