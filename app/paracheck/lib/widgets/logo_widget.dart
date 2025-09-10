@@ -9,7 +9,7 @@ class LogoWidget extends StatelessWidget {
     return Center(
       child: ClipOval(
         child: Image.asset(
-          'lib/assets/Paracheck_logo.png',
+          'assets/Paracheck_logo.png',
           width: size,
           height: size,
           fit: BoxFit.cover, // zoom sur le centre
