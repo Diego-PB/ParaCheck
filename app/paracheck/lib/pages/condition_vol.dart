@@ -5,6 +5,7 @@ import '../widgets/section_title.dart';
 import '../widgets/app_notice.dart';
 import '../widgets/primary_button.dart';
 import '../design/colors.dart';
+import '../services/condition_vol_service.dart';
 
 class ConditionVolPage extends StatefulWidget {
   const ConditionVolPage({super.key});
@@ -13,7 +14,10 @@ class ConditionVolPage extends StatefulWidget {
   State<ConditionVolPage> createState() => _ConditionVolPageState();
 }
 
+//Pour lire le choix sauvegardé
+
 class _ConditionVolPageState extends State<ConditionVolPage> {
+  final _service = ConditionVolService();
   int? selectedLevel;
 
   final conditions = [
@@ -22,6 +26,18 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
     {'level': 3, 'label': 'Turbulences fortes et fréquentes '},
     {'level': 4, 'label': 'Turbulences très fortes et constantes '},
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _service.loadLevel().then((savedLevel) {
+      if (savedLevel != null) {
+        setState(() {
+          selectedLevel = savedLevel;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +51,17 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
             const SectionTitle('Choisis la cotation'),
             const SizedBox(height: AppSpacing.md),
             Column(
-              children:
-                  conditions.map((c) {
-                    final level = c['level'] as int;
-                    return RadioListTile<int>(
-                      title: Text(c['label'] as String),
-                      value: level,
-                      groupValue: selectedLevel,
-                      onChanged: (val) {
-                        setState(() => selectedLevel = val);
-                      },
-                    );
-                  }).toList(),
+              children: conditions.map((c) {
+                final level = c['level'] as int;
+                return RadioListTile<int>(
+                  title: Text(c['label'] as String),
+                  value: level,
+                  groupValue: selectedLevel,
+                  onChanged: (val) {
+                    setState(() => selectedLevel = val);
+                  },
+                );
+              }).toList(),
             ),
             const SizedBox(height: AppSpacing.lg),
             if (selectedLevel != null)
@@ -85,10 +100,20 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
                 horizontal: AppSpacing.md,
                 vertical: AppSpacing.sm,
               ),
-              child: PrimaryButton(
-                label: 'Valider',
-                icon: Icons.check,
-                onPressed: () {},
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  PrimaryButton(
+                    label: 'Valider',
+                    icon: Icons.check,
+                    onPressed: selectedLevel == null
+                        ? null
+                        : () async {
+                            await _service.saveLevel(selectedLevel!);
+                            print('Cotation sauvegardée : $selectedLevel');
+                          },
+                  ),
+                ],
               ),
             ),
           ],
