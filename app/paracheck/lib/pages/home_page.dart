@@ -38,14 +38,14 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 24), // Plus d'espace avant le bouton historique
+                const SizedBox(
+                  height: 24,
+                ), // Plus d'espace avant le bouton historique
                 Center(
                   child: PrimaryButton(
                     label: "Voir l'historique",
                     icon: Icons.history,
-                    onPressed: () => {
-                      Navigator.pushNamed(context, '/uikit'),
-                    },
+                    onPressed: () => {},
                   ),
                 ),
 

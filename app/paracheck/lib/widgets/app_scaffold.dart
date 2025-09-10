@@ -25,11 +25,21 @@ class _AppScaffoldState extends State<AppScaffold> {
   bool _open = false;
 
   List<NavAction> _fixedActions(BuildContext context) => [
-    NavAction(label: 'Accueil', icon: Icons.home, onTap: () {}),
-    NavAction(label: 'Vols', icon: Icons.flight, onTap: () {}),
-    NavAction(label: 'Checklist', icon: Icons.checklist, onTap: () {}),
-    NavAction(label: 'Statistiques', icon: Icons.query_stats, onTap: () {}),
-    NavAction(label: 'Paramètres', icon: Icons.settings, onTap: () {}),
+    NavAction(label: 'Accueil', icon: Icons.home, onTap: () => {
+      Navigator.pushNamed(context, '/homepage'),
+    }),
+    NavAction(label: 'Vols', icon: Icons.flight, onTap: () => {
+      Navigator.pushNamed(context, '/flights'),
+    }),
+    NavAction(label: 'Checklist', icon: Icons.checklist, onTap: () => {
+      Navigator.pushNamed(context, '/checklist'),
+    }),
+    NavAction(label: 'Statistiques', icon: Icons.query_stats, onTap: () => {
+      Navigator.pushNamed(context, '/statistics'),
+    }),
+    NavAction(label: 'Paramètres', icon: Icons.settings, onTap: () => {
+      Navigator.pushNamed(context, '/settings'),
+    }),
   ];
 
   @override

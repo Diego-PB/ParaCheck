@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:paracheck/main.dart';
+import 'package:paracheck/pages/home_page.dart';
 import 'package:paracheck/pages/uikitdemopage.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
-  '/': (context) => const MyHomePage(title: 'Paracheck Home Page'),
+  '/homepage': (context) => const HomePage(),
   '/uikit': (context) => const UIKitDemoPage(),
 };
 
