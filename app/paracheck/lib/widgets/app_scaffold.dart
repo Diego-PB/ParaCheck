@@ -1,5 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:paracheck/widgets/BottomBubbleNav.dart';
+import 'package:paracheck/widgets/bottom_bubble_nav.dart';
 
 class AppScaffold extends StatefulWidget {
   final String title;
@@ -52,14 +54,29 @@ class _AppScaffoldState extends State<AppScaffold> {
             child: AnimatedOpacity(
               duration: const Duration(milliseconds: 180),
               opacity: _open ? 1 : 0,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: BubbleDock(
-                  isOpen: _open,
-                  logoPath: widget.logoPath,
-                  onLogoTap: () => setState(() => _open = !_open),
-                  actions: _fixedActions(context),
-                ),
+              child: Stack(
+                children: [
+                  // Flou + voile semi-transparent
+                  Positioned.fill(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+                      child: Container(
+                        color: Colors.black.withValues(), 
+                      ),
+                    ),
+                  ),
+
+                  // Bulles
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: BubbleDock(
+                      isOpen: _open,
+                      logoPath: widget.logoPath,
+                      onLogoTap: () => setState(() => _open = !_open),
+                      actions: _fixedActions(context),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
