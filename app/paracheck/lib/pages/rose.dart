@@ -46,12 +46,12 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 44, // un peu plus haut pour bien centrer le texte
+      height: 44,
       child: TextField(
         controller: controller,
         keyboardType: keyboardType,
-        onTap: onTap, // 👈 ouvre la description de ce champ
-        textAlignVertical: TextAlignVertical.center, // 👈 centre le texte
+        onTap: onTap, // ouvre la description de ce champ
+        textAlignVertical: TextAlignVertical.center, // centre le texte
         inputFormatters: keyboardType == TextInputType.number
             ? <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9\.,]')),
@@ -62,7 +62,7 @@ class InputField extends StatelessWidget {
           labelText: label,
           isDense: true,
           contentPadding: const EdgeInsets.symmetric(
-            vertical: 10,  // 👈 marge verticale égale = centrage visuel
+            vertical: 10,
             horizontal: 12,
           ),
           border: const OutlineInputBorder(),
@@ -80,7 +80,6 @@ class RosePage extends StatefulWidget {
 }
 
 class _RosePageState extends State<RosePage> {
-  // Axes (features)
   final List<String> features = const [
     "PIL - Pilotage",
     "SIV - Situation Incidents de Vol",
@@ -95,7 +94,7 @@ class _RosePageState extends State<RosePage> {
     "PHY - Physique et physiologie",
   ];
 
-  // 👇 Helper: récupère le diminutif avant " - "
+  // Récupère le diminutif avant " - "
   String _short(String f) {
     final i = f.indexOf(' - ');
     return i > 0 ? f.substring(0, i) : f;
@@ -132,7 +131,7 @@ class _RosePageState extends State<RosePage> {
   // Champ "ouvert" (description affichée)
   String? _openedFeature;
 
-  // État d’affichage (formulaire vs radar)
+  // État d’affichage (formulaire vs rose)
   bool _showChart = false;
 
   // Données pour le radar
@@ -179,7 +178,6 @@ class _RosePageState extends State<RosePage> {
   }
 
   void _onSaveAndShow() async {
-    // 1) lire + valider
     final Map<String, double> values = {};
     final List<String> invalids = [];
 
@@ -204,18 +202,13 @@ class _RosePageState extends State<RosePage> {
       return;
     }
 
-    // 2) sauvegarde locale
     await _saveValuesLocally(values);
-
-    // 3) construire data (ordre = features)
     final List<double> dataForUser = features.map((f) => values[f]!).toList();
-
-    // 4) afficher le radar (échelle fixe 0–20)
     setState(() {
       _radarData = [dataForUser];
       _ticks = const [4, 8, 12, 16, 20];
       _showChart = true;
-      _openedFeature = null; // on masque les aides
+      _openedFeature = null;
     });
   }
 
@@ -238,7 +231,7 @@ class _RosePageState extends State<RosePage> {
         aspectRatio: 1,
         child: RadarChart.light(
           ticks: _ticks,
-          features: features.map(_short).toList(), // 👈 n’affiche que "PIL", "SIV", etc.
+          features: features.map(_short).toList(), // n’affiche que "PIL", "SIV", etc.
           data: _radarData,
           reverseAxis: false,
         ),
@@ -254,10 +247,10 @@ class _RosePageState extends State<RosePage> {
           print("Sauvegarder");
         },
         child: Row(
-          mainAxisSize: MainAxisSize.min, // pour éviter que ça prenne toute la largeur
+          mainAxisSize: MainAxisSize.min,
           children: const [
             Text("Sauvegarder"),
-            SizedBox(width: 8), // petit espace
+            SizedBox(width: 8),
             Icon(Icons.arrow_forward),
           ],
         ),
@@ -292,8 +285,8 @@ class _RosePageState extends State<RosePage> {
                   child: Text(
                     descriptions[f] ?? "",
                     style: const TextStyle(
-                      fontSize: 14,               // 👈 plus grand
-                      color: Colors.black87,      // 👈 plus foncé
+                      fontSize: 14,
+                      color: Colors.black87,
                       height: 1.25,
                       fontWeight: FontWeight.w500,
                     ),
