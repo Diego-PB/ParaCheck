@@ -14,7 +14,7 @@ class AppScaffold extends StatefulWidget {
     required this.title,
     required this.body,
     this.fab,
-    this.logoPath = 'lib/assets/Paracheck_logo.png',
+    this.logoPath = 'assets/Paracheck_logo.png',
   });
 
   @override

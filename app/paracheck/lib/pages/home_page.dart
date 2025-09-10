@@ -43,8 +43,8 @@ class HomePage extends StatelessWidget {
                   child: PrimaryButton(
                     label: "Voir l'historique",
                     icon: Icons.history,
-                    onPressed: () {
-                      // Action à définir plus tard
+                    onPressed: () => {
+                      Navigator.pushNamed(context, '/uikit'),
                     },
                   ),
                 ),
