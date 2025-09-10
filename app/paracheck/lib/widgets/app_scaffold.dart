@@ -31,8 +31,8 @@ class _AppScaffoldState extends State<AppScaffold> {
     NavAction(label: 'Vols', icon: Icons.flight, onTap: () => {
       Navigator.pushNamed(context, '/flights'),
     }),
-    NavAction(label: 'Checklist', icon: Icons.checklist, onTap: () => {
-      Navigator.pushNamed(context, '/checklist'),
+    NavAction(label: 'Conditions de vol', icon: Icons.wind_power, onTap: () => {
+      Navigator.pushNamed(context, '/conditions_vol'),
     }),
     NavAction(label: 'Statistiques', icon: Icons.query_stats, onTap: () => {
       Navigator.pushNamed(context, '/statistics'),
@@ -45,12 +45,12 @@ class _AppScaffoldState extends State<AppScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true, // Permet à l'overlay de passer sous la bottom bar
+      extendBody: true,
       appBar: AppBar(
         title: Text(
           widget.title,
           style: const TextStyle(
-            fontFamily: 'Poppins', // Remplace par le nom de ta police si besoin
+            fontFamily: 'Poppins',
             fontSize: 24,
             letterSpacing: 1,
           ),
