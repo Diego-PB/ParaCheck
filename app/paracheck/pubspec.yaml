@@ -66,6 +66,7 @@ flutter:
 
   assets:
     - lib/assets/Paracheck_logo.png
+    - assets/questions_postvol.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

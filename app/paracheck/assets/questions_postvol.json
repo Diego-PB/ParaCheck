@@ -1,0 +1,26 @@
+[
+    {
+      "label": "Ce que j’ai réussi",
+      "exemple": "Ex. préparation météo, avis d’un copain, gestion d’une fermeture…"
+    },
+    {
+      "label": "Un moment de doute",
+      "exemple": "Ex. turbulence dans la zone où ça monte d’habitude…"
+    },
+    {
+      "label": "Ce que j’ai utilisé (prépa, pilotage, connaissances, verbalisation, imagerie, respiration)",
+      "exemple": "Ex. exercices du dernier stage, respiration carrée…"
+    },
+    {
+      "label": "Ce qui m’a aidé à atteindre mon objectif",
+      "exemple": "Ex. connaissance du site, confiance dans mon pilotage…"
+    },
+    {
+      "label": "Ce qui m’a fait plaisir",
+      "exemple": "Ex. poser sereinement malgré des conditions difficiles…"
+    },
+    {
+      "label": "Si je devais refaire différemment",
+      "exemple": "Ex. arrêter plus tôt si trop fort, plus d’attention à la respiration…"
+    }
+]
