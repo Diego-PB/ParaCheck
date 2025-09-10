@@ -51,17 +51,18 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
             const SectionTitle('Choisis la cotation'),
             const SizedBox(height: AppSpacing.md),
             Column(
-              children: conditions.map((c) {
-                final level = c['level'] as int;
-                return RadioListTile<int>(
-                  title: Text(c['label'] as String),
-                  value: level,
-                  groupValue: selectedLevel,
-                  onChanged: (val) {
-                    setState(() => selectedLevel = val);
-                  },
-                );
-              }).toList(),
+              children:
+                  conditions.map((c) {
+                    final level = c['level'] as int;
+                    return RadioListTile<int>(
+                      title: Text(c['label'] as String),
+                      value: level,
+                      groupValue: selectedLevel,
+                      onChanged: (val) {
+                        setState(() => selectedLevel = val);
+                      },
+                    );
+                  }).toList(),
             ),
             const SizedBox(height: AppSpacing.lg),
             if (selectedLevel != null)
@@ -106,12 +107,13 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
                   PrimaryButton(
                     label: 'Valider',
                     icon: Icons.check,
-                    onPressed: selectedLevel == null
-                        ? null
-                        : () async {
-                            await _service.saveLevel(selectedLevel!);
-                            print('Cotation sauvegardée : $selectedLevel');
-                          },
+                    onPressed:
+                        selectedLevel == null
+                            ? null
+                            : () async {
+                              await _service.saveLevel(selectedLevel!);
+                              print('Cotation sauvegardée : $selectedLevel');
+                            },
                   ),
                 ],
               ),
