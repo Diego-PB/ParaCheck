@@ -50,7 +50,7 @@ class InputField extends StatelessWidget {
       child: TextField(
         controller: controller,
         keyboardType: keyboardType,
-        onTap: onTap, // 👈 remonte l’événement de tap
+        onTap: onTap, // 👈 ouvre la description de ce champ
         textAlignVertical: TextAlignVertical.center, // 👈 centre le texte
         inputFormatters: keyboardType == TextInputType.number
             ? <TextInputFormatter>[
@@ -71,7 +71,6 @@ class InputField extends StatelessWidget {
     );
   }
 }
-
 
 class RosePage extends StatefulWidget {
   const RosePage({super.key});
@@ -95,6 +94,12 @@ class _RosePageState extends State<RosePage> {
     "COS - Conscience de la situation",
     "PHY - Physique et physiologie",
   ];
+
+  // 👇 Helper: récupère le diminutif avant " - "
+  String _short(String f) {
+    final i = f.indexOf(' - ');
+    return i > 0 ? f.substring(0, i) : f;
+  }
 
   // Descriptions à afficher quand le champ est sélectionné
   final Map<String, String> descriptions = const {
@@ -124,8 +129,8 @@ class _RosePageState extends State<RosePage> {
 
   late final Map<String, TextEditingController> _controllers;
 
-  // Champ actuellement en focus (pour afficher la description)
-  String? _focusedFeature;
+  // Champ "ouvert" (description affichée)
+  String? _openedFeature;
 
   // État d’affichage (formulaire vs radar)
   bool _showChart = false;
@@ -210,7 +215,7 @@ class _RosePageState extends State<RosePage> {
       _radarData = [dataForUser];
       _ticks = const [4, 8, 12, 16, 20];
       _showChart = true;
-      _focusedFeature = null; // on masque les aides
+      _openedFeature = null; // on masque les aides
     });
   }
 
@@ -220,103 +225,105 @@ class _RosePageState extends State<RosePage> {
     });
   }
 
-  // Vue radar seule
   Widget _buildChartView() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const Text(
-          "Aperçu",
-          style: TextStyle(fontSize: 14, color: Colors.black87 , fontWeight: FontWeight.bold),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      const Text(
+        "Aperçu",
+        style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 12),
+      AspectRatio(
+        aspectRatio: 1,
+        child: RadarChart.light(
+          ticks: _ticks,
+          features: features.map(_short).toList(), // 👈 n’affiche que "PIL", "SIV", etc.
+          data: _radarData,
+          reverseAxis: false,
         ),
-        const SizedBox(height: 12),
-        AspectRatio(
-          aspectRatio: 1,
-          child: RadarChart.light(
-            ticks: _ticks,
-            features: features,
-            data: _radarData,
-            reverseAxis: false,
-          ),
+      ),
+      const SizedBox(height: 16),
+      FilledButton.icon(
+        onPressed: _goBackToForm,
+        icon: const Icon(Icons.arrow_back),
+        label: const Text("Précédent"),
+      ),
+      FilledButton(
+        onPressed: () {
+          print("Sauvegarder");
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min, // pour éviter que ça prenne toute la largeur
+          children: const [
+            Text("Sauvegarder"),
+            SizedBox(width: 8), // petit espace
+            Icon(Icons.arrow_forward),
+          ],
         ),
-        const SizedBox(height: 16),
-        FilledButton.icon(
-          onPressed: _goBackToForm,
-          icon: const Icon(Icons.arrow_back),
-          label: const Text("Précédent"),
-        ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
 
-  // Vue formulaire (avec descriptions au focus)
+
+  // Vue formulaire (avec descriptions sous le champ tapé)
   Widget _buildFormView() {
-  return SingleChildScrollView(
-    child: Column(
-      children: [
-        for (final f in features) ...[
-          Focus(
-            onFocusChange: (hasFocus) {
-              setState(() {
-                if (hasFocus) {
-                  _focusedFeature = f;           // ouvre celui-ci
-                } else if (_focusedFeature == f) {
-                  _focusedFeature = null;         // ferme si on quitte
-                }
-              });
-            },
-            child: InputField(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          for (final f in features) ...[
+            // plus besoin de Focus wrapper : on pilote uniquement à l'onTap
+            InputField(
               controller: _controllers[f]!,
               label: "$f (0 à 20)",
               keyboardType: TextInputType.number,
               onTap: () {
                 setState(() {
-                  _focusedFeature = f;            // ouvre immédiatement
+                  _openedFeature = f; // ouvre celui-ci et "ferme" les autres
                 });
               },
             ),
-          ),
-          if (_focusedFeature == f)
-            Padding(
-              padding: const EdgeInsets.only(top: 6, bottom: 10, left: 6, right: 6),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  descriptions[f] ?? "",
-                  style: const TextStyle(
-                    fontSize: 14,               // 👈 plus grand
-                    color: Colors.black87,      // 👈 plus foncé
-                    height: 1.25,
-                    fontWeight: FontWeight.w500,
+            if (_openedFeature == f)
+              Padding(
+                padding: const EdgeInsets.only(top: 6, bottom: 10, left: 6, right: 6),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    descriptions[f] ?? "",
+                    style: const TextStyle(
+                      fontSize: 14,               // 👈 plus grand
+                      color: Colors.black87,      // 👈 plus foncé
+                      height: 1.25,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
-            ),
+            const SizedBox(height: 8),
+          ],
           const SizedBox(height: 8),
-        ],
-        const SizedBox(height: 8),
-        FilledButton(
-          onPressed: _onSaveAndShow,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Text("Afficher la rose"),
-              SizedBox(width: 8),
-              Icon(Icons.arrow_forward),
-            ],
+          FilledButton(
+            onPressed: _onSaveAndShow,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Text("Afficher la rose"),
+                SizedBox(width: 8),
+                Icon(Icons.arrow_forward),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
-        const Text(
-          "Entrez une note entre 0 et 20 pour chaque compétence.",
-          style: TextStyle(fontSize: 12, color: Colors.black54),
-        ),
-        const SizedBox(height: 16),
-      ],
-    ),
-  );
-}
-
+          const SizedBox(height: 8),
+          const Text(
+            "Entrez une note entre 0 et 20 pour chaque compétence.",
+            style: TextStyle(fontSize: 12, color: Colors.black54),
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
