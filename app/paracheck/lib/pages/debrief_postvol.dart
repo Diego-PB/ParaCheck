@@ -105,7 +105,7 @@ class _DebriefPostVolPageState extends State<DebriefPostVolPage> {
             ),
             const SizedBox(height: AppSpacing.md),
           ],
-          const SizedBox(height: AppSpacing.xl),
+          const SizedBox(height: AppSpacing.md),
 
           // Wrap pour éviter l’overflow horizontal des boutons
           Wrap(
@@ -116,7 +116,7 @@ class _DebriefPostVolPageState extends State<DebriefPostVolPage> {
               SecondaryButton(label: "Réinitialiser", onPressed: _reset),
             ],
           ),
-          const SizedBox(height: AppSpacing.xl),
+          const SizedBox(height: AppSpacing.md),
         ],
       ),
     );
@@ -131,7 +131,7 @@ class _QuestionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: AppSpacing.xs),
       child: Text(
         text,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
