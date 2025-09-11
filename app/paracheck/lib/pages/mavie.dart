@@ -7,14 +7,14 @@ import 'package:paracheck/widgets/secondary.button.dart';
 import 'package:paracheck/widgets/app_notice.dart';
 import 'package:paracheck/design/spacing.dart';
 
-class MeteoIntPage extends StatefulWidget {
-  const MeteoIntPage({super.key});
+class MaviePage extends StatefulWidget {
+  const MaviePage({super.key});
 
   @override
-  State<MeteoIntPage> createState() => _MeteoIntPageState();
+  State<MaviePage> createState() => _MaviePageState();
 }
 
-class _MeteoIntPageState extends State<MeteoIntPage> {
+class _MaviePageState extends State<MaviePage> {
   List<dynamic> _questions = [];
   final Map<int, String> _answers = {};
   final Set<int> _locked = {};
@@ -37,7 +37,7 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
   }
 
   Future<void> _loadQuestions() async {
-    final raw = await rootBundle.loadString('assets/questions_meteo_int.json');
+    final raw = await rootBundle.loadString('assets/questions_mavie.json');
     final List<dynamic> data = json.decode(raw);
     setState(() {
       _questions = data;
@@ -69,9 +69,9 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
       _answers[index] = value;
       _locked.add(index);
 
-      // Règle: 1 rouge OU 3 oranges
+      // Règle: 1 rouge
       final c = _countStates();
-      final trigger = c.rouges >= 1 || c.oranges >= 3;
+      final trigger = c.rouges >= 1;
 
       if (trigger) {
         _progressBlocked = true;
@@ -100,18 +100,16 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
   }
 
   // Comptage global des états
-  ({int oranges, int rouges}) _countStates() {
-    int oranges = 0;
+  ({int rouges}) _countStates() {
     int rouges = 0;
     for (final entry in _answers.entries) {
       final i = entry.key;
       if (i < 0 || i >= _questions.length) continue;
       final q = _questions[i] as Map<String, dynamic>;
       final v = entry.value;
-      if (v == q['answer_bof']) oranges++;
       if (v == q['answer_nok']) rouges++;
     }
-    return (oranges: oranges, rouges: rouges);
+    return (rouges: rouges);
   }
 
   bool get _allAnswered =>
@@ -120,7 +118,7 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Météo intérieure',
+      title: 'MAVIE',
       body:
           _questions.isEmpty
               ? const Center(child: CircularProgressIndicator())
@@ -144,7 +142,7 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
                       const AppNotice(
                         kind: NoticeKind.attention,
                         title: 'Attention',
-                        message: 'Les conditions de vol ne sont pas optimales.',
+                        message: 'Refaites à nouveau vos préparatifs, puis revérifiez votre équipement.',
                         compact: true,
                       ),
                       const SizedBox(height: AppSpacing.sm),
@@ -167,17 +165,16 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
                       kind: NoticeKind.valid,
                       title: 'Conditions optimales',
                       message:
-                          'Votre état mental est actuellement favorable pour le vol en parapente.',
+                          "Votre équipement est vérifié et prêt à l'emploi.",
                     ),
                     const SizedBox(height: AppSpacing.md),
                     Row(
                       children: [
                         SecondaryButton(
-                          label: 'Valider',
+                          label: "Retour à l'accueil",
                           onPressed: () {
-                            Navigator.pushNamed(context, '/mavie');
+                            Navigator.pushNamed(context, '/homepage');
                           },
-
                         ),
                       ],
                     ),
@@ -228,13 +225,6 @@ class _QuestionBlock extends StatelessWidget {
               backgroundColor: Colors.green,
               selected: selected == question["answer_ok"],
               onPressed: enabled ? () => onSelect(question["answer_ok"]) : null,
-            ),
-            SecondaryButton(
-              label: question["answer_bof"],
-              backgroundColor: Colors.orange,
-              selected: selected == question["answer_bof"],
-              onPressed:
-                  enabled ? () => onSelect(question["answer_bof"]) : null,
             ),
             SecondaryButton(
               label: question["answer_nok"],

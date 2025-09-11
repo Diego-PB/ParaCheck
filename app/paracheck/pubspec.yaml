@@ -66,6 +66,7 @@ flutter:
     - assets/questions_meteo_int.json
     - assets/Paracheck_logo.png
     - assets/questions_postvol.json
+    - assets/questions_mavie.json
 
   fonts:
     - family: Poppins
