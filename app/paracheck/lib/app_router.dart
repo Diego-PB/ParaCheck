@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:paracheck/pages/home_page.dart';
 import 'package:paracheck/pages/uikitdemopage.dart';
 import 'package:paracheck/pages/condition_vol.dart';
+import 'package:paracheck/pages/meteo_int.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
   '/homepage': (context) => const HomePage(),
   '/uikit': (context) => const UIKitDemoPage(),
   '/conditions_vol': (context) => const ConditionVolPage(),
+  '/meteo_int': (context) => const MeteoIntPage(),
 };
 
 /* 
