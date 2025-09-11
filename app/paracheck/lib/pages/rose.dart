@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:paracheck/design/spacing.dart';
 
 void main() {
   runApp(const RoseApp());
@@ -20,7 +21,7 @@ class RoseApp extends StatelessWidget {
         inputDecorationTheme: const InputDecorationTheme(
           isDense: true,
           contentPadding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-          labelStyle: TextStyle(fontSize: 12),
+          labelStyle: TextStyle(fontSize: AppSpacing.md),
           border: OutlineInputBorder(),
         ),
       ),
@@ -57,13 +58,13 @@ class InputField extends StatelessWidget {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9\.,]')),
               ]
             : null,
-        style: const TextStyle(fontSize: 14),
+        style: const TextStyle(fontSize: AppSpacing.md),
         decoration: InputDecoration(
           labelText: label,
           isDense: true,
           contentPadding: const EdgeInsets.symmetric(
             vertical: 10,
-            horizontal: 12,
+            horizontal: AppSpacing.md,
           ),
           border: const OutlineInputBorder(),
         ),
@@ -136,7 +137,7 @@ class _RosePageState extends State<RosePage> {
 
   // Données pour le radar
   List<List<double>> _radarData = [];
-  List<int> _ticks = const [4, 8, 12, 16, 20]; // échelle 0–20
+  List<int> _ticks = const [5, 10, 15, 20]; // échelle 0–20
 
   @override
   void initState() {
@@ -206,7 +207,7 @@ class _RosePageState extends State<RosePage> {
     final List<double> dataForUser = features.map((f) => values[f]!).toList();
     setState(() {
       _radarData = [dataForUser];
-      _ticks = const [4, 8, 12, 16, 20];
+      _ticks = const [5, 10, 15, 20];
       _showChart = true;
       _openedFeature = null;
     });
@@ -226,7 +227,7 @@ class _RosePageState extends State<RosePage> {
         "Aperçu",
         style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold),
       ),
-      const SizedBox(height: 12),
+      const SizedBox(height: AppSpacing.md),
       AspectRatio(
         aspectRatio: 1,
         child: RadarChart.light(
@@ -236,7 +237,7 @@ class _RosePageState extends State<RosePage> {
           reverseAxis: false,
         ),
       ),
-      const SizedBox(height: 16),
+      const SizedBox(height: AppSpacing.lg),
       FilledButton.icon(
         onPressed: _goBackToForm,
         icon: const Icon(Icons.arrow_back),
@@ -310,9 +311,9 @@ class _RosePageState extends State<RosePage> {
           const SizedBox(height: 8),
           const Text(
             "Entrez une note entre 0 et 20 pour chaque compétence.",
-            style: TextStyle(fontSize: 12, color: Colors.black54),
+            style: TextStyle(fontSize: AppSpacing.md, color: Colors.black54),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.lg),
         ],
       ),
     );
@@ -323,7 +324,7 @@ class _RosePageState extends State<RosePage> {
     return Scaffold(
       appBar: AppBar(title: const Text("Rose des compétences")),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: _showChart ? _buildChartView() : _buildFormView(),
       ),
     );
