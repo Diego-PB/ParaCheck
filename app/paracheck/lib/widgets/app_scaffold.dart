@@ -28,13 +28,13 @@ class _AppScaffoldState extends State<AppScaffold> {
     NavAction(label: 'Accueil', icon: Icons.home, onTap: () => {
       Navigator.pushNamed(context, '/homepage'),
     }),
-    NavAction(label: 'Vols', icon: Icons.flight, onTap: () => {
+    NavAction(label: 'Vols', icon: Icons.history, onTap: () => {
       Navigator.pushNamed(context, '/flights'),
     }),
-    NavAction(label: 'Conditions de vol', icon: Icons.wind_power, onTap: () => {
+    NavAction(label: 'Conditions de vol', icon: Icons.checklist, onTap: () => {
       Navigator.pushNamed(context, '/conditions_vol'),
     }),
-    NavAction(label: 'Statistiques', icon: Icons.query_stats, onTap: () => {
+    NavAction(label: 'Statistiques', icon: Icons.cloudy_snowing, onTap: () => {
       Navigator.pushNamed(context, '/meteo_int'),
     }),
     NavAction(label: 'Paramètres', icon: Icons.settings, onTap: () => {
