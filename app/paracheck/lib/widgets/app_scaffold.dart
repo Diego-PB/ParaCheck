@@ -35,7 +35,7 @@ class _AppScaffoldState extends State<AppScaffold> {
       Navigator.pushNamed(context, '/conditions_vol'),
     }),
     NavAction(label: 'Statistiques', icon: Icons.query_stats, onTap: () => {
-      Navigator.pushNamed(context, '/meteo_int'),
+      Navigator.pushNamed(context, '/rose'),
     }),
     NavAction(label: 'Paramètres', icon: Icons.settings, onTap: () => {
       Navigator.pushNamed(context, '/settings'),
