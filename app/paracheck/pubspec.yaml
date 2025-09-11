@@ -64,6 +64,7 @@ flutter:
   assets:
     - assets/questionnaire.json
     - assets/Paracheck_logo.png
+    - assets/questions_postvol.json
 
   fonts:
     - family: Poppins

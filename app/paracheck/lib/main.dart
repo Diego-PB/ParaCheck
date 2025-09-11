@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paracheck/app_router.dart';
-
 import 'pages/splash_screen.dart';
-import 'package:paracheck/pages/uikitdemopage.dart';
 import 'package:paracheck/theme.dart';
 
 void main() {
