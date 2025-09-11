@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paracheck/pages/flights_history.dart';
 import 'package:paracheck/pages/home_page.dart';
 import 'package:paracheck/pages/uikitdemopage.dart';
 import 'package:paracheck/pages/condition_vol.dart';
@@ -11,6 +12,7 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/conditions_vol': (context) => const ConditionVolPage(),
   '/meteo_int': (context) => const MeteoIntPage(),
   '/debrief_postvol': (context) => const DebriefPostVolPage(),
+  '/flights_history': (context) => const FlightsHistoryPage(),
 };
 
 /* 
