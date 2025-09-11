@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:paracheck/widgets/app_scaffold.dart';
-import 'package:paracheck/widgets/primary_button.dart'; 
+import 'package:paracheck/widgets/primary_button.dart';
 import 'package:paracheck/widgets/secondary.button.dart';
 import 'package:paracheck/widgets/app_notice.dart';
 import 'package:paracheck/design/spacing.dart';
@@ -38,7 +38,7 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
   }
 
   Future<void> _loadQuestions() async {
-    final raw = await rootBundle.loadString('assets/questionnaire.json');
+    final raw = await rootBundle.loadString('assets/questions_meteo_int.json');
     final List<dynamic> data = json.decode(raw);
     setState(() {
       _questions = data;
@@ -64,19 +64,19 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
   }
 
   void _selectAnswer(int index, String value) {
-    if (_progressBlocked || _locked.contains(index)) return; 
+    if (_progressBlocked || _locked.contains(index)) return;
 
     setState(() {
       _answers[index] = value;
-      _locked.add(index); 
+      _locked.add(index);
 
       // Règle: 1 rouge OU 3 oranges
       final c = _countStates();
       final trigger = c.rouges >= 1 || c.oranges >= 3;
 
       if (trigger) {
-        _progressBlocked = true; 
-        _alertIndex ??= index;   
+        _progressBlocked = true;
+        _alertIndex ??= index;
       } else {
         _progressBlocked = false;
         _alertIndex = null;
@@ -122,32 +122,55 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: 'Météo intérieure',
-      body: _questions.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : ListView(
-              controller: _scrollCtrl,
-              padding: const EdgeInsets.all(AppSpacing.md),
-              children: [
-                // Questions visibles (chat)
-                for (int i = 0; i < _visibleCount; i++) ...[
-                  _QuestionBlock(
-                    index: i,
-                    question: _questions[i] as Map<String, dynamic>,
-                    selected: _answers[i],
-                    enabled: !_progressBlocked && !_locked.contains(i),
-                    onSelect: (value) => _selectAnswer(i, value),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-
-                  // Alerte inline sous la question déclenchante
-                  if (_alertIndex != null && _alertIndex == i) ...[
-                    const AppNotice(
-                      kind: NoticeKind.attention,
-                      title: 'Attention',
-                      message: 'Les conditions de vol ne sont pas optimales.',
-                      compact: true,
+      body:
+          _questions.isEmpty
+              ? const Center(child: CircularProgressIndicator())
+              : ListView(
+                controller: _scrollCtrl,
+                padding: const EdgeInsets.all(AppSpacing.md),
+                children: [
+                  // Questions visibles (chat)
+                  for (int i = 0; i < _visibleCount; i++) ...[
+                    _QuestionBlock(
+                      index: i,
+                      question: _questions[i] as Map<String, dynamic>,
+                      selected: _answers[i],
+                      enabled: !_progressBlocked && !_locked.contains(i),
+                      onSelect: (value) => _selectAnswer(i, value),
                     ),
-                    const SizedBox(height: AppSpacing.sm),
+                    const SizedBox(height: AppSpacing.md),
+
+                    // Alerte inline sous la question déclenchante
+                    if (_alertIndex != null && _alertIndex == i) ...[
+                      const AppNotice(
+                        kind: NoticeKind.attention,
+                        title: 'Attention',
+                        message: 'Les conditions de vol ne sont pas optimales.',
+                        compact: true,
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      Row(
+                        children: [
+                          SecondaryButton(
+                            label: 'Recommencer',
+                            onPressed: _resetFlow,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                    ] else
+                      const SizedBox(height: AppSpacing.sm),
+                  ],
+
+                  // Succès (toutes les questions répondues, et aucune alerte)
+                  if (_allAnswered && !_progressBlocked) ...[
+                    const AppNotice(
+                      kind: NoticeKind.valid,
+                      title: 'Conditions optimales',
+                      message:
+                          'Votre état mental est actuellement favorable pour le vol en parapente.',
+                    ),
+                    const SizedBox(height: AppSpacing.md),
                     Row(
                       children: [
                         SecondaryButton(
@@ -157,31 +180,9 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
                       ],
                     ),
                     const SizedBox(height: AppSpacing.lg),
-                  ] else
-                    const SizedBox(height: AppSpacing.sm),
+                  ],
                 ],
-
-                // Succès (toutes les questions répondues, et aucune alerte)
-                if (_allAnswered && !_progressBlocked) ...[
-                  const AppNotice(
-                    kind: NoticeKind.valid,
-                    title: 'Conditions optimales',
-                    message:
-                      'Votre état mental est actuellement favorable pour le vol en parapente.',
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  Row(
-                    children: [
-                      SecondaryButton(
-                        label: 'Recommencer',
-                        onPressed: _resetFlow,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                ],
-              ],
-            ),
+              ),
     );
   }
 }
@@ -230,13 +231,15 @@ class _QuestionBlock extends StatelessWidget {
               label: question["answer_bof"],
               backgroundColor: Colors.orange,
               selected: selected == question["answer_bof"],
-              onPressed: enabled ? () => onSelect(question["answer_bof"]) : null,
+              onPressed:
+                  enabled ? () => onSelect(question["answer_bof"]) : null,
             ),
             SecondaryButton(
               label: question["answer_nok"],
               backgroundColor: Colors.red,
               selected: selected == question["answer_nok"],
-              onPressed: enabled ? () => onSelect(question["answer_nok"]) : null,
+              onPressed:
+                  enabled ? () => onSelect(question["answer_nok"]) : null,
             ),
           ],
         ),

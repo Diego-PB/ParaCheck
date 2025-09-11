@@ -86,6 +86,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
+  flutter_radar_chart:
+    dependency: "direct main"
+    description:
+      name: flutter_radar_chart
+      sha256: c98b635de2e3f5b0b1300093023845825b616c8e523776a8a3a714c28f23f211
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
