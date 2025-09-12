@@ -113,6 +113,7 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
                             : () async {
                               await _service.saveLevel(selectedLevel!);
                               print('Cotation sauvegardée : $selectedLevel');
+                              Navigator.pushNamed(context, '/meteo_int');
                             },
                   ),
                 ],

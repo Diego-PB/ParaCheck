@@ -50,34 +50,46 @@ class _DebriefPostVolPageState extends State<DebriefPostVolPage> {
     }
   }
 
-  void _valider() {
-    final buffer = StringBuffer();
-    for (var i = 0; i < _questions.length; i++) {
-      buffer.writeln("• ${_questions[i].label}");
-      final txt = _controllers[i].text.trim();
-      buffer.writeln(txt.isEmpty ? "—" : txt);
-      buffer.writeln();
-    }
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text("Résumé du débrief"),
-        content: SingleChildScrollView(child: Text(buffer.toString())),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text("Fermer")),
-        ],
-      ),
-    );
+Future<void> _valider() async {
+  final buffer = StringBuffer();
+  for (var i = 0; i < _questions.length; i++) {
+    buffer.writeln("• ${_questions[i].label}");
+    final txt = _controllers[i].text.trim();
+    buffer.writeln(txt.isEmpty ? "—" : txt);
+    buffer.writeln();
   }
 
+  await showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: const Text("Résumé du débrief"),
+      content: SingleChildScrollView(child: Text(buffer.toString())),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text("Fermer"),
+        ),
+      ],
+    ),
+  );
+
+  if (!mounted) return;
+  Navigator.pushNamed(context, '/rose');
+}
+
+
   void _reset() {
-    for (final c in _controllers) c.clear();
+    for (final c in _controllers) {
+      c.clear();
+    }
     setState(() {});
   }
 
   @override
   void dispose() {
-    for (final c in _controllers) c.dispose();
+    for (final c in _controllers) {
+      c.dispose();
+    }
     super.dispose();
   }
 

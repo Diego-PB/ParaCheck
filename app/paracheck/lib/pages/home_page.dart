@@ -6,7 +6,7 @@ import 'package:paracheck/widgets/home_button.dart';
 import 'package:paracheck/widgets/primary_button.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class HomePage extends StatelessWidget {
                   label: "Pré-vol",
                   icon: Icons.checklist,
                   onPressed: () {
-                    // Action à définir plus tard
+                    Navigator.pushNamed(context, '/condition_vol');
                   },
                 ),
                 const SizedBox(height: 50),
@@ -64,7 +64,7 @@ class HomePage extends StatelessWidget {
                   label: "Post-vol",
                   icon: Icons.assignment_turned_in,
                   onPressed: () {
-                    // Action à définir plus tard
+                    Navigator.pushNamed(context, '/debrief_postvol');
                   },
                 ),
                 const SizedBox(height: 16),
