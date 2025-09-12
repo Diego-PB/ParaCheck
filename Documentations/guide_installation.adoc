@@ -10,7 +10,7 @@ toc::[]
 == Prérequis (pour un lancement en local)
 * Git (https://git-scm.com/downloads[Télécharger])
 * Flutter SDK (https://docs.flutter.dev/get-started/install[Guide officiel])
-* Android Studio (SDK + Émulateur)
+* Android Studio (https://developer.android.com/studio?hl=fr[SDK + Émulateur])
 * Visual Studio Code (https://code.visualstudio.com/[Télécharger]) + extensions *Flutter* et *Dart*
 
 == Démarrer en local (développeur)
