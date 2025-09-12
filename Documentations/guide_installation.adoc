@@ -1,4 +1,4 @@
-= 📱 Guide de Démarrage pour le Projet Flutter
+= Guide de Démarrage pour le Projet Flutter
 :toc: macro
 :toclevels: 2
 
@@ -7,13 +7,13 @@ Ce guide couvre l’installation locale, ainsi que l’utilisation des builds g�
 
 toc::[]
 
-== 📋 Prérequis (pour un lancement en local)
+== Prérequis (pour un lancement en local)
 * Git (https://git-scm.com/downloads[Télécharger])
 * Flutter SDK (https://docs.flutter.dev/get-started/install[Guide officiel])
 * Android Studio (SDK + Émulateur)
 * Visual Studio Code (https://code.visualstudio.com/[Télécharger]) + extensions *Flutter* et *Dart*
 
-== 🚀 Démarrer en local (développeur)
+== Démarrer en local (développeur)
 
 === 1. Cloner le dépôt
 [source,bash]
@@ -44,7 +44,7 @@ flutter run
 === 5. Arrêter
 Dans le terminal de `flutter run` : `q`.
 
-== ✅ Utiliser les builds de la CI (sans rien installer)
+== Utiliser les builds de la CI (sans rien installer)
 
 Les artefacts sont publiés dans **Releases** :
 * **Android** : `app-release-apk.zip` → contient l’APK.
@@ -74,11 +74,11 @@ python3 -m http.server 8000
 C’est normal si `index.html` est “vide” : Flutter charge l’app via `main.dart.js`.
 ====
 
-== 🌐 Démo en ligne (GitHub Pages)
+== Démo en ligne (GitHub Pages)
 L’app Web est déployée automatiquement par la CI sur **GitHub Pages** :  
 `https://diego-pb.github.io/ParaCheck/`
 
-== 🔄 CI/CD (GitHub Actions)
+== CI/CD (GitHub Actions)
 *Workflow* : `.github/workflows/flutter-ci.yml`  
 *Déclencheurs* : `push` sur `main`, Pull Requests, exécution manuelle.
 
@@ -88,7 +88,7 @@ L’app Web est déployée automatiquement par la CI sur **GitHub Pages** :
 - **web** : `flutter build web --release --base-href /ParaCheck/` → artefact **web-build.zip**
 - **deploy_pages** : publie le bundle Web sur GitHub Pages
 
-== 🧯 Dépannage rapide
+== Dépannage rapide
 * `flutter : command not found` → ajouter Flutter au `PATH`.
 * Aucun device → lancer un AVD ou brancher un smartphone (mode développeur).
 * Web en local *page blanche* → ne pas ouvrir le fichier en `file://`, servir via HTTP (voir ci-dessus).
