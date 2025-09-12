@@ -8,6 +8,8 @@ class AppScaffold extends StatefulWidget {
   final Widget body;
   final Widget? fab;
   final String logoPath;
+  final bool showReturnButton;
+  final VoidCallback? onReturn;
 
   const AppScaffold({
     super.key,
@@ -15,6 +17,8 @@ class AppScaffold extends StatefulWidget {
     required this.body,
     this.fab,
     this.logoPath = 'assets/Paracheck_logo.png',
+    this.showReturnButton = false,
+    this.onReturn,
   });
 
   @override
@@ -47,6 +51,14 @@ class _AppScaffoldState extends State<AppScaffold> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false, // Jamais de flèche système
+        leading: widget.showReturnButton
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                tooltip: 'Retour',
+                onPressed: widget.onReturn,
+              )
+            : null,
         title: Text(
           widget.title,
           style: const TextStyle(

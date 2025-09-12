@@ -300,6 +300,10 @@ class _RosePageState extends State<RosePage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: "Rose des compétences",
+      showReturnButton: true,
+      onReturn: () {
+        Navigator.pushNamed(context, '/debrief_postvol');
+      },
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: _showChart ? _buildChartView() : _buildFormView(),

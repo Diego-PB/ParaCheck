@@ -121,6 +121,10 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: 'Météo intérieure',
+      showReturnButton: true,
+      onReturn: () {
+        Navigator.pushNamed(context, '/condition_vol');
+      },
       body:
           _questions.isEmpty
               ? const Center(child: CircularProgressIndicator())

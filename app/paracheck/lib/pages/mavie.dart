@@ -119,6 +119,10 @@ class _MaviePageState extends State<MaviePage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: 'MAVIE',
+      showReturnButton: true,
+      onReturn: () {
+        Navigator.pushNamed(context, '/meteo_int');
+      },
       body:
           _questions.isEmpty
               ? const Center(child: CircularProgressIndicator())
