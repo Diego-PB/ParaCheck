@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
                   (flight) => Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: StatTile(
-                      label: flight.date,
+                      label: flight.date.toString(),
                       value:
                           'Durée : ${flight.duration} • Altitude : ${flight.altitude}m',
                       icon: Icons.paragliding,

@@ -1,5 +1,21 @@
 [
     {
+      "label": "Quel est le site de ce vol ?",
+      "exemple": "Nom du site"
+    },
+    {
+      "label": "Quel est la date de ce vol ?",
+      "exemple": "JJ/MM/AAAA"
+    },
+    {
+      "label": "Combien de temps a duré ce vol ?",
+      "exemple": "Ex. 1h30"
+    },
+    {
+      "label": "De combien était l'altitude de ce vol ?",
+      "exemple": "Ex. 1200m"
+    },
+    {
       "label": "Ce que j’ai réussi",
       "exemple": "Ex. préparation météo, avis d’un copain, gestion d’une fermeture…"
     },
