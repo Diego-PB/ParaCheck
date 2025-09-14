@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
 
-class FlightsHistoryPage extends StatelessWidget {
+class FlightsHistoryPage extends StatefulWidget {
   const FlightsHistoryPage({super.key});
+
+  @override
+  State<FlightsHistoryPage> createState() => _FlightsHistoryPageState();
+}
+
+class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
