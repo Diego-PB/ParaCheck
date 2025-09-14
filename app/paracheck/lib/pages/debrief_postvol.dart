@@ -144,6 +144,10 @@ class _DebriefPostVolPageState extends State<DebriefPostVolPage> {
 
     return AppScaffold(
       title: "Débrief d'après vol",
+      showReturnButton: true,
+      onReturn: () {
+        Navigator.pushNamed(context, '/homepage');
+      },
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.md),
         children: [

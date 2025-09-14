@@ -3,32 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:paracheck/design/spacing.dart';
+import 'package:paracheck/widgets/app_scaffold.dart';
 
-void main() {
-  runApp(const RoseApp());
-}
-
-class RoseApp extends StatelessWidget {
-  const RoseApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Rose des compétences',
-      theme: ThemeData(
-        colorSchemeSeed: Colors.teal,
-        useMaterial3: true,
-        inputDecorationTheme: const InputDecorationTheme(
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-          labelStyle: TextStyle(fontSize: AppSpacing.md),
-          border: OutlineInputBorder(),
-        ),
-      ),
-      home: const RosePage(),
-    );
-  }
-}
+// Suppression du main() et du RoseApp, la page sera intégrée via AppScaffold
 
 class InputField extends StatelessWidget {
   final TextEditingController controller;
@@ -321,8 +298,12 @@ class _RosePageState extends State<RosePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Rose des compétences")),
+    return AppScaffold(
+      title: "Rose des compétences",
+      showReturnButton: true,
+      onReturn: () {
+        Navigator.pushNamed(context, '/debrief_postvol');
+      },
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: _showChart ? _buildChartView() : _buildFormView(),

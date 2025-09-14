@@ -8,6 +8,8 @@ class AppScaffold extends StatefulWidget {
   final Widget body;
   final Widget? fab;
   final String logoPath;
+  final bool showReturnButton;
+  final VoidCallback? onReturn;
 
   const AppScaffold({
     super.key,
@@ -15,6 +17,8 @@ class AppScaffold extends StatefulWidget {
     required this.body,
     this.fab,
     this.logoPath = 'assets/Paracheck_logo.png',
+    this.showReturnButton = false,
+    this.onReturn,
   });
 
   @override
@@ -28,17 +32,14 @@ class _AppScaffoldState extends State<AppScaffold> {
     NavAction(label: 'Accueil', icon: Icons.home, onTap: () => {
       Navigator.pushNamed(context, '/homepage'),
     }),
-    NavAction(label: 'Vols', icon: Icons.checklist, onTap: () => {
+    NavAction(label: 'Pré-vol', icon: Icons.checklist, onTap: () => {
       Navigator.pushNamed(context, '/condition_vol'),
     }),
-    NavAction(label: 'Conditions de vol', icon: Icons.paragliding, onTap: () => {
+    NavAction(label: 'Post-vol', icon: Icons.paragliding, onTap: () => {
       Navigator.pushNamed(context, '/debrief_postvol'),
     }),
-    NavAction(label: 'Statistiques', icon: Icons.cloudy_snowing, onTap: () => {
-      Navigator.pushNamed(context, '/meteo_int'),
-    }),
-    NavAction(label: 'Statistiques', icon: Icons.query_stats, onTap: () => {
-      Navigator.pushNamed(context, '/rose'),
+    NavAction(label: 'Historiques', icon: Icons.history, onTap: () => {
+      Navigator.pushNamed(context, '/history'),
     }),
     NavAction(label: 'Paramètres', icon: Icons.settings, onTap: () => {
       Navigator.pushNamed(context, '/settings'),
@@ -50,6 +51,14 @@ class _AppScaffoldState extends State<AppScaffold> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false, // Jamais de flèche système
+        leading: widget.showReturnButton
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                tooltip: 'Retour',
+                onPressed: widget.onReturn,
+              )
+            : null,
         title: Text(
           widget.title,
           style: const TextStyle(

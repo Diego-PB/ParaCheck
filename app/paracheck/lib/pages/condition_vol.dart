@@ -43,6 +43,10 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: 'Conditions de vol',
+      showReturnButton: true,
+      onReturn: () {
+        Navigator.pushNamed(context, '/homepage');
+      },
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.md),
         child: Column(
