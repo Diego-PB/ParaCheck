@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paracheck/pages/flights_history.dart';
 import 'package:paracheck/pages/home_page.dart';
 import 'package:paracheck/pages/mavie.dart';
 import 'package:paracheck/pages/uikitdemopage.dart';
@@ -15,6 +16,7 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/mavie': (context) => const MaviePage(),
   '/debrief_postvol': (context) => const DebriefPostVolPage(),
   '/rose': (context) => const RosePage(),
+  '/flights_history': (context) => const FlightsHistoryPage(),
 };
 
 /* 
