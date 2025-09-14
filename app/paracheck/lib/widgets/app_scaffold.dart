@@ -29,26 +29,36 @@ class _AppScaffoldState extends State<AppScaffold> {
   bool _open = false;
 
   List<NavAction> _fixedActions(BuildContext context) => [
-    NavAction(label: 'Accueil', icon: Icons.home, onTap: () => {
-      Navigator.pushNamed(context, '/homepage'),
-    }),
-<<<<<<< HEAD
-    NavAction(label: 'Pré-vol', icon: Icons.checklist, onTap: () => {
-      Navigator.pushNamed(context, '/condition_vol'),
-=======
-    NavAction(label: 'Historique', icon: Icons.flight, onTap: () => {
-      Navigator.pushNamed(context, '/flights_history'),
->>>>>>> 32-consultation-historique-données-de-vol
-    }),
-    NavAction(label: 'Post-vol', icon: Icons.paragliding, onTap: () => {
-      Navigator.pushNamed(context, '/debrief_postvol'),
-    }),
-    NavAction(label: 'Historiques', icon: Icons.history, onTap: () => {
-      Navigator.pushNamed(context, '/history'),
-    }),
-    NavAction(label: 'Paramètres', icon: Icons.settings, onTap: () => {
-      Navigator.pushNamed(context, '/settings'),
-    }),
+    NavAction(
+      label: 'Accueil',
+      icon: Icons.home,
+      onTap: () => {Navigator.pushNamed(context, '/homepage')},
+    ),
+    NavAction(
+      label: 'Pré-vol',
+      icon: Icons.checklist,
+      onTap: () => {Navigator.pushNamed(context, '/condition_vol')},
+    ),
+    NavAction(
+      label: 'Historique',
+      icon: Icons.flight,
+      onTap: () => {Navigator.pushNamed(context, '/flights_history')},
+    ),
+    NavAction(
+      label: 'Post-vol',
+      icon: Icons.paragliding,
+      onTap: () => {Navigator.pushNamed(context, '/debrief_postvol')},
+    ),
+    NavAction(
+      label: 'Historiques',
+      icon: Icons.history,
+      onTap: () => {Navigator.pushNamed(context, '/history')},
+    ),
+    NavAction(
+      label: 'Paramètres',
+      icon: Icons.settings,
+      onTap: () => {Navigator.pushNamed(context, '/settings')},
+    ),
   ];
 
   @override
@@ -57,13 +67,14 @@ class _AppScaffoldState extends State<AppScaffold> {
       extendBody: true,
       appBar: AppBar(
         automaticallyImplyLeading: false, // Jamais de flèche système
-        leading: widget.showReturnButton
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back),
-                tooltip: 'Retour',
-                onPressed: widget.onReturn,
-              )
-            : null,
+        leading:
+            widget.showReturnButton
+                ? IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  tooltip: 'Retour',
+                  onPressed: widget.onReturn,
+                )
+                : null,
         title: Text(
           widget.title,
           style: const TextStyle(
@@ -101,7 +112,9 @@ class _AppScaffoldState extends State<AppScaffold> {
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
                       child: Container(
-                        color: Colors.black.withValues(alpha: 0.2), // voile optionnel
+                        color: Colors.black.withValues(
+                          alpha: 0.2,
+                        ), // voile optionnel
                       ),
                     ),
                   ),
