@@ -5,7 +5,7 @@ import '../widgets/section_title.dart';
 import '../widgets/app_notice.dart';
 import '../widgets/primary_button.dart';
 import '../design/colors.dart';
-import '../services/condition_vol_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConditionVolPage extends StatefulWidget {
   const ConditionVolPage({super.key});
@@ -14,10 +14,8 @@ class ConditionVolPage extends StatefulWidget {
   State<ConditionVolPage> createState() => _ConditionVolPageState();
 }
 
-//Pour lire le choix sauvegardé
-
 class _ConditionVolPageState extends State<ConditionVolPage> {
-  final _service = ConditionVolService();
+  static const _key = 'condition_vol_level';
   int? selectedLevel;
 
   final conditions = [
@@ -30,13 +28,22 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
   @override
   void initState() {
     super.initState();
-    _service.loadLevel().then((savedLevel) {
-      if (savedLevel != null) {
-        setState(() {
-          selectedLevel = savedLevel;
-        });
-      }
-    });
+    _loadLevel();
+  }
+
+  Future<void> _loadLevel() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedLevel = prefs.getInt(_key);
+    if (savedLevel != null) {
+      setState(() {
+        selectedLevel = savedLevel;
+      });
+    }
+  }
+
+  Future<void> _saveLevel(int level) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_key, level);
   }
 
   @override
@@ -115,7 +122,7 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
                         selectedLevel == null
                             ? null
                             : () async {
-                              await _service.saveLevel(selectedLevel!);
+                              await _saveLevel(selectedLevel!);
                               print('Cotation sauvegardée : $selectedLevel');
                               Navigator.pushNamed(context, '/meteo_int');
                             },
