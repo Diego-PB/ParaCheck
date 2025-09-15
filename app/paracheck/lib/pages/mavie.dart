@@ -175,9 +175,9 @@ class _MaviePageState extends State<MaviePage> {
                     Row(
                       children: [
                         SecondaryButton(
-                          label: "Retour à l'accueil",
+                          label: "Valider",
                           onPressed: () {
-                            Navigator.pushNamed(context, '/homepage');
+                            Navigator.pushNamed(context, '/respiration');
                           },
                         ),
                       ],

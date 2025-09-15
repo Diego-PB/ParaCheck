@@ -15,6 +15,7 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/condition_vol': (context) => const ConditionVolPage(),
   '/meteo_int': (context) => const MeteoIntPage(),
   '/mavie': (context) => const MaviePage(),
+  '/respiration': (context) => const RespirationStressPage(),
   '/debrief_postvol': (context) => const DebriefPostVolPage(),
   '/rose': (context) => const RosePage(),
   '/flights_history': (context) => const FlightsHistoryPage(),

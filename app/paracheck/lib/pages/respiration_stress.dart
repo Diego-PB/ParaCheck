@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:paracheck/widgets/app_scaffold.dart';
+import 'package:paracheck/widgets/secondary.button.dart';
+import 'package:paracheck/design/spacing.dart';
 
 class RespirationStressPage extends StatelessWidget {
   const RespirationStressPage({super.key});
@@ -28,26 +31,26 @@ class RespirationStressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Respiration & Stress'),
-      ),
+    return AppScaffold(
+      title: 'Respiration & Stress',
+      showReturnButton: true,
+      onReturn: () {
+        Navigator.pushNamed(context, '/mavie');
+      },
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSpacing.md),
         children: [
           // En-tête
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: scheme.surfaceVariant.withOpacity(0.4),
-              border: Border.all(color: scheme.outlineVariant),
+              color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.4),
+              border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
               children: [
-                Icon(Icons.self_improvement, color: scheme.primary),
+                Icon(Icons.self_improvement, color: Theme.of(context).colorScheme.primary),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -65,8 +68,7 @@ class RespirationStressPage extends StatelessWidget {
 
           // Avant le vol
           Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -74,10 +76,8 @@ class RespirationStressPage extends StatelessWidget {
                 children: [
                   _title(context, 'Avant le vol'),
                   const SizedBox(height: 8),
-                  _bullet(
-                      'Exercice de cohérence cardiaque pour gérer le stress avant le décollage.'),
-                  _bullet(
-                      'Faire 3 à 4 cycles : inspirer 5 s, bloquer 5 s, puis expirer 7 s.'),
+                  _bullet('Exercice de cohérence cardiaque pour gérer le stress avant le décollage.'),
+                  _bullet('Faire 3 à 4 cycles : inspirer 5 s, bloquer 5 s, puis expirer 7 s.'),
                 ],
               ),
             ),
@@ -86,8 +86,7 @@ class RespirationStressPage extends StatelessWidget {
 
           // Pendant le vol
           Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -95,15 +94,23 @@ class RespirationStressPage extends StatelessWidget {
                 children: [
                   _title(context, 'Pendant le vol'),
                   const SizedBox(height: 8),
-                  _bullet(
-                      'Garder conscience de sa respiration pour éviter les phases d’apnée ou une respiration trop thoracique.'),
-                  _bullet(
-                      'Favoriser la respiration abdominale en expirant un grand coup.'),
-                  _bullet(
-                      'Verbaliser les actions à voix haute ou chanter pour focaliser son attention.'),
+                  _bullet('Garder conscience de sa respiration pour éviter les phases d’apnée ou une respiration trop thoracique.'),
+                  _bullet('Favoriser la respiration abdominale en expirant un grand coup.'),
+                  _bullet('Verbaliser les actions à voix haute ou chanter pour focaliser son attention.'),
                 ],
               ),
             ),
+          ),
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              SecondaryButton(
+                label: "Retour à l'accueil",
+                onPressed: () {
+                  Navigator.pushNamed(context, '/homepage');
+                },
+              ),
+            ],
           ),
         ],
       ),
