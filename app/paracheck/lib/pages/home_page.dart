@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
                   child: PrimaryButton(
                     label: "Voir l'historique",
                     icon: Icons.history,
-                    onPressed: () => {},
+                    onPressed: () => {Navigator.pushNamed(context, '/flights_history')},
                   ),
                 ),
 

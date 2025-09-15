@@ -40,14 +40,14 @@ class _AppScaffoldState extends State<AppScaffold> {
       onTap: () => {Navigator.pushNamed(context, '/condition_vol')},
     ),
     NavAction(
+      label: 'Historique',
+      icon: Icons.history,
+      onTap: () => {Navigator.pushNamed(context, '/flights_history')},
+    ),
+    NavAction(
       label: 'Post-vol',
       icon: Icons.paragliding,
       onTap: () => {Navigator.pushNamed(context, '/debrief_postvol')},
-    ),
-    NavAction(
-      label: 'Historiques',
-      icon: Icons.history,
-      onTap: () => {Navigator.pushNamed(context, '/history')},
     ),
     NavAction(
       label: 'Paramètres',
