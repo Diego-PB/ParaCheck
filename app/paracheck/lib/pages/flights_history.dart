@@ -143,7 +143,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.flight_class, size: 48),
+                const Icon(Icons.hourglass_empty_rounded, size: 48),
                 const SizedBox(height: AppSpacing.md),
                 const Text(
                   'Aucun vol enregistré pour le moment.',
