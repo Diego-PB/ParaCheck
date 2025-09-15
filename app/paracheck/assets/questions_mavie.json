@@ -1,26 +1,26 @@
 [
   {
-    "question": "M.atériel (casque, voile, secours, accélérateur, lacets, ...)",
+    "question": "M - Matériel (casque, voile, secours, accélérateur, lacets, ...)",
     "answer_ok": "Oui",
     "answer_nok": "Non"
   },
   {
-    "question": "A.ttaches (je suis bien attaché(e), à dire à haute voix ou en radio lors de vol de groupe ou de stage)",
+    "question": "A - Attaches (je suis bien attaché(e), à dire à haute voix ou en radio lors de vol de groupe ou de stage)",
     "answer_ok": "Oui",
     "answer_nok": "Non"
   },
   {
-    "question": "V.ent (direction, intensité, cycle)",
+    "question": "V - Vent (direction, intensité, cycle)",
     "answer_ok": "Oui",
     "answer_nok": "Non"
   },
   {
-    "question": "I.nstruments (GPS, radio en marche et testé)",
+    "question": "I - Instruments (GPS, radio en marche et testé)",
     "answer_ok": "Oui",
     "answer_nok": "Non"
   },
   {
-    "question": "E.space aérien (espace dégagé pour décoller)",
+    "question": "E - Espace aérien (espace dégagé pour décoller)",
     "answer_ok": "Non",
     "answer_nok": "Oui"
   }
