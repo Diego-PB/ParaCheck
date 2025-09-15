@@ -28,17 +28,6 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
   @override
   void initState() {
     super.initState();
-    _loadLevel();
-  }
-
-  Future<void> _loadLevel() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedLevel = prefs.getInt(_key);
-    if (savedLevel != null) {
-      setState(() {
-        selectedLevel = savedLevel;
-      });
-    }
   }
 
   Future<void> _saveLevel(int level) async {
