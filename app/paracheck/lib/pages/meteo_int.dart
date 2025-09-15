@@ -20,6 +20,7 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
   final Set<int> _locked = {};
   int _visibleCount = 1;
   int? _alertIndex;
+  int? _softAlertIndex;  
   bool _progressBlocked = false;
 
   final _scrollCtrl = ScrollController();
@@ -45,6 +46,7 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
       _locked.clear();
       _visibleCount = data.isEmpty ? 0 : 1;
       _alertIndex = null;
+      _softAlertIndex = null;
       _progressBlocked = false;
     });
   }
@@ -55,6 +57,7 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
       _locked.clear();
       _visibleCount = _questions.isEmpty ? 0 : 1;
       _alertIndex = null;
+      _softAlertIndex = null;
       _progressBlocked = false;
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -69,23 +72,33 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
       _answers[index] = value;
       _locked.add(index);
 
-      // Règle: 1 rouge OU 3 oranges
-      final c = _countStates();
-      final trigger = c.rouges >= 1 || c.oranges >= 3;
+    final c = _countStates();
+    final triggerStrict = c.rouges >= 2;
+    final triggerSouple = c.rouges >= 1 || c.oranges >= 3;
 
-      if (trigger) {
-        _progressBlocked = true;
-        _alertIndex ??= index;
-      } else {
-        _progressBlocked = false;
-        _alertIndex = null;
-
-        final isLastVisible = index == _visibleCount - 1;
-        if (isLastVisible && _visibleCount < _questions.length) {
-          _visibleCount += 1;
-        }
+    if (triggerStrict) {
+      _progressBlocked = true;
+      _alertIndex ??= index; // Alerte stricte
+      _softAlertIndex = null;
+    } else if (triggerSouple) {
+      _progressBlocked = false;
+      _alertIndex = null;
+      _softAlertIndex ??= index; // Alerte souple
+      final isLastVisible = index == _visibleCount - 1;
+      if (isLastVisible && _visibleCount < _questions.length) {
+        _visibleCount += 1;
       }
-    });
+    } else {
+      _progressBlocked = false;
+      _alertIndex = null;
+      _softAlertIndex = null;
+
+      final isLastVisible = index == _visibleCount - 1;
+      if (isLastVisible && _visibleCount < _questions.length) {
+        _visibleCount += 1;
+      }
+    }
+  });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
   }
@@ -148,7 +161,7 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
                       const AppNotice(
                         kind: NoticeKind.attention,
                         title: 'Attention',
-                        message: 'Les conditions de vol ne sont pas optimales.',
+                        message: 'Votre état ne vous permet pas de voler en toute sécurité ! Que faites-vous au décollage ?',
                         compact: true,
                       ),
                       const SizedBox(height: AppSpacing.sm),
@@ -161,7 +174,16 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
                         ],
                       ),
                       const SizedBox(height: AppSpacing.lg),
-                    ] else
+                    ] // Alerte globale (au moins une question en rouge ou 2+ oranges)
+                    else if (_softAlertIndex != null && _softAlertIndex == i) ...[
+                    const AppNotice(
+                      kind: NoticeKind.attention,
+                      title: 'Attention',
+                      message: 'Les conditions de vol ne sont pas optimales.',
+                    ),
+                    
+                    const SizedBox(height: AppSpacing.lg),
+                  ] else 
                       const SizedBox(height: AppSpacing.sm),
                   ],
 

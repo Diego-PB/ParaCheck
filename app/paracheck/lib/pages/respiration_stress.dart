@@ -44,7 +44,7 @@ class RespirationStressPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.4),
+              color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.4),
               border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
               borderRadius: BorderRadius.circular(12),
             ),
@@ -105,7 +105,7 @@ class RespirationStressPage extends StatelessWidget {
           Row(
             children: [
               SecondaryButton(
-                label: "Retour à l'accueil",
+                label: "Départ du vol !",
                 onPressed: () {
                   Navigator.pushNamed(context, '/homepage');
                 },
