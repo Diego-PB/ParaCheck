@@ -40,6 +40,14 @@ class Flight {
   );
 }
 
+String formatDate(DateTime date) => '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+
+  String formatDuration(Duration duration) {
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes.remainder(60);
+    return '${hours}h ${minutes}m';
+  }
+
 // Quelques exemples de vols en dur
 final List<Flight> sampleFlights = [
   Flight(
