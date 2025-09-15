@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
-import 'package:paracheck/widgets/secondary.button.dart';
+import 'package:paracheck/widgets/secondary_button.dart';
 import 'package:paracheck/design/spacing.dart';
 
 class RespirationStressPage extends StatelessWidget {
