@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:paracheck/pages/post_flight_debrief.dart';
 import 'package:paracheck/pages/flights_history.dart';
 import 'package:paracheck/pages/home_page.dart';
 import 'package:paracheck/pages/mavie.dart';
 import 'package:paracheck/pages/uikitdemopage.dart';
 import 'package:paracheck/pages/condition_vol.dart';
 import 'package:paracheck/pages/meteo_int.dart';
-import 'package:paracheck/pages/debrief_postvol.dart';
 import 'package:paracheck/pages/rose.dart';
 import 'package:paracheck/pages/respiration_stress.dart';
 
@@ -18,7 +18,7 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/respiration': (context) => const RespirationStressPage(),
   '/debrief_postvol': (context) => const DebriefPostVolPage(),
   '/rose': (context) => const RosePage(),
-  '/flights_history': (context) => const FlightsHistoryPage(),
+  '/historique': (context) => const FlightsHistoryPage(),
   '/respiration_stress': (context) => RespirationStressPage(),
 };
 
