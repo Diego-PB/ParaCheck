@@ -7,6 +7,7 @@ import 'package:paracheck/pages/condition_vol.dart';
 import 'package:paracheck/pages/meteo_int.dart';
 import 'package:paracheck/pages/debrief_postvol.dart';
 import 'package:paracheck/pages/rose.dart';
+import 'package:paracheck/pages/respiration_stress.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
   '/homepage': (context) => const HomePage(),
@@ -14,9 +15,11 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/condition_vol': (context) => const ConditionVolPage(),
   '/meteo_int': (context) => const MeteoIntPage(),
   '/mavie': (context) => const MaviePage(),
+  '/respiration': (context) => const RespirationStressPage(),
   '/debrief_postvol': (context) => const DebriefPostVolPage(),
   '/rose': (context) => const RosePage(),
   '/flights_history': (context) => const FlightsHistoryPage(),
+  '/respiration_stress': (context) => RespirationStressPage(),
 };
 
 /* 
