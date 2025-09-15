@@ -5,7 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:paracheck/widgets/app_scaffold.dart';
 import 'package:paracheck/widgets/input_field.dart';
 import 'package:paracheck/widgets/primary_button.dart';
-import 'package:paracheck/widgets/secondary.button.dart';
+import 'package:paracheck/widgets/secondary_button.dart';
 import 'package:paracheck/design/spacing.dart';
 
 void main() => runApp(const MaterialApp(home: DebriefPostVolPage()));

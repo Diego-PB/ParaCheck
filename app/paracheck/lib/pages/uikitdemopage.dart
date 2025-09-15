@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
 import 'package:paracheck/widgets/input_field.dart';
 import 'package:paracheck/widgets/primary_button.dart';
-import 'package:paracheck/widgets/secondary.button.dart';
+import 'package:paracheck/widgets/secondary_button.dart';
 import 'package:paracheck/widgets/section_title.dart';
 import 'package:paracheck/design/spacing.dart';
 import 'package:paracheck/widgets/stat_tile.dart';
