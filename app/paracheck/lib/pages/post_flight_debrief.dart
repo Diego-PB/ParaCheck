@@ -44,7 +44,7 @@ class _DebriefPostVolPageState extends State<DebriefPostVolPage> {
         ..clear()
         ..addAll(list.map((e) => _Q.fromJson(e as Map<String, dynamic>)));
       _controllers
-        ..clear();
+        .clear();
       for (var i = 0; i < _questions.length; i++) {
         // Préremplir le champ de la date (index 1) avec la date du jour au format français
         if (i == 1) {
