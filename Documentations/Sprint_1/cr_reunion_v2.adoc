@@ -1,1 +1,61 @@
+= Compte rendu — Réunion avec Jean-Michel Bruel (JMB)
+YolanBrun & équipe
+v2025.09.16, {localdate}
+:toc:
+:icons: font
+:sectnums:
+:sectanchors:
+:sectlinks:
 
+toc::[]
+
+== Participants
+- **Client** : Jean-Michel Bruel (*JMB*)
+- **Équipe projet** :
+- link:https://github.com/leonardo-correiamendes[CORREIA MENDES Leonardo] -- Scrum Master / Développeur
+- link:https://github.com/Smogita[CRISTINI Aidan] -- Git Master / Product Owner / Développeur
+- link:https://github.com/YolanBrun[BRUN Yolan] -- Développeur
+- link:https://github.com/Diego-PB[PENICAUD-BERNAL Diego] -- Développeur
+- link:https://github.com/marwane-ibrahim[IBRAHIM Marwane] -- Développeur
+- link:https://github.com/adrian-guerrero[GUERRERO Adrian] -- Développeur
+
+== Contexte & objectifs
+- Présenter et valider la **release V1**.  
+- Prendre des nouvelles de l'iMac .
+- Identifier les ajustements nécessaires dans l’**interface et les formulaires** (prévol, MAVIE, postvol, rose des compétences).  
+- Prévoir la **fin de semaine** : tests, revue de code, documentation, gestion du GitHub.  
+- Définir l’**objectif du Sprint 2**.  
+- Programmer la prochaine réunion (recette V1).  
+
+== Points abordés
+- **Release V1** : présentée.  
+- **iMac** : question sur la possibilité d’une connexion à distance.  
+- **Guide d’installation** : ajout nécessaire du problème *line-tools*.  
+- **CI/CD** : si ajout de fonctionnalités, prévoir des tests CI → pas de déploiement si crash.  
+- **Prévol** : modifier l’histoire des rouges/oranges.  
+- **MAVIE** : corriger « m.atériel » → « M – matériel ».  
+- **Accueil** : changer le message en un retour plus « humain ».  
+- **Postvol** : préremplir les dates du jour et envisager des listes déroulantes.  
+- **Rose des compétences** : remplacer la liste de chiffres par un curseur.  
+- **Export Mobile → PC** : prévoir une fonction d’export.  
+- **Fin de semaine** : tests, revue de code, documentation, gestion GitHub planifiés.  
+- **Sprint 2** :  
+  - Gestion des sites enregistrés.  
+  - Import/export.  
+  - Statistiques de vols : cumul heures, altitude max, vol le plus long, site le plus utilisé, vol le plus haut.  
+  - Comparaison prévol/postvol (à étudier).  
+
+== Décisions actées
+- Intégration des modifications d’interface (prévol, MAVIE, accueil, postvol).  
+- Adoption du **curseur** pour la rose des compétences.  
+- Mise en place d’une fonction **export Mobile vers PC**.  
+- Sprint 2 axé sur **sites enregistrés**, **import/export** et **statistiques de vols**.  
+- Organisation de la **recette V1** le 22/09 à 14h30.  
+
+== Actions
+- Ajouter le problème **line-tools** dans le guide d’installation.  
+- Vérifier la possibilité de **connexion à distance** à l’iMac.  
+- Implémenter les corrections d’interface (prévol, MAVIE, accueil, postvol).  
+- Développer la fonction **export Mobile → PC**.  
+- Lancer les travaux préparatoires du **Sprint 2**.  
+- Envoyer un **rappel à JMB le 19/09** pour tester l’application avant la recette du 22/09.  
