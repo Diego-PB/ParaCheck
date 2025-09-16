@@ -1,0 +1,42 @@
+== Ordre du jour — 3^e^ rencontre avec JMB
+
+*Date* : 15/09/25 — *Durée* : 30 min  
+*Participants* : J.-M. Bruel (JMB), Équipe projet
+
+.Objectifs
+- Présentation et validation de la **release V1**  
+- Prendre des nouvelles de l’**iMac**
+- Mise à jour du **guide d’installation**
+- Identifier et valider les **ajustements d’interface et formulaires** (prévol, MAVIE, postvol, accueil, rose des compétences)  
+- Planifier la **fin de semaine** : tests, revue de code, documentation, gestion du GitHub  
+- Définition de l’**objectif du Sprint 2**  
+- Programmer la **prochaine réunion**
+
+.Agenda (timebox indicatif)
+1. **Présentation de la release V1** (5’)  
+2. **iMac** (5’)  
+   - Possibilité de connexion à distance ?  
+3. **Guide d’installation** (5’)  
+   - Ajout du problème *line-tools*  
+4. **Interface et formulaires** (10’)  
+   - Prévol : ajustement rouges/oranges  
+   - MAVIE : correction « M – matériel »  
+   - Accueil : message plus humain  
+   - Postvol : dates préremplies + listes déroulantes  
+   - Rose des compétences : curseur à la place de la liste  
+5. **Fonction export Mobile → PC** (5’)  
+6. **Sprint 2** (10’)  
+   - Sites enregistrés  
+   - Import/export  
+   - Statistiques de vols  
+   - Comparaison prévol/postvol  
+7. **Organisation fin de semaine** (5’)  
+   - Tests, revue de code, documentation, gestion GitHub  
+8. **Prochaine réunion** (5’)  
+   - 22/09 à 14h30 : recette V1  
+   - Prévoir rappel le 19/09
+
+.Décisions attendues
+- Validation de la **release V1**  
+- Accord sur les **modifications d’interface et formulaires**  
+- Choix technique pour l’**export Mobile → PC**  
