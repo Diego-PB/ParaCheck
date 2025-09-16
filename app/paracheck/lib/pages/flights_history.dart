@@ -3,6 +3,7 @@ import 'package:paracheck/design/spacing.dart';
 import 'package:paracheck/models/flights.dart';
 import 'package:paracheck/services/flight_repository.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
+import 'package:paracheck/models/flights.dart';
 
 class FlightsHistoryPage extends StatefulWidget {
   const FlightsHistoryPage({super.key});
@@ -41,15 +42,6 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
         _loading = false;
       });
     }
-  }
-
-  String _formatDate(DateTime date) =>
-      '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
-
-  String _formatDuration(Duration duration) {
-    final hours = duration.inHours;
-    final minutes = duration.inMinutes.remainder(60);
-    return '${hours}h ${minutes}m';
   }
 
   Future<void> _confirmDelete(int index) async {
@@ -100,8 +92,8 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                Text('Date : ${_formatDate(flight.date)}'),
-                Text('Durée : ${_formatDuration(flight.duration)}'),
+                Text('Date : ${formatDate(flight.date)}'),
+                Text('Durée : ${formatDuration(flight.duration)}'),
                 Text('Altitude max : ${flight.altitude} m'),
                 const SizedBox(height: AppSpacing.md),
                 Align(
@@ -174,7 +166,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 subtitle: Text(
-                  '${_formatDate(flight.date)} • ${_formatDuration(flight.duration)} • ${flight.altitude} m',
+                  '${formatDate(flight.date)} • ${formatDuration(flight.duration)} • ${flight.altitude} m',
                 ),
                 onTap: () => showDetails(flight),
                 trailing: IconButton(
