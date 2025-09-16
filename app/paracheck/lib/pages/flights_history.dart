@@ -3,7 +3,6 @@ import 'package:paracheck/design/spacing.dart';
 import 'package:paracheck/models/flights.dart';
 import 'package:paracheck/services/flight_repository.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
-import 'package:paracheck/models/flights.dart';
 
 class FlightsHistoryPage extends StatefulWidget {
   const FlightsHistoryPage({super.key});
