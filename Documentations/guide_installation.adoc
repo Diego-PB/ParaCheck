@@ -93,6 +93,11 @@ L’app Web est déployée automatiquement par la CI sur **GitHub Pages** :
 * Aucun device → lancer un AVD ou brancher un smartphone (mode développeur).
 * Web en local *page blanche* → ne pas ouvrir le fichier en `file://`, servir via HTTP (voir ci-dessus).
 * `index.html` “vide” → normal : l’UI est rendue par `main.dart.js`.
+* command-line tools pas installé → 
+- dans Android Studio : paramètres → languages et frameworks → android SDK → SDK tools → cocher la case "Android SDK Command-line tools (latest)" → Appliquer (lance un téléchargement) → Ok
+- une fois l'étape précédente réalisée : dans un terminal : flutter doctor --android-licenses (répondre y à toutes les questions) → flutter doctor pour vérifier que tout est bon ( → si erreur licenses android : flutter doctor --android-licenses)
+
+
 
 == 🎉 Merci !
 Merci d’utiliser ParaCheck 🚀
