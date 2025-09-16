@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Paracheck',
+      title: 'ParaCheck',
       fab: null,
       body: Column(
         children: [
