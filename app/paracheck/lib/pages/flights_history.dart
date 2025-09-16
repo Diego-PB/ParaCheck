@@ -70,7 +70,10 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Vol supprimé')));
+        ).showSnackBar(const SnackBar(
+              content: Text('Vol supprimé'),
+              duration: Duration(milliseconds: 750),
+          ));
       }
     }
   }
