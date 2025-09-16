@@ -44,10 +44,17 @@ class _DebriefPostVolPageState extends State<DebriefPostVolPage> {
         ..clear()
         ..addAll(list.map((e) => _Q.fromJson(e as Map<String, dynamic>)));
       _controllers
-        ..clear()
-        ..addAll(
-          List.generate(_questions.length, (_) => TextEditingController()),
-        );
+        ..clear();
+      for (var i = 0; i < _questions.length; i++) {
+        // Préremplir le champ de la date (index 1) avec la date du jour au format français
+        if (i == 1) {
+          final now = DateTime.now();
+          final dateStr = "${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year}";
+          _controllers.add(TextEditingController(text: dateStr));
+        } else {
+          _controllers.add(TextEditingController());
+        }
+      }
       setState(() => _loading = false);
     } catch (e) {
       setState(() {
