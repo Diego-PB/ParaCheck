@@ -114,12 +114,20 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
     if (_loading) {
       return AppScaffold(
         title: 'Historique des vols',
+        showReturnButton: true,
+        onReturn: () {
+           Navigator.pushNamed(context, '/homepage');
+        },
         body: Center(child: CircularProgressIndicator()),
       );
     }
     if (_error != null) {
       return AppScaffold(
         title: 'Historique des vols',
+        showReturnButton: true,
+        onReturn: () {
+           Navigator.pushNamed(context, '/homepage');
+        },
         body: Center(child: Text(_error!)),
       );
     }
@@ -128,6 +136,10 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
     if (_flights.isEmpty) {
       return AppScaffold(
         title: 'Historique des vols',
+        showReturnButton: true,
+        onReturn: () {
+          Navigator.pushNamed(context, '/homepage');
+        },
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.lg),
@@ -149,6 +161,10 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
     // Liste avec pull-to-refesh
     return AppScaffold(
       title: 'Historique',
+      showReturnButton: true,
+      onReturn: () {
+        Navigator.pushNamed(context, '/homepage');
+      },
       body: RefreshIndicator(
         onRefresh: _reload,
         child: ListView.separated(

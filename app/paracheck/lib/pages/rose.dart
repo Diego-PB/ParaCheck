@@ -190,12 +190,6 @@ class _RosePageState extends State<RosePage> {
     });
   }
 
-  void _goBackToForm() {
-    setState(() {
-      _showChart = false;
-    });
-  }
-
   Widget _buildChartView() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -215,21 +209,17 @@ class _RosePageState extends State<RosePage> {
         ),
       ),
       const SizedBox(height: AppSpacing.lg),
-      FilledButton.icon(
-        onPressed: _goBackToForm,
-        icon: const Icon(Icons.arrow_back),
-        label: const Text("Précédent"),
-      ),
       FilledButton(
         onPressed: () {
-          print("Sauvegarder");
+          print("Terminer l'enregistrement du vol !");
+          Navigator.pushNamed(context, '/homepage');
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Text("Sauvegarder"),
+            Text("Terminer l'enregistrement du vol !"),
             SizedBox(width: 8),
-            Icon(Icons.arrow_forward),
+            Icon(Icons.check),
           ],
         ),
       ),
