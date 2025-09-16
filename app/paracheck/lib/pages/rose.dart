@@ -190,6 +190,12 @@ class _RosePageState extends State<RosePage> {
     });
   }
 
+  void _goBackToForm() {
+    setState(() {
+      _showChart = false;
+    });
+  }
+
   Widget _buildChartView() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -207,6 +213,11 @@ class _RosePageState extends State<RosePage> {
           data: _radarData,
           reverseAxis: false,
         ),
+      ),
+      FilledButton.icon(
+        onPressed: _goBackToForm,
+        icon: const Icon(Icons.arrow_back),
+        label: const Text("Changer les valeurs"),
       ),
       const SizedBox(height: AppSpacing.lg),
       FilledButton(
