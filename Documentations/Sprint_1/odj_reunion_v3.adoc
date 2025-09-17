@@ -1,1 +1,23 @@
+== Ordre du jour — Réunion interne sur l’utilisation des branches Git
+
+*Date* : 16/09/25 — *Durée* : 20 min  
+*Participants* : Équipe projet (sans client)
+
+.Objectifs
+- Clarifier les règles d’utilisation des **branches Git**  
+- Définir un accord commun pour homogénéiser les pratiques  
+- Décider dans quels cas une **branche** doit être créée
+
+.Agenda (timebox indicatif)
+1. **Constat de la situation actuelle** (5’)  
+   - Certains commits sont effectués directement sur la branche principale  
+2. **Discussion sur les bonnes pratiques** (10’)  
+   - Quand créer une branche ?  
+   - Quels cas particuliers ?  
+3. **Décision commune** (5’)  
+   - Définition claire des règles à appliquer
+
+.Décisions attendues
+- Établir une **règle simple et partagée** d’utilisation des branches Git  
+- Assurer une meilleure **cohérence** dans le workflow Git de l’équipe  
 
