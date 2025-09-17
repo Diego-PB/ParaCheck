@@ -1,1 +1,42 @@
+= Compte rendu — Réunion interne sur l’utilisation des branches Git
+Équipe projet
+v2025.09.16, {localdate}
+:toc:
+:icons: font
+:sectnums:
+:sectanchors:
+:sectlinks:
+
+toc::[]
+
+== Participants
+- link:https://github.com/leonardo-correiamendes[CORREIA MENDES Leonardo] -- Scrum Master / Développeur
+- link:https://github.com/Smogita[CRISTINI Aidan] -- Git Master / Product Owner / Développeur
+- link:https://github.com/YolanBrun[BRUN Yolan] -- Développeur
+- link:https://github.com/Diego-PB[PENICAUD-BERNAL Diego] -- Développeur
+- link:https://github.com/marwane-ibrahim[IBRAHIM Marwane] -- Développeur
+- link:https://github.com/adrian-guerrero[GUERRERO Adrian] -- Développeur
+
+== Contexte & objectifs
+- Constater que certains commits étaient réalisés directement sur la branche principale.  
+- Clarifier les règles d’utilisation des **branches Git**.  
+- Décider ensemble des situations où l’utilisation d’une branche est obligatoire.  
+
+== Points abordés
+- Discussion sur l’importance d’un workflow Git homogène.  
+- Identification des cas nécessitant une branche :  
+  - Création de nouvelles **features**.  
+  - **Grosses modifications** ou restructurations de code.  
+  - **Ajout ou suppression** significative de fichiers/code.  
+- Identification des cas où une branche n’est pas nécessaire :  
+  - **Petites corrections rapides** (ex. : fautes de frappe, renommage mineur, ajustement visuel léger).  
+
+== Décisions actées
+- Utiliser des **branches Git** pour toute **feature** et toute **modification majeure**.  
+- Autoriser les **commits directs sur la branche principale** uniquement pour des **corrections rapides**.  
+- Respecter ce workflow afin d’assurer une meilleure **traçabilité et cohérence du code**.  
+
+== Actions
+- Chaque membre s’engage à appliquer les règles décidées.  
+- Le **Git Master (Aidan)** veillera au respect du workflow lors des revues de code.  
 
