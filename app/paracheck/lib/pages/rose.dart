@@ -1,55 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:paracheck/design/spacing.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
 
-// Suppression du main() et du RoseApp, la page sera intégrée via AppScaffold
-
-class InputField extends StatelessWidget {
-  final TextEditingController controller;
-  final String label;
-  final TextInputType? keyboardType;
-  final VoidCallback? onTap;
-
-  const InputField({
-    super.key,
-    required this.controller,
-    required this.label,
-    this.keyboardType,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 44,
-      child: TextField(
-        controller: controller,
-        keyboardType: keyboardType,
-        onTap: onTap, // ouvre la description de ce champ
-        textAlignVertical: TextAlignVertical.center, // centre le texte
-        inputFormatters: keyboardType == TextInputType.number
-            ? <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9\.,]')),
-              ]
-            : null,
-        style: const TextStyle(fontSize: AppSpacing.md),
-        decoration: InputDecoration(
-          labelText: label,
-          isDense: true,
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: 10,
-            horizontal: AppSpacing.md,
-          ),
-          border: const OutlineInputBorder(),
-        ),
-      ),
-    );
-  }
-}
-
+// Page "Rose des compétences" avec sliders 0..20 à la place des champs texte.
 class RosePage extends StatefulWidget {
   const RosePage({super.key});
 
@@ -104,7 +59,11 @@ class _RosePageState extends State<RosePage> {
         "Forme physique et psychologique. Fatigue. Échauffement et concentration. Protection solaire, hydratation et alimentation.",
   };
 
+  // On garde les TextEditingControllers si tu veux encore afficher / réutiliser la valeur
   late final Map<String, TextEditingController> _controllers;
+
+  // Valeurs numériques actuelles (0..20)
+  late final Map<String, double> _values;
 
   // Champ "ouvert" (description affichée)
   String? _openedFeature;
@@ -120,6 +79,7 @@ class _RosePageState extends State<RosePage> {
   void initState() {
     super.initState();
     _controllers = {for (final f in features) f: TextEditingController()};
+    _values = {for (final f in features) f: 0.0};
     _loadSavedValues();
   }
 
@@ -134,8 +94,16 @@ class _RosePageState extends State<RosePage> {
   Future<void> _loadSavedValues() async {
     final prefs = await SharedPreferences.getInstance();
     for (final f in features) {
-      _controllers[f]!.text = prefs.getString('comp_$f') ?? '';
+      final raw = prefs.getString('comp_$f') ?? '';
+      _controllers[f]!.text = raw;
+      final parsed = double.tryParse(raw.replaceAll(',', '.'));
+      if (parsed != null && parsed >= 0 && parsed <= 20) {
+        _values[f] = parsed;
+      } else {
+        _values[f] = 0.0;
+      }
     }
+    setState(() {});
   }
 
   Future<void> _saveValuesLocally(Map<String, double> values) async {
@@ -145,36 +113,18 @@ class _RosePageState extends State<RosePage> {
     }
   }
 
-  // Parse et valide une note 0..20 (accepte virgule ou point)
-  double? _parseToDouble0to20(String raw) {
-    if (raw.isEmpty) return null;
-    final standardized = raw.replaceAll(',', '.');
-    final d = double.tryParse(standardized);
-    if (d == null) return null;
-    if (d < 0 || d > 20) return null;
-    return d;
-  }
-
   void _onSaveAndShow() async {
-    final Map<String, double> values = {};
-    final List<String> invalids = [];
+    // Ici toutes les valeurs sont dans _values et sont déjà numériques 0..20
+    final Map<String, double> values = Map.fromEntries(
+      features.map((f) => MapEntry(f, _values[f] ?? 0.0)),
+    );
 
-    for (final f in features) {
-      final raw = _controllers[f]!.text.trim();
-      final parsed = _parseToDouble0to20(raw);
-      if (parsed == null) {
-        invalids.add(f);
-      } else {
-        values[f] = parsed;
-      }
-    }
-
+    // Vérification simple (optionnelle)
+    final invalids = values.entries.where((e) => e.value < 0 || e.value > 20).map((e) => e.key).toList();
     if (invalids.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            "Valeur invalide (attendu 0 à 20) pour : ${invalids.join(', ')}",
-          ),
+          content: Text("Valeur invalide (attendu 0 à 20) pour : ${invalids.join(', ')}"),
         ),
       );
       return;
@@ -197,64 +147,102 @@ class _RosePageState extends State<RosePage> {
   }
 
   Widget _buildChartView() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: [
-      const Text(
-        "Aperçu",
-        style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: AppSpacing.md),
-      AspectRatio(
-        aspectRatio: 1,
-        child: RadarChart.light(
-          ticks: _ticks,
-          features: features.map(_short).toList(), // n’affiche que "PIL", "SIV", etc.
-          data: _radarData,
-          reverseAxis: false,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text(
+          "Aperçu",
+          style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold),
         ),
-      ),
-      FilledButton.icon(
-        onPressed: _goBackToForm,
-        icon: const Icon(Icons.arrow_back),
-        label: const Text("Changer les valeurs"),
-      ),
-      const SizedBox(height: AppSpacing.lg),
-      FilledButton(
-        onPressed: () {
-          print("Terminer l'enregistrement du vol !");
-          Navigator.pushNamed(context, '/homepage');
-        },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Text("Terminer l'enregistrement du vol !"),
-            SizedBox(width: 8),
-            Icon(Icons.check),
-          ],
+        const SizedBox(height: AppSpacing.md),
+        AspectRatio(
+          aspectRatio: 1,
+          child: RadarChart.light(
+            ticks: _ticks,
+            features: features.map(_short).toList(), // n’affiche que "PIL", "SIV", etc.
+            data: _radarData,
+            reverseAxis: false,
+          ),
         ),
-      ),
-    ],
-  );
-}
+        FilledButton.icon(
+          onPressed: _goBackToForm,
+          icon: const Icon(Icons.arrow_back),
+          label: const Text("Changer les valeurs"),
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        FilledButton(
+          onPressed: () {
+            print("Terminer l'enregistrement du vol !");
+            Navigator.pushNamed(context, '/homepage');
+          },
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text("Terminer l'enregistrement du vol !"),
+              SizedBox(width: 8),
+              Icon(Icons.check),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 
-
-  // Vue formulaire (avec descriptions sous le champ tapé)
+  // Vue formulaire (avec descriptions sous le slider sélectionné)
   Widget _buildFormView() {
     return SingleChildScrollView(
       child: Column(
         children: [
           for (final f in features) ...[
-            // plus besoin de Focus wrapper : on pilote uniquement à l'onTap
-            InputField(
-              controller: _controllers[f]!,
-              label: "$f (0 à 20)",
-              keyboardType: TextInputType.number,
+            GestureDetector(
               onTap: () {
                 setState(() {
-                  _openedFeature = f; // ouvre celui-ci et "ferme" les autres
+                  _openedFeature = f;
                 });
               },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade300),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "$f",
+                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          _values[f]!.toStringAsFixed(0), // entier
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    // Slider
+                    Slider(
+                      value: _values[f]!,
+                      min: 0,
+                      max: 20,
+                      divisions: 20, // pas entier 0..20
+                      label: _values[f]!.toStringAsFixed(0),
+                      onChanged: (v) {
+                        setState(() {
+                          _values[f] = v;
+                          // Met à jour aussi le controller texte si tu veux conserver l'ancien storage format
+                          _controllers[f]!.text = v.toStringAsFixed(0);
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
             if (_openedFeature == f)
               Padding(
@@ -288,7 +276,7 @@ class _RosePageState extends State<RosePage> {
           ),
           const SizedBox(height: 8),
           const Text(
-            "Entrez une note entre 0 et 20 pour chaque compétence.",
+            "Choisissez une valeur entre 0 et 20 pour chaque compétence.",
             style: TextStyle(fontSize: AppSpacing.md, color: Colors.black54),
           ),
           const SizedBox(height: AppSpacing.lg),
