@@ -29,26 +29,28 @@ class _AppScaffoldState extends State<AppScaffold> {
   bool _open = false;
 
   List<NavAction> _fixedActions(BuildContext context) => [
-    NavAction(
-      label: 'Accueil',
-      icon: Icons.home,
-      onTap: () => {Navigator.pushNamed(context, '/homepage')},
-    ),
+    
     NavAction(
       label: 'Pré-vol',
       icon: Icons.checklist,
       onTap: () => {Navigator.pushNamed(context, '/condition_vol')},
     ),
     NavAction(
-      label: 'Historique',
-      icon: Icons.history,
-      onTap: () => {Navigator.pushNamed(context, '/flights_history')},
-    ),
-    NavAction(
       label: 'Post-vol',
       icon: Icons.paragliding,
       onTap: () => {Navigator.pushNamed(context, '/debrief_postvol')},
     ),
+    NavAction(
+      label: 'Accueil',
+      icon: Icons.home,
+      onTap: () => {Navigator.pushNamed(context, '/homepage')},
+    ),
+    NavAction(
+      label: 'Historique',
+      icon: Icons.history,
+      onTap: () => {Navigator.pushNamed(context, '/flights_history')},
+    ),
+    
     NavAction(
       label: 'Paramètres',
       icon: Icons.settings,
