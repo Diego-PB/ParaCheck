@@ -42,29 +42,47 @@ link:../guide_installation.adoc[Guide d'installation]
 === Fonctionnalités principales
 
 * **Vérification de la sécurité avant le vol** 
-image::../../img/prevol.png[align="center", width=100%]
+
+image::../../img/prevol.jpg[align="center", width=100%]
+
 ** Vérification des conditions météo (et de vols) par le parapentiste  
-image::../../img/cond_vol.png[align="center", width=100%]
+
+image::../../img/cond_vol.jpg[align="center", width=100%]
+
 ** Questionnaire pour valider l’état physique et mental du pilote  
-image::../../img/met_int.png[align="center", width=100%]
+
+image::../../img/met_int.jpg[align="center", width=100%]
+
 ** Questionnaire pour valider l’état du matériel  
-image::../../img/mavie.png[align="center", width=100%]
+
+image::../../img/mavie.jpg[align="center", width=100%]
+
 ** Exercice de respiration et de stress (optionnel) 
-image::../../img/gest_resp.png[align="center", width=100%]
+
+image::../../img/gest_resp.jpg[align="center", width=100%]
  
 
 * **Enregistrement des données de vol**  
-image::../../img/postvol.png[align="center", width=100%]
-** Formulaire complet pour saisir les informations relatives au vol (site, météo, type de vol, observations) et les enregistrer  
-image::../../img/debrief.png[align="center", width=100%]
+
+image::../../img/postvol.jpg[align="center", width=100%]
+
+** Formulaire complet pour saisir les informations relatives au vol (site, météo, type de vol, observations) et les enregistrer 
+
+image::../../img/debrief.jpg[align="center", width=100%]
+
 ** Remplissage et affichage d'une rose de compétences pour suivre son niveau.
-image::../../img/rose1.png[align="center", width=100%]
-image::../../img/rose2.png[align="center", width=100%]
+
+image::../../img/rose1.jpg[align="center", width=100%]
+
+image::../../img/rose2.jpg[align="center", width=100%]
 
 * **Consultation de l’historique des vols**  
-image::../../img/histo.png[align="center", width=100%]
+
+image::../../img/histo.jpg[align="center", width=100%]
+
 ** Accéder à l’historique des vols précédents pour analyser les données et les incidents éventuels  
-image::../../img/test_histo.png[align="center", width=100%]
+
+image::../../img/test_histo.jpg[align="center", width=100%]
 
 === Fonctionnalités secondaires
 
