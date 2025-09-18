@@ -2,7 +2,7 @@
 :toc:
 :toclevels: 3
 
-image::../../img/Paracheck_logo.jpg
+image::../../img/Paracheck_logo.png
 
 == Introduction
 Ce document décrit les cas de test pour l’application mobile *ParaCheck*.  
