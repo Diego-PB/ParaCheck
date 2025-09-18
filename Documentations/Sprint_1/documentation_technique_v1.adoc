@@ -65,6 +65,7 @@ image::../../img/use_case_v0.png[]
 
 == Présentation des Fichiers Clés et l'arborescence de l'application
 
+----
 .
 ├── .github                               // Configurations GitHub (actions, workflows…)
 ├── app
@@ -116,3 +117,4 @@ image::../../img/use_case_v0.png[]
 ├── img                                   // Images liées à la doc
 ├── index.html                            // Page HTML (probablement pour le web)
 └── README.adoc                           // Documentation principale (AsciiDoc)
+----
