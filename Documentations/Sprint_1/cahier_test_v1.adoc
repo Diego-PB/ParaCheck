@@ -2,7 +2,7 @@
 :toc:
 :toclevels: 3
 
-image::../../images/cahier.jpg[alt="Ma superbe image"]
+image::../../img/Paracheck_logo.jpg
 
 == Introduction
 Ce document décrit les cas de test pour l’application mobile *ParaCheck*.  
@@ -91,6 +91,7 @@ Ces tests visent à valider les fonctionnalités liées aux pages principales de
 | Navigation entre les pages   |  ☐     |              |
 | Chargement des fichiers JSON |  ☐     |              |
 | Débrief post-vol             |  ☐     |              |
+
 
 // ==========================================================
 [[Tests_Backend]]
