@@ -47,25 +47,3 @@ String formatDate(DateTime date) => '${date.day.toString().padLeft(2, '0')}/${da
     final minutes = duration.inMinutes.remainder(60);
     return '${hours}h ${minutes}m';
   }
-
-// Quelques exemples de vols en dur
-final List<Flight> sampleFlights = [
-  Flight(
-    site: 'Site de vol A',
-    date: DateTime(2025, 8, 12),
-    duration: Duration(hours: 1, minutes: 45),
-    altitude: 1200,
-  ),
-  Flight(
-    site: 'Site de vol B',
-    date: DateTime(2025, 8, 5),
-    duration: Duration(hours: 1, minutes: 10),
-    altitude: 950,
-  ),
-  Flight(
-    site: 'Site de vol C',
-    date: DateTime(2025, 7, 28),
-    duration: Duration(hours: 2),
-    altitude: 1400,
-  ),
-];

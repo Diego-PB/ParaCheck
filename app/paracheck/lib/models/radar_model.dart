@@ -106,10 +106,3 @@ class Rose {
   /// Récupère la description (vide si introuvable)
   String descriptionFor(String feature) => roseDescriptions[feature] ?? '';
 }
-
-/// Quelques exemples en dur
-final List<Rose> sampleRoses = [
-  Rose(scores: {for (final f in roseFeatures) f: 12.0}),
-  Rose(scores: {for (final f in roseFeatures) f: 9.0}),
-  Rose(scores: {for (final f in roseFeatures) f: 15.0}),
-];

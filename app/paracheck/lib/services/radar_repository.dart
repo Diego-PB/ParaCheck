@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:paracheck/models/rose_model.dart';
+import 'package:paracheck/models/radar_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Repository abstrait pour gérer la persistance des "Rose".

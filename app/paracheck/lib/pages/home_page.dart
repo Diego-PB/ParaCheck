@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
                     if (snap.hasError) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: Text('Loading error : ${snap.error}'),
+                        child: Text('Erreur de chargement : ${snap.error}'),
                       );
                     }
                     final flights = snap.data ?? [];
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                     if (last3.isEmpty) {
                       return const Padding(
                         padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Text('No flights yet. Record your first flight from the Post-flight section 👇'),
+                        child: Text('Aucun vol enregistré pour le moment. Enregistrez votre premier vol dans la section Post-vol 👇'),
                       );
                     }
                     return Column(
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                           child: StatTile(
                             label: formatDate(f.date),
                             value:
-                                'Duration : ${formatDuration(f.duration)} • Altitude : ${f.altitude}m',
+                                'Durée : ${formatDuration(f.duration)} • Altitude : ${f.altitude}m',
                             icon: Icons.paragliding,
                           ),
                         )
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                 ), // Plus d'espace avant le bouton historique
                 Center(
                   child: PrimaryButton(
-                    label: "See all flights",
+                    label: "Voir tous les vols",
                     icon: Icons.history,
                     onPressed: () => {Navigator.pushNamed(context, '/flights_history')},
                   ),

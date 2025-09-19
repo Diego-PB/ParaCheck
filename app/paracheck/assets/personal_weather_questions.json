@@ -1,38 +1,38 @@
 [
   {
-    "question": "Are you feeling well?",
-    "answer_ok": "Yes",
+    "question": "Êtes-vous en forme ?",
+    "answer_ok": "Oui",
     "answer_bof": "Bof",
-    "answer_nok": "No"
+    "answer_nok": "Non"
   },
   {
-    "question": "Have you eaten enough?",
-    "answer_ok": "Yes",
+    "question": "Avez-vous suffisamment mangé ?",
+    "answer_ok": "Oui",
     "answer_bof": "Bof",
-    "answer_nok": "No"
+    "answer_nok": "Non"
   },
   {
-    "question": "Do you feel good about yourself?",
-    "answer_ok": "Yes",
+    "question": "Vous sentez-vous bien dans votre peau ?",
+    "answer_ok": "Oui",
     "answer_bof": "Bof",
-    "answer_nok": "No"
+    "answer_nok": "Non"
   },
   {
-    "question": "Do you have confidence in yourself and your skills?",
-    "answer_ok": "Yes",
+    "question": "Avez-vous confiance en vous et en vos compétences ?",
+    "answer_ok": "Oui",
     "answer_bof": "Bof",
-    "answer_nok": "No"
+    "answer_nok": "Non"
   },
   {
-    "question": "Are you worried?",
-    "answer_ok": "No",
+    "question": "Est-ce que vous vous préoccupez ?",
+    "answer_ok": "Non",
     "answer_bof": "Bof",
-    "answer_nok": "Yes"
+    "answer_nok": "Oui"
   },
   {
-    "question": "Are you stressed?",
-    "answer_ok": "No",
+    "question": "Est-ce que vous êtes stressé ?",
+    "answer_ok": "Non",
     "answer_bof": "Bof",
-    "answer_nok": "Yes"
+    "answer_nok": "Oui"
   }
 ]

@@ -15,14 +15,14 @@ class FlightConditionPage extends StatefulWidget {
 }
 
 class _FlightConditionPageState extends State<FlightConditionPage> {
-  static const _key = 'flight_condition_level';
+  static const _key = 'condition_vol_level';
   int? selectedLevel;
 
   final conditions = [
-    {'level': 1, 'label': 'Calm Conditions'},
-    {'level': 2, 'label': 'Medium and localized turbulence'},
-    {'level': 3, 'label': 'Strong and frequent turbulence'},
-    {'level': 4, 'label': 'Very strong and constant turbulence'},
+    {'level': 1, 'label': 'Conditions calmes '},
+    {'level': 2, 'label': 'Turbulences moyennes et localisées '},
+    {'level': 3, 'label': 'Turbulences fortes et fréquentes '},
+    {'level': 4, 'label': 'Turbulences très fortes et constantes '},
   ];
 
   @override
@@ -38,7 +38,7 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Flight Conditions',
+      title: 'Conditions de vol',
       showReturnButton: true,
       onReturn: () {
         Navigator.pushNamed(context, '/homepage');
@@ -48,7 +48,7 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SectionTitle('Choose the rating'),
+            const SectionTitle('Choisis la cotation'),
             const SizedBox(height: AppSpacing.md),
             Column(
               children:
@@ -87,7 +87,7 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Text(
-                  'A closure is always a pilot error.',
+                  'Une fermeture reste toujours une erreur de pilotage',
                   style: TextStyle(
                     color: AppColors.danger,
                     fontWeight: FontWeight.bold,
@@ -105,14 +105,14 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   PrimaryButton(
-                    label: 'Validate',
+                    label: 'Valider',
                     icon: Icons.check,
                     onPressed:
                         selectedLevel == null
                             ? null
                             : () async {
                               await _saveLevel(selectedLevel!);
-                              print('Rating saved: $selectedLevel');
+                              print('Cotation sauvegardée : $selectedLevel');
                               Navigator.pushNamed(context, '/personal_weather');
                             },
                   ),
@@ -130,21 +130,21 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
       case 1:
         return const AppNotice(
           kind: NoticeKind.valid,
-          title: 'Low vigilance',
-          message: 'Conditions are calm.',
+          title: 'Vigilance faible',
+          message: 'Les conditions sont calmes.',
         );
       case 2:
       case 3:
         return const AppNotice(
           kind: NoticeKind.warning,
-          title: 'Medium to high vigilance',
-          message: 'Beware of turbulence, stay vigilant.',
+          title: 'Vigilance moyenne à élevée',
+          message: 'Attention aux turbulences, restez vigilant.',
         );
       case 4:
         return const AppNotice(
           kind: NoticeKind.attention,
-          title: 'Very high vigilance',
-          message: 'Conditions are very turbulent, extreme vigilance required!',
+          title: 'Vigilance maximale',
+          message: 'Conditions très turbulentes, vigilance extrême requise !',
         );
       default:
         return const SizedBox.shrink();

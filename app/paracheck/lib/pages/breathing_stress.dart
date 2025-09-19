@@ -32,10 +32,10 @@ class BreathingStressPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Breathing & Stress',
+      title: 'Respiration & Stress',
       showReturnButton: true,
       onReturn: () {
-        Navigator.pushNamed(context, '/mfwia');
+        Navigator.pushNamed(context, '/mavie');
       },
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -54,7 +54,7 @@ class BreathingStressPage extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Breathing and Stress Management',
+                    'Gestion de la respiration et du stress',
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -74,10 +74,10 @@ class BreathingStressPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _title(context, 'Before the flight'),
+                  _title(context, 'Avant le vol'),
                   const SizedBox(height: 8),
-                  _bullet('Heart coherence exercise to manage stress before takeoff.'),
-                  _bullet('Do 3 to 4 cycles: inhale for 5 seconds, hold for 5 seconds, then exhale for 7 seconds.'),
+                  _bullet('Exercice de cohérence cardiaque pour gérer le stress avant le décollage.'),
+                  _bullet('Faire 3 à 4 cycles : inspirer 5 s, bloquer 5 s, puis expirer 7 s.'),
                 ],
               ),
             ),
@@ -92,11 +92,11 @@ class BreathingStressPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _title(context, 'During the flight'),
+                  _title(context, 'Pendant le vol'),
                   const SizedBox(height: 8),
-                  _bullet('Stay aware of your breathing to avoid apnea or overly thoracic breathing.'),
-                  _bullet('Encourage abdominal breathing by exhaling forcefully.'),
-                  _bullet('Verbalize actions out loud or sing to focus attention.'),
+                  _bullet('Garder conscience de sa respiration pour éviter les phases d’apnée ou une respiration trop thoracique.'),
+                  _bullet('Favoriser la respiration abdominale en expirant un grand coup.'),
+                  _bullet('Verbaliser les actions à voix haute ou chanter pour focaliser son attention.'),
                 ],
               ),
             ),
@@ -105,7 +105,7 @@ class BreathingStressPage extends StatelessWidget {
           Row(
             children: [
               SecondaryButton(
-                label: "Flight Departure !",
+                label: "Départ du vol !",
                 onPressed: () {
                   Navigator.pushNamed(context, '/homepage');
                 },

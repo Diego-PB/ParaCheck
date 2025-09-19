@@ -47,9 +47,9 @@ class AppNotice extends StatelessWidget {
     return Semantics(
       container: true,
       label: switch (kind) {
-        NoticeKind.valid => 'Confirmation message',
-        NoticeKind.warning => 'Alert',
-        NoticeKind.attention => 'Warning',
+        NoticeKind.valid => 'Message de confirmation',
+        NoticeKind.warning => 'Avertissement',
+        NoticeKind.attention => 'Attention',
       },
       child: Container(
         decoration: decoration,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paracheck/pages/postflight_debrief.dart';
 import 'package:paracheck/pages/flights_history.dart';
 import 'package:paracheck/pages/home_page.dart';
-import 'package:paracheck/pages/mfwia.dart';
+import 'package:paracheck/pages/mavie.dart';
 import 'package:paracheck/pages/uikitdemopage.dart';
 import 'package:paracheck/pages/flight_condition.dart';
 import 'package:paracheck/pages/personal_weather.dart';
@@ -14,7 +14,7 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/uikit': (context) => const UIKitDemoPage(),
   '/flight_condition': (context) => const FlightConditionPage(),
   '/personal_weather': (context) => const PersonalWeatherPage(),
-  '/mfwia': (context) => const MfwiaPage(),
+  '/mavie': (context) => const MaviePage(),
   '/breathing': (context) => const BreathingStressPage(),
   '/postflight_debrief': (context) => const PostFlightDebriefPage(),
   '/radar': (context) => const RadarPage(),

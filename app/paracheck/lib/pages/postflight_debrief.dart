@@ -58,7 +58,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
       setState(() => _loading = false);
     } catch (e) {
       setState(() {
-        _error = "Loading JSON error: $e";
+        _error = "Erreur de chargement JSON : $e";
         _loading = false;
       });
     }
@@ -93,12 +93,12 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
         context: context,
         builder:
             (_) => AlertDialog(
-              title: const Text("Debrief Summary"),
+              title: const Text("Résumé du débriefing"),
               content: SingleChildScrollView(child: Text(buffer.toString())),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text("Close"),
+                  child: const Text("Fermer"),
                 ),
               ],
             ),
@@ -112,12 +112,12 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
         context: context,
         builder:
             (_) => AlertDialog(
-              title: const Text("Error"),
-              content: Text("Error validating: $e"),
+              title: const Text("Erreur"),
+              content: Text("Erreur de validation : $e"),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text("Close"),
+                  child: const Text("Fermer"),
                 ),
               ],
             ),
@@ -150,7 +150,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
     }
 
     return AppScaffold(
-      title: "Post-Flight Debrief",
+      title: "Débrief post-vol",
       showReturnButton: true,
       onReturn: () {
         Navigator.pushNamed(context, '/homepage');
@@ -165,7 +165,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
               label:
                   _questions[i].exemple?.isNotEmpty == true
                       ? _questions[i].exemple!
-                      : "Answer here",
+                      : "Réponse",
             ),
             const SizedBox(height: AppSpacing.md),
           ],
@@ -177,11 +177,11 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
             runSpacing: AppSpacing.md,
             children: [
               PrimaryButton(
-                label: "Validate",
+                label: "Valider",
                 icon: Icons.check,
                 onPressed: _valider,
               ),
-              SecondaryButton(label: "Reset", onPressed: _reset),
+              SecondaryButton(label: "Réinitialiser", onPressed: _reset),
             ],
           ),
           const SizedBox(height: AppSpacing.md),

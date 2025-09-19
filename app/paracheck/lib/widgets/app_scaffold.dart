@@ -31,28 +31,28 @@ class _AppScaffoldState extends State<AppScaffold> {
   List<NavAction> _fixedActions(BuildContext context) => [
     
     NavAction(
-      label: 'Preflight',
+      label: 'Pré-vol',
       icon: Icons.checklist,
-      onTap: () => {Navigator.pushNamed(context, '/flight_condition')},
+      onTap: () => {Navigator.pushNamed(context, '/personal_weather')},
     ),
     NavAction(
-      label: 'Postflight',
+      label: 'Post-vol',
       icon: Icons.paragliding,
       onTap: () => {Navigator.pushNamed(context, '/postflight_debrief')},
     ),
     NavAction(
-      label: 'Home',
+      label: 'Accueil',
       icon: Icons.home,
       onTap: () => {Navigator.pushNamed(context, '/homepage')},
     ),
     NavAction(
-      label: 'History',
+      label: 'Historique',
       icon: Icons.history,
       onTap: () => {Navigator.pushNamed(context, '/flights_history')},
     ),
     
     NavAction(
-      label: 'Settings',
+      label: 'Paramètres',
       icon: Icons.settings,
       onTap: () => {Navigator.pushNamed(context, '/settings')},
     ),
@@ -68,7 +68,7 @@ class _AppScaffoldState extends State<AppScaffold> {
             widget.showReturnButton
                 ? IconButton(
                   icon: const Icon(Icons.arrow_back),
-                  tooltip: 'Back',
+                  tooltip: 'Retour',
                   onPressed: widget.onReturn,
                 )
                 : null,

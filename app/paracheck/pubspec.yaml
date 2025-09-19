@@ -28,9 +28,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter_localizations:
+  flutter:
     sdk: flutter
-  intl: 0.20.2
   flutter_radar_chart: ^0.2.1
     
 
@@ -67,7 +66,7 @@ flutter:
     - assets/personal_weather_questions.json
     - assets/Paracheck_logo.png
     - assets/postflight_questions.json
-    - assets/mfwia_questions.json
+    - assets/mavie_questions.json
 
   fonts:
     - family: Poppins

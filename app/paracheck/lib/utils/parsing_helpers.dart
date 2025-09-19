@@ -34,14 +34,14 @@ Duration parseDurationFr(String input) {
   if(minutes != null) {
     return Duration(minutes: minutes);
   }
-  throw FormatException('Invalid duration format: $input');
+  throw FormatException('Durée invalide : $input');
 }
 
 // Accepte les formats : "1200", "1200m", "1 200 m", "1.200m"
 int parseAltitudeMeters(String input) {
   final s = input.toLowerCase().replaceAll(RegExp(r'[^0-9]'), '');
   if(s.isEmpty) {
-    throw FormatException('Invalid altitude format: $input');
+    throw FormatException('Altitude invalide : $input');
   }
   return int.parse(s);
 }

@@ -7,14 +7,14 @@ import 'package:paracheck/widgets/secondary_button.dart';
 import 'package:paracheck/widgets/app_notice.dart';
 import 'package:paracheck/design/spacing.dart';
 
-class MfwiaPage extends StatefulWidget {
-  const MfwiaPage({super.key});
+class MaviePage extends StatefulWidget {
+  const MaviePage({super.key});
 
   @override
-  State<MfwiaPage> createState() => _MfwiaPageState();
+  State<MaviePage> createState() => _MaviePageState();
 }
 
-class _MfwiaPageState extends State<MfwiaPage> {
+class _MaviePageState extends State<MaviePage> {
   List<dynamic> _questions = [];
   final Map<int, String> _answers = {};
   final Set<int> _locked = {};
@@ -37,7 +37,7 @@ class _MfwiaPageState extends State<MfwiaPage> {
   }
 
   Future<void> _loadQuestions() async {
-    final raw = await rootBundle.loadString('assets/mfwia_questions.json');
+    final raw = await rootBundle.loadString('assets/mavie_questions.json');
     final List<dynamic> data = json.decode(raw);
     setState(() {
       _questions = data;
@@ -118,7 +118,7 @@ class _MfwiaPageState extends State<MfwiaPage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'MFWIA',
+      title: 'MAVIE',
       showReturnButton: true,
       onReturn: () {
         Navigator.pushNamed(context, '/personal_weather');
@@ -145,15 +145,15 @@ class _MfwiaPageState extends State<MfwiaPage> {
                     if (_alertIndex != null && _alertIndex == i) ...[
                       const AppNotice(
                         kind: NoticeKind.attention,
-                        title: 'Warning',
-                        message: 'Make your preparations again, then recheck your equipment.',
+                        title: 'Alerte',
+                        message: 'Refaites vos préparatifs, puis vérifiez à nouveau votre équipement.',
                         compact: true,
                       ),
                       const SizedBox(height: AppSpacing.sm),
                       Row(
                         children: [
                           SecondaryButton(
-                            label: 'Restart',
+                            label: 'Redémarrer',
                             onPressed: _resetFlow,
                           ),
                         ],
@@ -167,15 +167,15 @@ class _MfwiaPageState extends State<MfwiaPage> {
                   if (_allAnswered && !_progressBlocked) ...[
                     const AppNotice(
                       kind: NoticeKind.valid,
-                      title: 'Optimal Conditions',
+                      title: 'Conditions optimales',
                         message:
-                          "Your equipment is checked and ready to use.",
+                          "Votre équipement est vérifié et prêt à l'emploi.",
                     ),
                     const SizedBox(height: AppSpacing.md),
                     Row(
                       children: [
                         SecondaryButton(
-                          label: "Validate",
+                          label: "Valider",
                           onPressed: () {
                             Navigator.pushNamed(context, '/breathing');
                           },

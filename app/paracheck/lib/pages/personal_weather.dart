@@ -133,7 +133,7 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Personal Weather',
+      title: 'Météo personnelle',
       showReturnButton: true,
       onReturn: () {
         Navigator.pushNamed(context, '/flight_condition');
@@ -160,15 +160,15 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
                     if (_alertIndex != null && _alertIndex == i) ...[
                       const AppNotice(
                         kind: NoticeKind.attention,
-                        title: 'Warning',
-                        message: 'Your condition does not allow you to fly safely ! What are you doing at takeoff ?',
+                        title: 'Alerte',
+                        message: 'Votre condition ne vous permet pas de voler en toute sécurité ! Que faites-vous au décollage ?',
                         compact: true,
                       ),
                       const SizedBox(height: AppSpacing.sm),
                       Row(
                         children: [
                           SecondaryButton(
-                            label: 'Restart',
+                            label: 'Redémarrer',
                             onPressed: _resetFlow,
                           ),
                         ],
@@ -178,8 +178,8 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
                     else if (_softAlertIndex != null && _softAlertIndex == i) ...[
                     const AppNotice(
                       kind: NoticeKind.attention,
-                      title: 'Warning',
-                      message: 'Flight conditions are not optimal.',
+                      title: 'Alerte',
+                      message: 'Les conditions de vol ne sont pas optimales.',
                     ),
                     
                     const SizedBox(height: AppSpacing.lg),
@@ -191,17 +191,17 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
                   if (_allAnswered && !_progressBlocked) ...[
                     const AppNotice(
                       kind: NoticeKind.valid,
-                      title: 'Optimal Conditions',
+                      title: 'Conditions optimales',
                       message:
-                          'Your mental state is currently favorable for paragliding.',
+                          'Votre état mental est actuellement favorable au parapente.',
                     ),
                     const SizedBox(height: AppSpacing.md),
                     Row(
                       children: [
                         SecondaryButton(
-                          label: 'Validate',
+                          label: 'Valider',
                           onPressed: () {
-                            Navigator.pushNamed(context, '/mfwia');
+                            Navigator.pushNamed(context, '/mavie');
                           },
 
                         ),
