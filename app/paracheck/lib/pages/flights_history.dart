@@ -37,7 +37,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
       });
     } catch (e) {
       setState(() {
-        _error = 'Impossible de charger les vols: $e';
+        _error = 'Cannot load flights : $e';
         _loading = false;
       });
     }
@@ -48,16 +48,16 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
       context: context,
       builder:
           (_) => AlertDialog(
-            title: const Text('Supprimer ce vol'),
-            content: const Text('Êtes-vous sûr de vouloir supprimer ce vol ?'),
+            title: const Text('Delete this flight'),
+            content: const Text('Are you sure you want to delete this flight ?'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('Annuler'),
+                child: const Text('Cancel'),
               ),
               FilledButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: const Text('Supprimer'),
+                child: const Text('Delete'),
               ),
             ],
           ),
@@ -71,7 +71,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(const SnackBar(
-              content: Text('Vol supprimé'),
+              content: Text('Flight deleted'),
               duration: Duration(milliseconds: 750),
           ));
       }
@@ -90,19 +90,19 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  flight.site.isEmpty ? 'Site inconnu' : flight.site,
+                  flight.site.isEmpty ? 'Unknown site' : flight.site,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text('Date : ${formatDate(flight.date)}'),
-                Text('Durée : ${formatDuration(flight.duration)}'),
-                Text('Altitude max : ${flight.altitude} m'),
+                Text('Duration : ${formatDuration(flight.duration)}'),
+                Text('Max altitude : ${flight.altitude} m'),
                 const SizedBox(height: AppSpacing.md),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Fermer'),
+                    child: const Text('Close'),
                   ),
                 ),
               ],
@@ -116,7 +116,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
     // Ecran de chargement / erreur
     if (_loading) {
       return AppScaffold(
-        title: 'Historique des vols',
+        title: 'Flights History',
         showReturnButton: true,
         onReturn: () {
            Navigator.pushNamed(context, '/homepage');
@@ -126,7 +126,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
     }
     if (_error != null) {
       return AppScaffold(
-        title: 'Historique des vols',
+        title: 'Flights History',
         showReturnButton: true,
         onReturn: () {
            Navigator.pushNamed(context, '/homepage');
@@ -138,7 +138,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
     // Etat vide
     if (_flights.isEmpty) {
       return AppScaffold(
-        title: 'Historique des vols',
+        title: 'Flights History',
         showReturnButton: true,
         onReturn: () {
           Navigator.pushNamed(context, '/homepage');
@@ -152,7 +152,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
                 const Icon(Icons.hourglass_empty_rounded, size: 48),
                 const SizedBox(height: AppSpacing.md),
                 const Text(
-                  'Aucun vol enregistré pour le moment.',
+                  'No flights recorded yet.',
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -163,7 +163,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
     }
     // Liste avec pull-to-refesh
     return AppScaffold(
-      title: 'Historique',
+      title: 'Flights History',
       showReturnButton: true,
       onReturn: () {
         Navigator.pushNamed(context, '/homepage');
@@ -180,7 +180,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
               child: ListTile(
                 leading: const Icon(Icons.paragliding),
                 title: Text(
-                  flight.site.isEmpty ? 'Site inconnu' : flight.site,
+                  flight.site.isEmpty ? 'Unknown site' : flight.site,
                   overflow: TextOverflow.ellipsis,
                 ),
                 subtitle: Text(
@@ -190,7 +190,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
                 trailing: IconButton(
                   icon: const Icon(Icons.delete_outline),
                   onPressed: () => _confirmDelete(index),
-                  tooltip: 'Supprimer',
+                  tooltip: 'Delete',
                 ),
               ),
             );

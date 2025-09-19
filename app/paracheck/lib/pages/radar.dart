@@ -5,26 +5,26 @@ import 'package:paracheck/design/spacing.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
 
 // Page "Rose des compétences" avec sliders 0..20 à la place des champs texte.
-class RosePage extends StatefulWidget {
-  const RosePage({super.key});
+class RadarPage extends StatefulWidget {
+  const RadarPage({super.key});
 
   @override
-  State<RosePage> createState() => _RosePageState();
+  State<RadarPage> createState() => _RadarPageState();
 }
 
-class _RosePageState extends State<RosePage> {
+class _RadarPageState extends State<RadarPage> {
   final List<String> features = const [
-    "PIL - Pilotage",
-    "SIV - Situation Incidents de Vol",
-    "AIR - Aérologie et météorologie",
-    "CNS - Connaissances et règles",
-    "MAT - Matériel",
-    "ENV - Environnement et communauté",
-    "DEC - Décisions",
-    "STS - Gestion du stress",
-    "GES - Gestion du vol",
-    "COS - Conscience de la situation",
-    "PHY - Physique et physiologie",
+    "PIL - Piloting",
+    "FIS - Flight Incident Situation",
+    "ADM - Aerodynamics and Meteorology",
+    "KWG - Knowledge and Rules",
+    "EQP - Equipment",
+    "ENV - Environment and Community",
+    "DEC - Decisions",
+    "STS - Stress Management",
+    "FLM - Flight Management",
+    "SAW - Situational Awareness",
+    "PHY - Physics and Physiology",
   ];
 
   // Récupère le diminutif avant " - "
@@ -35,28 +35,28 @@ class _RosePageState extends State<RosePage> {
 
   // Descriptions à afficher quand le champ est sélectionné
   final Map<String, String> descriptions = const {
-    "PIL - Pilotage":
-        "Plan de vol. Gonflage et maîtrise au sol. Utilisation commandes et sellette. Technique adaptée de décollage, approche et atterrissage.",
-    "SIV - Situation Incidents de Vol":
-        "Le domaine de vol. Limites en tangage et roulis. Procédures d’urgence et secours. Effets de la sidération. Parachute de secours.",
-    "AIR - Aérologie et météorologie":
-        "Écoulements, pièges. Maîtrise de notre élément.",
-    "CNS - Connaissances et règles":
-        "Théorie du vol, réglementations, recommandations, documentations, brevets, responsabilités, accidentologie.",
-    "MAT - Matériel":
-        "Fonctionnement et utilisation. Vieillissement, soin, pliage, contrôle. Recommandations fédérales. Manuel de vol. Homologation.",
-    "ENV - Environnement et communauté":
-        "Liens à la communauté (information, intégration, résilience). Impacts environnementaux et préservation. Vigilance en vol (anticollision).",
-    "DEC - Décisions":
-        "Procédures et Check-List pour la décision. Les biais. Remise en cause des décisions (Plan B).",
-    "STS - Gestion du stress":
-        "Ressentis, mécanismes du stress. Effets du stress dont sidération. Prise en compte et régulation.",
-    "GES - Gestion du vol":
-        "Objectifs du vol. Choix de créneaux. Tâches récurrentes. Suivi du vol. Menaces, erreurs, parades. Débriefing et auto-débriefing.",
-    "COS - Conscience de la situation":
-        "Préparation du vol. Prise d’informations : analyse, anticipation. Identification des menaces. Pièges cumulatifs, biais.",
-    "PHY - Physique et physiologie":
-        "Forme physique et psychologique. Fatigue. Échauffement et concentration. Protection solaire, hydratation et alimentation.",
+    "PIL - Piloting":
+      "Flight plan. Inflation and ground handling. Use of controls and harness. Appropriate takeoff, approach, and landing techniques.",
+    "FIS - Flight Incident Situation":
+      "The flight envelope. Pitch and roll limits. Emergency and rescue procedures. Effects of being stunned. Reserve parachute.",
+    "ADM - Aerodynamics and Meteorology":
+      "Flows, traps. Mastering our element.",
+    "KWG - Knowledge and Rules":
+      "Flight theory, regulations, recommendations, documentation, certificates, responsibilities, accident history.",
+    "EQP - Equipment":
+      "Operation and use. Aging, care, packing, inspection. Federal recommendations. Flight manual. Certification.",
+    "ENV - Environment and Community":
+      "Community connections (information, integration, resilience). Environmental impacts and preservation. In-flight vigilance (collision avoidance).",
+    "DEC - Decisions":
+      "Decision-making procedures and checklist. Biases. Questioning decisions (Plan B).",
+    "STS - Stress Management":
+      "Feelings, stress mechanisms. Effects of stress, including shock. Consideration and regulation.",
+    "FLM - Flight Management":
+      "Flight objectives. Choice of slots. Recurring tasks. Flight monitoring. Threats, errors, countermeasures. Debriefing and self-debriefing.",
+    "SAW - Situational Awareness":
+      "Flight preparation. Information gathering: analysis, anticipation. Threat identification. Cumulative traps, biases.",
+    "PHY - Physics and Physiology":
+      "Physical and psychological fitness. Fatigue. Warm-up and concentration. Sun protection, hydration, and nutrition.",
   };
 
   // On garde les TextEditingControllers si tu veux encore afficher / réutiliser la valeur
@@ -124,7 +124,7 @@ class _RosePageState extends State<RosePage> {
     if (invalids.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Valeur invalide (attendu 0 à 20) pour : ${invalids.join(', ')}"),
+          content: Text("Invalid value (expected 0 to 20) for: ${invalids.join(', ')}"),
         ),
       );
       return;
@@ -151,7 +151,7 @@ class _RosePageState extends State<RosePage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const Text(
-          "Aperçu",
+          "Appreciation",
           style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: AppSpacing.md),
@@ -167,18 +167,18 @@ class _RosePageState extends State<RosePage> {
         FilledButton.icon(
           onPressed: _goBackToForm,
           icon: const Icon(Icons.arrow_back),
-          label: const Text("Changer les valeurs"),
+          label: const Text("Change values"),
         ),
         const SizedBox(height: AppSpacing.lg),
         FilledButton(
           onPressed: () {
-            print("Terminer l'enregistrement du vol !");
+            print("Finish flight savings !");
             Navigator.pushNamed(context, '/homepage');
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: const [
-              Text("Terminer l'enregistrement du vol !"),
+              Text("Finish flight savings !"),
               SizedBox(width: 8),
               Icon(Icons.check),
             ],
@@ -268,7 +268,7 @@ class _RosePageState extends State<RosePage> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: const [
-                Text("Afficher la rose"),
+                Text("Show the skills radar"),
                 SizedBox(width: 8),
                 Icon(Icons.arrow_forward),
               ],
@@ -276,7 +276,7 @@ class _RosePageState extends State<RosePage> {
           ),
           const SizedBox(height: 8),
           const Text(
-            "Choisissez une valeur entre 0 et 20 pour chaque compétence.",
+            "Choose a value between 0 and 20 for each skill.",
             style: TextStyle(fontSize: AppSpacing.md, color: Colors.black54),
           ),
           const SizedBox(height: AppSpacing.lg),
@@ -288,10 +288,10 @@ class _RosePageState extends State<RosePage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: "Rose des compétences",
+      title: "Skills Radar",
       showReturnButton: true,
       onReturn: () {
-        Navigator.pushNamed(context, '/debrief_postvol');
+        Navigator.pushNamed(context, '/postflight_debrief');
       },
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),

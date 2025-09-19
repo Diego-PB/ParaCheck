@@ -11,16 +11,16 @@ import 'package:paracheck/widgets/primary_button.dart';
 import 'package:paracheck/widgets/secondary_button.dart';
 import 'package:paracheck/design/spacing.dart';
 
-void main() => runApp(const MaterialApp(home: DebriefPostVolPage()));
+void main() => runApp(const MaterialApp(home: PostFlightDebriefPage()));
 
-class DebriefPostVolPage extends StatefulWidget {
-  const DebriefPostVolPage({super.key});
+class PostFlightDebriefPage extends StatefulWidget {
+  const PostFlightDebriefPage({super.key});
   @override
-  State<DebriefPostVolPage> createState() => _DebriefPostVolPageState();
+  State<PostFlightDebriefPage> createState() => _PostFlightDebriefPageState();
 }
 
-class _DebriefPostVolPageState extends State<DebriefPostVolPage> {
-  static const _assetPath = 'assets/questions_postvol.json';
+class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
+  static const _assetPath = 'assets/postflight_questions.json';
 
   final _flightRepo = SharedPrefsFlightRepository();
 
@@ -58,7 +58,7 @@ class _DebriefPostVolPageState extends State<DebriefPostVolPage> {
       setState(() => _loading = false);
     } catch (e) {
       setState(() {
-        _error = "Erreur chargement JSON: $e";
+        _error = "Loading JSON error: $e";
         _loading = false;
       });
     }
@@ -93,31 +93,31 @@ class _DebriefPostVolPageState extends State<DebriefPostVolPage> {
         context: context,
         builder:
             (_) => AlertDialog(
-              title: const Text("Résumé du débrief"),
+              title: const Text("Debrief Summary"),
               content: SingleChildScrollView(child: Text(buffer.toString())),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text("Fermer"),
+                  child: const Text("Close"),
                 ),
               ],
             ),
       );
 
       if (!mounted) return;
-      Navigator.pushNamed(context, '/rose');
+      Navigator.pushNamed(context, '/radar');
     } catch (e) {
       if (!mounted) return;
       showDialog(
         context: context,
         builder:
             (_) => AlertDialog(
-              title: const Text("Erreur"),
-              content: Text("Erreur lors de la validation : $e"),
+              title: const Text("Error"),
+              content: Text("Error validating: $e"),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text("Fermer"),
+                  child: const Text("Close"),
                 ),
               ],
             ),
@@ -150,7 +150,7 @@ class _DebriefPostVolPageState extends State<DebriefPostVolPage> {
     }
 
     return AppScaffold(
-      title: "Débrief d'après vol",
+      title: "Post-Flight Debrief",
       showReturnButton: true,
       onReturn: () {
         Navigator.pushNamed(context, '/homepage');
@@ -165,7 +165,7 @@ class _DebriefPostVolPageState extends State<DebriefPostVolPage> {
               label:
                   _questions[i].exemple?.isNotEmpty == true
                       ? _questions[i].exemple!
-                      : "Réponse",
+                      : "Answer here",
             ),
             const SizedBox(height: AppSpacing.md),
           ],
@@ -177,11 +177,11 @@ class _DebriefPostVolPageState extends State<DebriefPostVolPage> {
             runSpacing: AppSpacing.md,
             children: [
               PrimaryButton(
-                label: "Valider",
+                label: "Validate",
                 icon: Icons.check,
                 onPressed: _valider,
               ),
-              SecondaryButton(label: "Réinitialiser", onPressed: _reset),
+              SecondaryButton(label: "Reset", onPressed: _reset),
             ],
           ),
           const SizedBox(height: AppSpacing.md),

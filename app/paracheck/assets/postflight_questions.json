@@ -1,0 +1,42 @@
+[
+    {
+      "label": "What is the site of this flight?",
+      "exemple": "Site name"
+    },
+    {
+      "label": "What is the date of this flight?",
+      "exemple": "DD/MM/YYYY"
+    },
+    {
+      "label": "How long did this flight last?",
+      "exemple": "Ex. 1h30"
+    },
+    {
+      "label": "What was the altitude of this flight?",
+      "exemple": "Ex. 1200m"
+    },
+    {
+      "label": "What did I succeed at?",
+      "exemple": "Ex. weather preparation, advice from a friend, managing a collapse…"
+    },
+    {
+      "label": "A moment of doubt",
+      "exemple": "Ex. turbulence in the area where it usually climbs…"
+    },
+    {
+      "label": "What did I use (preparation, piloting, knowledge, verbalization, imagery, breathing)",
+      "exemple": "Ex. exercises from the last course, box breathing…"
+    },
+    {
+      "label": "What helped me achieve my goal",
+      "exemple": "Ex. knowledge of the site, confidence in my piloting…"
+    },
+    {
+      "label": "What made me happy",
+      "exemple": "Ex. landing calmly despite difficult conditions…"
+    },
+    {
+      "label": "If I had to do it differently",
+      "exemple": "Ex. stop earlier if too strong, pay more attention to breathing…"
+    }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "question": "Are you feeling well?",
+    "answer_ok": "Yes",
+    "answer_bof": "Bof",
+    "answer_nok": "No"
+  },
+  {
+    "question": "Have you eaten enough?",
+    "answer_ok": "Yes",
+    "answer_bof": "Bof",
+    "answer_nok": "No"
+  },
+  {
+    "question": "Do you feel good about yourself?",
+    "answer_ok": "Yes",
+    "answer_bof": "Bof",
+    "answer_nok": "No"
+  },
+  {
+    "question": "Do you have confidence in yourself and your skills?",
+    "answer_ok": "Yes",
+    "answer_bof": "Bof",
+    "answer_nok": "No"
+  },
+  {
+    "question": "Are you worried?",
+    "answer_ok": "No",
+    "answer_bof": "Bof",
+    "answer_nok": "Yes"
+  },
+  {
+    "question": "Are you stressed?",
+    "answer_ok": "No",
+    "answer_bof": "Bof",
+    "answer_nok": "Yes"
+  }
+]

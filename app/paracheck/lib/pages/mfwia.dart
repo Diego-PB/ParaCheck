@@ -7,20 +7,19 @@ import 'package:paracheck/widgets/secondary_button.dart';
 import 'package:paracheck/widgets/app_notice.dart';
 import 'package:paracheck/design/spacing.dart';
 
-class MeteoIntPage extends StatefulWidget {
-  const MeteoIntPage({super.key});
+class MfwiaPage extends StatefulWidget {
+  const MfwiaPage({super.key});
 
   @override
-  State<MeteoIntPage> createState() => _MeteoIntPageState();
+  State<MfwiaPage> createState() => _MfwiaPageState();
 }
 
-class _MeteoIntPageState extends State<MeteoIntPage> {
+class _MfwiaPageState extends State<MfwiaPage> {
   List<dynamic> _questions = [];
   final Map<int, String> _answers = {};
   final Set<int> _locked = {};
   int _visibleCount = 1;
   int? _alertIndex;
-  int? _softAlertIndex;  
   bool _progressBlocked = false;
 
   final _scrollCtrl = ScrollController();
@@ -38,7 +37,7 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
   }
 
   Future<void> _loadQuestions() async {
-    final raw = await rootBundle.loadString('assets/questions_meteo_int.json');
+    final raw = await rootBundle.loadString('assets/mfwia_questions.json');
     final List<dynamic> data = json.decode(raw);
     setState(() {
       _questions = data;
@@ -46,7 +45,6 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
       _locked.clear();
       _visibleCount = data.isEmpty ? 0 : 1;
       _alertIndex = null;
-      _softAlertIndex = null;
       _progressBlocked = false;
     });
   }
@@ -57,7 +55,6 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
       _locked.clear();
       _visibleCount = _questions.isEmpty ? 0 : 1;
       _alertIndex = null;
-      _softAlertIndex = null;
       _progressBlocked = false;
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -72,33 +69,23 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
       _answers[index] = value;
       _locked.add(index);
 
-    final c = _countStates();
-    final triggerStrict = c.rouges >= 2;
-    final triggerSouple = c.rouges >= 1 || c.oranges >= 3;
+      // Règle: 1 rouge
+      final c = _countStates();
+      final trigger = c.rouges >= 1;
 
-    if (triggerStrict) {
-      _progressBlocked = true;
-      _alertIndex ??= index; // Alerte stricte
-      _softAlertIndex = null;
-    } else if (triggerSouple) {
-      _progressBlocked = false;
-      _alertIndex = null;
-      _softAlertIndex ??= index; // Alerte souple
-      final isLastVisible = index == _visibleCount - 1;
-      if (isLastVisible && _visibleCount < _questions.length) {
-        _visibleCount += 1;
-      }
-    } else {
-      _progressBlocked = false;
-      _alertIndex = null;
-      _softAlertIndex = null;
+      if (trigger) {
+        _progressBlocked = true;
+        _alertIndex ??= index;
+      } else {
+        _progressBlocked = false;
+        _alertIndex = null;
 
-      final isLastVisible = index == _visibleCount - 1;
-      if (isLastVisible && _visibleCount < _questions.length) {
-        _visibleCount += 1;
+        final isLastVisible = index == _visibleCount - 1;
+        if (isLastVisible && _visibleCount < _questions.length) {
+          _visibleCount += 1;
+        }
       }
-    }
-  });
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
   }
@@ -113,18 +100,16 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
   }
 
   // Comptage global des états
-  ({int oranges, int rouges}) _countStates() {
-    int oranges = 0;
+  ({int rouges}) _countStates() {
     int rouges = 0;
     for (final entry in _answers.entries) {
       final i = entry.key;
       if (i < 0 || i >= _questions.length) continue;
       final q = _questions[i] as Map<String, dynamic>;
       final v = entry.value;
-      if (v == q['answer_bof']) oranges++;
       if (v == q['answer_nok']) rouges++;
     }
-    return (oranges: oranges, rouges: rouges);
+    return (rouges: rouges);
   }
 
   bool get _allAnswered =>
@@ -133,10 +118,10 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Météo intérieure',
+      title: 'MFWIA',
       showReturnButton: true,
       onReturn: () {
-        Navigator.pushNamed(context, '/condition_vol');
+        Navigator.pushNamed(context, '/personal_weather');
       },
       body:
           _questions.isEmpty
@@ -160,30 +145,21 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
                     if (_alertIndex != null && _alertIndex == i) ...[
                       const AppNotice(
                         kind: NoticeKind.attention,
-                        title: 'Attention',
-                        message: 'Votre état ne vous permet pas de voler en toute sécurité ! Que faites-vous au décollage ?',
+                        title: 'Warning',
+                        message: 'Make your preparations again, then recheck your equipment.',
                         compact: true,
                       ),
                       const SizedBox(height: AppSpacing.sm),
                       Row(
                         children: [
                           SecondaryButton(
-                            label: 'Recommencer',
+                            label: 'Restart',
                             onPressed: _resetFlow,
                           ),
                         ],
                       ),
                       const SizedBox(height: AppSpacing.lg),
-                    ] // Alerte globale (au moins une question en rouge ou 2+ oranges)
-                    else if (_softAlertIndex != null && _softAlertIndex == i) ...[
-                    const AppNotice(
-                      kind: NoticeKind.attention,
-                      title: 'Attention',
-                      message: 'Les conditions de vol ne sont pas optimales.',
-                    ),
-                    
-                    const SizedBox(height: AppSpacing.lg),
-                  ] else 
+                    ] else
                       const SizedBox(height: AppSpacing.sm),
                   ],
 
@@ -191,19 +167,18 @@ class _MeteoIntPageState extends State<MeteoIntPage> {
                   if (_allAnswered && !_progressBlocked) ...[
                     const AppNotice(
                       kind: NoticeKind.valid,
-                      title: 'Conditions optimales',
-                      message:
-                          'Votre état mental est actuellement favorable pour le vol en parapente.',
+                      title: 'Optimal Conditions',
+                        message:
+                          "Your equipment is checked and ready to use.",
                     ),
                     const SizedBox(height: AppSpacing.md),
                     Row(
                       children: [
                         SecondaryButton(
-                          label: 'Valider',
+                          label: "Validate",
                           onPressed: () {
-                            Navigator.pushNamed(context, '/mavie');
+                            Navigator.pushNamed(context, '/breathing');
                           },
-
                         ),
                       ],
                     ),
@@ -254,13 +229,6 @@ class _QuestionBlock extends StatelessWidget {
               backgroundColor: Colors.green,
               selected: selected == question["answer_ok"],
               onPressed: enabled ? () => onSelect(question["answer_ok"]) : null,
-            ),
-            SecondaryButton(
-              label: question["answer_bof"],
-              backgroundColor: Colors.orange,
-              selected: selected == question["answer_bof"],
-              onPressed:
-                  enabled ? () => onSelect(question["answer_bof"]) : null,
             ),
             SecondaryButton(
               label: question["answer_nok"],

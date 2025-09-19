@@ -7,22 +7,22 @@ import '../widgets/primary_button.dart';
 import '../design/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ConditionVolPage extends StatefulWidget {
-  const ConditionVolPage({super.key});
+class FlightConditionPage extends StatefulWidget {
+  const FlightConditionPage({super.key});
 
   @override
-  State<ConditionVolPage> createState() => _ConditionVolPageState();
+  State<FlightConditionPage> createState() => _FlightConditionPageState();
 }
 
-class _ConditionVolPageState extends State<ConditionVolPage> {
-  static const _key = 'condition_vol_level';
+class _FlightConditionPageState extends State<FlightConditionPage> {
+  static const _key = 'flight_condition_level';
   int? selectedLevel;
 
   final conditions = [
-    {'level': 1, 'label': 'Conditions calmes '},
-    {'level': 2, 'label': 'Turbulences moyennes et localisées '},
-    {'level': 3, 'label': 'Turbulences fortes et fréquentes '},
-    {'level': 4, 'label': 'Turbulences très fortes et constantes '},
+    {'level': 1, 'label': 'Calm Conditions'},
+    {'level': 2, 'label': 'Medium and localized turbulence'},
+    {'level': 3, 'label': 'Strong and frequent turbulence'},
+    {'level': 4, 'label': 'Very strong and constant turbulence'},
   ];
 
   @override
@@ -38,7 +38,7 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Conditions de vol',
+      title: 'Flight Conditions',
       showReturnButton: true,
       onReturn: () {
         Navigator.pushNamed(context, '/homepage');
@@ -48,7 +48,7 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SectionTitle('Choisis la cotation'),
+            const SectionTitle('Choose the rating'),
             const SizedBox(height: AppSpacing.md),
             Column(
               children:
@@ -87,7 +87,7 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Text(
-                  'Une fermeture reste toujours une erreur de pilotage',
+                  'A closure is always a pilot error.',
                   style: TextStyle(
                     color: AppColors.danger,
                     fontWeight: FontWeight.bold,
@@ -105,15 +105,15 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   PrimaryButton(
-                    label: 'Valider',
+                    label: 'Validate',
                     icon: Icons.check,
                     onPressed:
                         selectedLevel == null
                             ? null
                             : () async {
                               await _saveLevel(selectedLevel!);
-                              print('Cotation sauvegardée : $selectedLevel');
-                              Navigator.pushNamed(context, '/meteo_int');
+                              print('Rating saved: $selectedLevel');
+                              Navigator.pushNamed(context, '/personal_weather');
                             },
                   ),
                 ],
@@ -130,21 +130,21 @@ class _ConditionVolPageState extends State<ConditionVolPage> {
       case 1:
         return const AppNotice(
           kind: NoticeKind.valid,
-          title: 'Vigilance faible',
-          message: 'Les conditions sont calmes.',
+          title: 'Low vigilance',
+          message: 'Conditions are calm.',
         );
       case 2:
       case 3:
         return const AppNotice(
           kind: NoticeKind.warning,
-          title: 'Vigilance moyenne à élevée',
-          message: 'Attention aux turbulences, restez vigilant.',
+          title: 'Medium to high vigilance',
+          message: 'Beware of turbulence, stay vigilant.',
         );
       case 4:
         return const AppNotice(
           kind: NoticeKind.attention,
-          title: 'Vigilance maximale',
-          message: 'Conditions très turbulentes, vigilance extrême requise !',
+          title: 'Very high vigilance',
+          message: 'Conditions are very turbulent, extreme vigilance required!',
         );
       default:
         return const SizedBox.shrink();

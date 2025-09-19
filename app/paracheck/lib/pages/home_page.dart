@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
                     if (snap.hasError) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: Text('Erreur de chargement: ${snap.error}'),
+                        child: Text('Loading error : ${snap.error}'),
                       );
                     }
                     final flights = snap.data ?? [];
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                     if (last3.isEmpty) {
                       return const Padding(
                         padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Text('Aucun vol pour l’instant. Enregistre ton premier vol depuis le Post-vol 👇'),
+                        child: Text('No flights yet. Record your first flight from the Post-flight section 👇'),
                       );
                     }
                     return Column(
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                           child: StatTile(
                             label: formatDate(f.date),
                             value:
-                                'Durée : ${formatDuration(f.duration)} • Altitude : ${f.altitude}m',
+                                'Duration : ${formatDuration(f.duration)} • Altitude : ${f.altitude}m',
                             icon: Icons.paragliding,
                           ),
                         )
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                 ), // Plus d'espace avant le bouton historique
                 Center(
                   child: PrimaryButton(
-                    label: "Voir l'historique",
+                    label: "See all flights",
                     icon: Icons.history,
                     onPressed: () => {Navigator.pushNamed(context, '/flights_history')},
                   ),
@@ -83,18 +83,18 @@ class _HomePageState extends State<HomePage> {
 
                 // Deux gros boutons : Pré-vol et Post-vol
                 HomeButton(
-                  label: "Pré-vol",
+                  label: "Pre-flight",
                   icon: Icons.checklist,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/condition_vol');
+                    Navigator.pushNamed(context, '/flight_condition');
                   },
                 ),
                 const SizedBox(height: 50),
                 HomeButton(
-                  label: "Post-vol",
+                  label: "Post-flight",
                   icon: Icons.assignment_turned_in,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/debrief_postvol');
+                    Navigator.pushNamed(context, '/postflight_debrief');
                   },
                 ),
                 const SizedBox(height: 16),
