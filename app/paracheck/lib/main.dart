@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:paracheck/app_router.dart';
 import 'pages/splash_screen.dart';
 import 'package:paracheck/theme.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +21,16 @@ class MyApp extends StatelessWidget {
       theme: buildTheme(),
       debugShowCheckedModeBanner: false,
       routes: appRoutes,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'), // English
+        Locale('fr'), // French
+        Locale('es'), // Spanish
+      ],
     );
   }
 }
