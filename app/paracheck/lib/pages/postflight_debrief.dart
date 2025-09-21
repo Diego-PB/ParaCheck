@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:paracheck/models/debrief.dart';
 import 'package:paracheck/models/flights.dart';
 import 'package:paracheck/services/flight_repository.dart';
 import 'package:paracheck/utils/parsing_helpers.dart';
@@ -66,12 +67,21 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
 
   Future<void> _valider() async {
     try {
+      // Récupérer les infos de vol dans les champs de texte
+      final entries = <DebriefEntry>[];
+      for (var i = 0; i < _questions.length; i++) {
+        final answer = _controllers[i].text.trim();
+        if (answer.isNotEmpty) {
+          entries.add(DebriefEntry(label: _questions[i].label, value: answer));
+        }
+      }
+
       // 0 : site, 1 : date, 2 : durée, 3 : altitude
+      final id = DateTime.now().microsecondsSinceEpoch.toString();
       final site = _controllers[0].text.trim();
       final date = parseDateFr(_controllers[1].text.trim());
       final duration = parseDurationFr(_controllers[2].text.trim());
       final altitude = parseAltitudeMeters(_controllers[3].text.trim());
-      final id = DateTime.now().microsecondsSinceEpoch.toString();
 
       final flight = Flight(
         id: id,
@@ -79,6 +89,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
         date: date,
         duration: duration,
         altitude: altitude,
+        debrief: entries,
       );
 
       await _flightRepo.add(flight);

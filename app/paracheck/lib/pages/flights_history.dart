@@ -138,6 +138,23 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
                       const SizedBox(height: AppSpacing.md),
                       const Text('Aucune rose enregistrée pour ce vol.'),
                     ],
+                    if (flight.debrief.isNotEmpty) ...[
+                      const Divider(),
+                      const Text(
+                        'Débrief',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      for (final e in flight.debrief) ...[
+                        Text(
+                          e.label,
+                          style: const TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(height: AppSpacing.xs),
+                        Text(e.value),
+                        const SizedBox(height: AppSpacing.sm),
+                      ],
+                    ],
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(

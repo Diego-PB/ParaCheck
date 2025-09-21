@@ -1,3 +1,4 @@
+import 'package:paracheck/models/debrief.dart';
 import 'package:paracheck/models/radar.dart';
 
 class Flight {
@@ -7,6 +8,7 @@ class Flight {
   final Duration duration; // Exemple : '1h45'
   final int altitude; // En mètres
   final Radar? radar; // Peut être null si pas encore évalué
+  final List<DebriefEntry> debrief;
 
   const Flight({
     required this.id,
@@ -15,6 +17,7 @@ class Flight {
     required this.duration,
     required this.altitude,
     this.radar,
+    this.debrief = const [],
   });
 
   Flight copyWith({
@@ -24,6 +27,7 @@ class Flight {
     Duration? duration,
     int? altitude,
     Radar? radar,
+    List<DebriefEntry>? debrief,
   }) {
     return Flight(
       id: id ?? this.id,
@@ -32,6 +36,7 @@ class Flight {
       duration: duration ?? this.duration,
       altitude: altitude ?? this.altitude,
       radar: radar ?? this.radar,
+      debrief: debrief ?? this.debrief,
     );
   }
 
@@ -42,10 +47,12 @@ class Flight {
     'duration_sec': duration.inSeconds,
     'altitude_m': altitude,
     if (radar != null) 'radar': radar!.toJson(),
+    if (debrief.isNotEmpty) 'debrief': debrief.map((e) => e.toJson()).toList(),
   };
 
   factory Flight.fromJson(Map<String, dynamic> json) {
     final r = json['radar'];
+    final d = (json['debrief'] as List?) ?? const [];
     return Flight(
       id:
           (json['id'] as String?) ??
@@ -55,6 +62,10 @@ class Flight {
       duration: Duration(seconds: (json['duration_sec'] as num).toInt()),
       altitude: (json['altitude_m'] as num).toInt(),
       radar: r == null ? null : Radar.fromJson(Map<String, dynamic>.from(r)),
+      debrief:
+          d
+              .map((e) => DebriefEntry.fromJson(Map<String, dynamic>.from(e)))
+              .toList(),
     );
   }
 
