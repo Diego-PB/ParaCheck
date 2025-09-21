@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:paracheck/models/flights.dart';
+import 'package:paracheck/models/radar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class FlightRepository {
@@ -9,6 +10,8 @@ abstract class FlightRepository {
   Future<void> removeAt(int index);
   Future<void> clear();
   Future<void> replaceAll(List<Flight> flights);
+  Future<Flight?> getById(String id);
+  Future<void> finalizeRadar(String id, Radar radar);
 }
 
 class SharedPrefsFlightRepository implements FlightRepository {
@@ -44,7 +47,7 @@ class SharedPrefsFlightRepository implements FlightRepository {
   Future<void> removeAt(int index) async {
     final prefs = await _prefs;
     final current = await getAll();
-    if(index < 0 || index >= current.length) return;
+    if (index < 0 || index >= current.length) return;
     current.removeAt(index);
     final encoded = jsonEncode(current.map((f) => f.toJson()).toList());
     await prefs.setString(_key, encoded);
@@ -61,5 +64,32 @@ class SharedPrefsFlightRepository implements FlightRepository {
     final prefs = await _prefs;
     final encoded = jsonEncode(flights.map((f) => f.toJson()).toList());
     await prefs.setString(_key, encoded);
+  }
+
+  @override
+  Future<Flight?> getById(String id) async {
+    final all = await getAll();
+    for (final f in all) {
+      if (f.id == id) return f;
+    }
+    return null;
+  }
+
+  @override
+  Future<void> finalizeRadar(String id, Radar radar) async {
+    final prefs = await _prefs;
+    final list = await getAll();
+    final i = list.indexWhere((f) => f.id == id);
+    if (i == -1) {
+      throw StateError('Vol introuvable');
+    }
+    if (list[i].radar != null) {
+      throw StateError('Vol déjà évalué');
+    }
+    list[i] = list[i].copyWith(radar: radar);
+    await prefs.setString(
+      _key,
+      jsonEncode(list.map((f) => f.toJson()).toList()),
+    );
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-/// Liste des compétences (doit rester synchronisée avec la page qui affiche la rose)
-const List<String> roseFeatures = [
+/// Liste des compétences (doit rester synchronisée avec la page qui affiche le radar)
+const List<String> radarFeatures = [
   "PIL - Pilotage",
   "SIV - Situation Incidents de Vol",
   "AIR - Aérologie et météorologie",
@@ -16,7 +16,7 @@ const List<String> roseFeatures = [
 ];
 
 /// Descriptions associées (source de vérité unique)
-const Map<String, String> roseDescriptions = {
+const Map<String, String> radarDescriptions = {
   "PIL - Pilotage":
       "Plan de vol. Gonflage et maîtrise au sol. Utilisation commandes et sellette. Technique adaptée de décollage, approche et atterrissage.",
   "SIV - Situation Incidents de Vol":
@@ -42,67 +42,49 @@ const Map<String, String> roseDescriptions = {
 };
 
 /// Modèle représentant une "Rose des compétences" pour un vol.
-class Rose {
-  final Map<String, double> scores; // clef = nom de la compétence, valeur = 0.0..20.0
+class Radar {
+  final Map<String, double> scores; // 0..20.0
 
-  const Rose({
-    required this.scores,
-  });
+  const Radar({required this.scores});
 
-  Rose copyWith({
-    Map<String, double>? scores,
-  }) {
-    return Rose(scores: scores ?? Map<String, double>.from(this.scores));
-  }
+  Map<String, dynamic> toJson() => {'scores': scores};
 
-  Map<String, dynamic> toJson() => {
-        'scores': scores.map((k, v) => MapEntry(k, v)),
-      };
-
-  factory Rose.fromJson(Map<String, dynamic> json) {
+  factory Radar.fromJson(Map<String, dynamic> json) {
     final rawScores = Map<String, dynamic>.from(json['scores'] as Map);
-    final parsedScores =
-        rawScores.map((k, v) => MapEntry(k, (v as num).toDouble()));
-
-    return Rose(scores: parsedScores);
+    return Radar(
+      scores: rawScores.map((k, v) => MapEntry(k, (v as num).toDouble())),
+    );
   }
 
   String toJsonString() => jsonEncode(toJson());
-  factory Rose.fromJsonString(String s) =>
-      Rose.fromJson(jsonDecode(s) as Map<String, dynamic>);
 
-  /// Moyenne simple des scores (0..20)
-  double average() {
-    if (scores.isEmpty) return 0.0;
-    final sum = scores.values.reduce((a, b) => a + b);
-    return sum / scores.length;
-  }
+  factory Radar.fromJsonString(String s) =>
+      Radar.fromJson(jsonDecode(s) as Map<String, dynamic>);
+
+  double average() =>
+      scores.isEmpty
+          ? 0.0
+          : scores.values.reduce((a, b) => a + b) / scores.length;
 
   /// Récupère la valeur pour une feature, 0.0 par défaut si absente
   double scoreOf(String feature) => scores[feature] ?? 0.0;
 
   /// Retourne la liste des scores ordonnée selon `featuresOrder`.
   /// Utile pour alimenter un RadarChart.
-  List<double> toOrderedList(List<String> featuresOrder) =>
-      featuresOrder.map(scoreOf).toList();
+  List<double> toOrderedList(List<String> order) => order.map(scoreOf).toList();
 
   /// Normalise les scores pour qu'elles contiennent au moins toutes les clés requises
-  Map<String, double> normalizedScores(List<String> requiredFeatures) {
-    final Map<String, double> out = {};
-    for (final f in requiredFeatures) {
+  Map<String, double> normalizedScores(List<String> required) {
+    final out = <String, double>{};
+    for (final f in required) {
       out[f] = scoreOf(f);
     }
-    // Garde aussi d'éventuelles clés additionnelles présentes dans scores
     for (final k in scores.keys) {
-      if (!out.containsKey(k)) out[k] = scores[k]!;
+      out.putIfAbsent(k, () => scores[k]!);
     }
     return out;
   }
 
-  /// Liste des features manquantes par rapport à une liste requise
-  List<String> missingFeatures(List<String> requiredFeatures) =>
-      requiredFeatures.where((f) => !scores.containsKey(f)).toList();
-
   /// Récupère la description (vide si introuvable)
-  String descriptionFor(String feature) => roseDescriptions[feature] ?? '';
+  String descriptionFor(String feature) => radarDescriptions[feature] ?? '';
 }

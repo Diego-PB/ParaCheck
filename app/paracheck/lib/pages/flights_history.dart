@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:paracheck/design/spacing.dart';
 import 'package:paracheck/models/flights.dart';
+import 'package:paracheck/models/radar.dart';
 import 'package:paracheck/services/flight_repository.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
 
@@ -68,44 +70,84 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
         _flights.removeAt(index);
       });
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(
-              content: Text('Vol supprimé'),
-              duration: Duration(milliseconds: 750),
-          ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Vol supprimé'),
+            duration: Duration(milliseconds: 750),
+          ),
+        );
       }
     }
   }
 
   void showDetails(Flight flight) {
+    final featuresShort = radarFeatures
+        .map((f) => f.split(' - ').first)
+        .toList(growable: false);
+
+    final radarData =
+        flight.radar != null
+            ? [flight.radar!.toOrderedList(radarFeatures)]
+            : const <List<double>>[];
+
+    final Widget radarWidget = RepaintBoundary(
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: RadarChart.light(
+          ticks: const [5, 10, 15, 20],
+          features: featuresShort,
+          data: radarData,
+        ),
+      ),
+    );
+
     showModalBottomSheet(
       context: context,
       showDragHandle: true,
+      isScrollControlled: true,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.9,
+      ),
       builder:
-          (_) => Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  flight.site.isEmpty ? 'Site inconnu' : flight.site,
-                  style: Theme.of(context).textTheme.titleLarge,
+          (_) => SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      flight.site.isEmpty ? 'Site inconnu' : flight.site,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Text('Date : ${flight.formatDate(flight.date)}'),
+                    Text('Durée : ${flight.formatDuration(flight.duration)}'),
+                    Text('Altitude max : ${flight.altitude} m'),
+                    const SizedBox(height: AppSpacing.md),
+                    if (flight.radar != null) ...[
+                      const Divider(),
+                      const Text(
+                        'Rose des compétences',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      radarWidget,
+                    ] else ...[
+                      const SizedBox(height: AppSpacing.md),
+                      const Text('Aucune rose enregistrée pour ce vol.'),
+                    ],
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('Fermer'),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: AppSpacing.sm),
-                Text('Date : ${formatDate(flight.date)}'),
-                Text('Durée : ${formatDuration(flight.duration)}'),
-                Text('Altitude max : ${flight.altitude} m'),
-                const SizedBox(height: AppSpacing.md),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Fermer'),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
     );
@@ -119,7 +161,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
         title: 'Historique des vols',
         showReturnButton: true,
         onReturn: () {
-           Navigator.pushNamed(context, '/homepage');
+          Navigator.pushNamed(context, '/homepage');
         },
         body: Center(child: CircularProgressIndicator()),
       );
@@ -129,7 +171,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
         title: 'Historique des vols',
         showReturnButton: true,
         onReturn: () {
-           Navigator.pushNamed(context, '/homepage');
+          Navigator.pushNamed(context, '/homepage');
         },
         body: Center(child: Text(_error!)),
       );
@@ -184,7 +226,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 subtitle: Text(
-                  '${formatDate(flight.date)} • ${formatDuration(flight.duration)} • ${flight.altitude} m',
+                  '${flight.formatDate(flight.date)} • ${flight.formatDuration(flight.duration)} • ${flight.altitude} m',
                 ),
                 onTap: () => showDetails(flight),
                 trailing: IconButton(

@@ -6,7 +6,7 @@ import 'package:paracheck/pages/mavie.dart';
 import 'package:paracheck/pages/uikitdemopage.dart';
 import 'package:paracheck/pages/flight_condition.dart';
 import 'package:paracheck/pages/personal_weather.dart';
-import 'package:paracheck/pages/radar.dart';
+import 'package:paracheck/pages/radar_page.dart';
 import 'package:paracheck/pages/breathing_stress.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
@@ -17,7 +17,12 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/mavie': (context) => const MaviePage(),
   '/breathing': (context) => const BreathingStressPage(),
   '/postflight_debrief': (context) => const PostFlightDebriefPage(),
-  '/radar': (context) => const RadarPage(),
+  '/radar': (context) {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final flightId = (args?['flightId'] as String?) ?? '';
+    return RadarPage(flightId: flightId);
+  },
   '/flights_history': (context) => const FlightsHistoryPage(),
 };
 

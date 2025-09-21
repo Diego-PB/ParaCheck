@@ -14,7 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final FlightRepository flightRepository = SharedPrefsFlightRepository();
 
   @override
@@ -49,21 +48,23 @@ class _HomePageState extends State<HomePage> {
                     if (last3.isEmpty) {
                       return const Padding(
                         padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Text('Aucun vol enregistré pour le moment. Enregistrez votre premier vol dans la section Post-vol 👇'),
+                        child: Text(
+                          'Aucun vol enregistré pour le moment. Enregistrez votre premier vol dans la section Post-vol 👇',
+                        ),
                       );
                     }
                     return Column(
                       children: [
                         for (final f in last3)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: StatTile(
-                            label: formatDate(f.date),
-                            value:
-                                'Durée : ${formatDuration(f.duration)} • Altitude : ${f.altitude}m',
-                            icon: Icons.paragliding,
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: StatTile(
+                              label: f.formatDate(f.date),
+                              value:
+                                  'Durée : ${f.formatDuration(f.duration)} • Altitude : ${f.altitude}m',
+                              icon: Icons.paragliding,
+                            ),
                           ),
-                        )
                       ],
                     );
                   },
@@ -75,7 +76,10 @@ class _HomePageState extends State<HomePage> {
                   child: PrimaryButton(
                     label: "Voir tous les vols",
                     icon: Icons.history,
-                    onPressed: () => {Navigator.pushNamed(context, '/flights_history')},
+                    onPressed:
+                        () => {
+                          Navigator.pushNamed(context, '/flights_history'),
+                        },
                   ),
                 ),
 

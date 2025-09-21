@@ -43,13 +43,13 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
       _questions
         ..clear()
         ..addAll(list.map((e) => _Q.fromJson(e as Map<String, dynamic>)));
-      _controllers
-        ..clear();
+      _controllers..clear();
       for (var i = 0; i < _questions.length; i++) {
         // Préremplir le champ de la date (index 1) avec la date du jour au format français
         if (i == 1) {
           final now = DateTime.now();
-          final dateStr = "${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year}";
+          final dateStr =
+              "${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year}";
           _controllers.add(TextEditingController(text: dateStr));
         } else {
           _controllers.add(TextEditingController());
@@ -71,8 +71,10 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
       final date = parseDateFr(_controllers[1].text.trim());
       final duration = parseDurationFr(_controllers[2].text.trim());
       final altitude = parseAltitudeMeters(_controllers[3].text.trim());
+      final id = DateTime.now().microsecondsSinceEpoch.toString();
 
       final flight = Flight(
+        id: id,
         site: site,
         date: date,
         duration: duration,
@@ -105,7 +107,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
       );
 
       if (!mounted) return;
-      Navigator.pushNamed(context, '/radar');
+      Navigator.pushNamed(context, '/radar', arguments: {'flightId': id});
     } catch (e) {
       if (!mounted) return;
       showDialog(
