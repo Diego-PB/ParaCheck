@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:paracheck/design/spacing.dart';
-import 'package:paracheck/models/flights.dart';
+import 'package:paracheck/models/flight.dart';
 import 'package:paracheck/models/radar.dart';
 import 'package:paracheck/services/flight_repository.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
