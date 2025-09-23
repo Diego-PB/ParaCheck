@@ -1,3 +1,9 @@
+/*
+ * This page implements the personal weather (mental state) checklist for the user before flight.
+ * It loads a list of questions from a local JSON file and presents them one by one.
+ * The user must answer each question; if certain thresholds are reached (e.g., too many "orange" or "red" answers), alerts are shown and progress may be blocked.
+ * When all questions are answered without critical alerts, the user can validate and proceed to the next step.
+ */
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -15,30 +21,43 @@ class PersonalWeatherPage extends StatefulWidget {
 }
 
 class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
+  // List of questions loaded from the JSON file
   List<dynamic> _questions = [];
+  // Stores the user's answers (question index -> answer string)
   final Map<int, String> _answers = {};
+  // Tracks which questions are locked (already answered)
   final Set<int> _locked = {};
+  // Number of questions currently visible in the flow
   int _visibleCount = 1;
+  // Index of the question that triggered a strict alert, if any
   int? _alertIndex;
-  int? _softAlertIndex;  
+  // Index of the question that triggered a soft alert, if any
+  int? _softAlertIndex;
+  // Whether progress is blocked due to a critical answer
   bool _progressBlocked = false;
 
+  // Controller for scrolling the ListView
   final _scrollCtrl = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    // Load questions from the local JSON file when the page is initialized
     _loadQuestions();
   }
 
   @override
   void dispose() {
+    // Dispose the scroll controller when the widget is removed
     _scrollCtrl.dispose();
     super.dispose();
   }
 
   Future<void> _loadQuestions() async {
-    final raw = await rootBundle.loadString('assets/personal_weather_questions.json');
+    // Loads the questions from the local JSON file and resets the flow state
+    final raw = await rootBundle.loadString(
+      'assets/personal_weather_questions.json',
+    );
     final List<dynamic> data = json.decode(raw);
     setState(() {
       _questions = data;
@@ -52,6 +71,7 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
   }
 
   void _resetFlow() {
+    // Resets the flow to the initial state and scrolls to the top
     setState(() {
       _answers.clear();
       _locked.clear();
@@ -66,44 +86,52 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
   }
 
   void _selectAnswer(int index, String value) {
+    // Handles user answer selection for a question
+    // If progress is blocked or question is locked, do nothing
     if (_progressBlocked || _locked.contains(index)) return;
 
     setState(() {
       _answers[index] = value;
       _locked.add(index);
 
-    final c = _countStates();
-    final triggerStrict = c.rouges >= 2;
-    final triggerSouple = c.rouges >= 1 || c.oranges >= 3;
+      // Count the number of orange and red answers
+      final c = _countStates();
+      final triggerStrict = c.rouges >= 2;
+      final triggerSouple = c.rouges >= 1 || c.oranges >= 3;
 
-    if (triggerStrict) {
-      _progressBlocked = true;
-      _alertIndex ??= index; // Alerte stricte
-      _softAlertIndex = null;
-    } else if (triggerSouple) {
-      _progressBlocked = false;
-      _alertIndex = null;
-      _softAlertIndex ??= index; // Alerte souple
-      final isLastVisible = index == _visibleCount - 1;
-      if (isLastVisible && _visibleCount < _questions.length) {
-        _visibleCount += 1;
+      if (triggerStrict) {
+        // Strict alert: block progress
+        _progressBlocked = true;
+        _alertIndex ??= index; // Strict alert
+        _softAlertIndex = null;
+      } else if (triggerSouple) {
+        // Soft alert: show warning but allow progress
+        _progressBlocked = false;
+        _alertIndex = null;
+        _softAlertIndex ??= index; // Soft alert
+        final isLastVisible = index == _visibleCount - 1;
+        if (isLastVisible && _visibleCount < _questions.length) {
+          _visibleCount += 1;
+        }
+      } else {
+        // No alert: allow progress
+        _progressBlocked = false;
+        _alertIndex = null;
+        _softAlertIndex = null;
+
+        final isLastVisible = index == _visibleCount - 1;
+        if (isLastVisible && _visibleCount < _questions.length) {
+          _visibleCount += 1;
+        }
       }
-    } else {
-      _progressBlocked = false;
-      _alertIndex = null;
-      _softAlertIndex = null;
+    });
 
-      final isLastVisible = index == _visibleCount - 1;
-      if (isLastVisible && _visibleCount < _questions.length) {
-        _visibleCount += 1;
-      }
-    }
-  });
-
+    // Scroll to bottom after answering
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
   }
 
   void _scrollToBottom() {
+    // Animates the ListView to the bottom
     if (!_scrollCtrl.hasClients) return;
     _scrollCtrl.animateTo(
       _scrollCtrl.position.maxScrollExtent,
@@ -114,6 +142,7 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
 
   // Comptage global des états
   ({int oranges, int rouges}) _countStates() {
+    // Counts the number of orange ("bof") and red ("nok") answers
     int oranges = 0;
     int rouges = 0;
     for (final entry in _answers.entries) {
@@ -128,14 +157,17 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
   }
 
   bool get _allAnswered =>
+      // Returns true if all questions have been answered
       _answers.length == _questions.length && _questions.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
+    // Main UI for the personal weather checklist page
     return AppScaffold(
       title: 'Météo personnelle',
       showReturnButton: true,
       onReturn: () {
+        // Navigate back to the previous page
         Navigator.pushNamed(context, '/flight_condition');
       },
       body:
@@ -145,7 +177,7 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
                 controller: _scrollCtrl,
                 padding: const EdgeInsets.all(AppSpacing.md),
                 children: [
-                  // Questions visibles (chat)
+                  // Display each visible question block
                   for (int i = 0; i < _visibleCount; i++) ...[
                     _QuestionBlock(
                       index: i,
@@ -156,12 +188,13 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
                     ),
                     const SizedBox(height: AppSpacing.md),
 
-                    // Alerte inline sous la question déclenchante
+                    // Inline strict alert shown below the triggering question
                     if (_alertIndex != null && _alertIndex == i) ...[
                       const AppNotice(
                         kind: NoticeKind.attention,
                         title: 'Alerte',
-                        message: 'Votre condition ne vous permet pas de voler en toute sécurité ! Que faites-vous au décollage ?',
+                        message:
+                            'Votre condition ne vous permet pas de voler en toute sécurité ! Que faites-vous au décollage ?',
                         compact: true,
                       ),
                       const SizedBox(height: AppSpacing.sm),
@@ -174,20 +207,21 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
                         ],
                       ),
                       const SizedBox(height: AppSpacing.lg),
-                    ] // Alerte globale (au moins une question en rouge ou 2+ oranges)
-                    else if (_softAlertIndex != null && _softAlertIndex == i) ...[
-                    const AppNotice(
-                      kind: NoticeKind.attention,
-                      title: 'Alerte',
-                      message: 'Les conditions de vol ne sont pas optimales.',
-                    ),
-                    
-                    const SizedBox(height: AppSpacing.lg),
-                  ] else 
+                    ] // Inline soft alert (at least one red or 3+ orange answers)
+                    else if (_softAlertIndex != null &&
+                        _softAlertIndex == i) ...[
+                      const AppNotice(
+                        kind: NoticeKind.attention,
+                        title: 'Alerte',
+                        message: 'Les conditions de vol ne sont pas optimales.',
+                      ),
+
+                      const SizedBox(height: AppSpacing.lg),
+                    ] else
                       const SizedBox(height: AppSpacing.sm),
                   ],
 
-                  // Succès (toutes les questions répondues, et aucune alerte)
+                  // Success message and validation button if all questions answered and no alert
                   if (_allAnswered && !_progressBlocked) ...[
                     const AppNotice(
                       kind: NoticeKind.valid,
@@ -201,9 +235,9 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
                         SecondaryButton(
                           label: 'Valider',
                           onPressed: () {
+                            // Proceed to the next step
                             Navigator.pushNamed(context, '/mavie');
                           },
-
                         ),
                       ],
                     ),
@@ -216,10 +250,15 @@ class _PersonalWeatherPageState extends State<PersonalWeatherPage> {
 }
 
 class _QuestionBlock extends StatelessWidget {
+  // Index of the question in the list
   final int index;
+  // Question data (text and answers)
   final Map<String, dynamic> question;
+  // Currently selected answer for this question
   final String? selected;
+  // Whether the answer buttons are enabled
   final bool enabled;
+  // Callback when an answer is selected
   final ValueChanged<String> onSelect;
 
   const _QuestionBlock({
@@ -232,10 +271,11 @@ class _QuestionBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Renders a single question block with answer buttons
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // "Message" de l'app (question)
+        // Question text
         Text(
           question['question']?.toString() ?? 'Question',
           style: Theme.of(context).textTheme.titleMedium,
@@ -244,7 +284,7 @@ class _QuestionBlock extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.md),
 
-        // "Message" de l'utilisateur (choix)
+        // Answer buttons (OK/So-so/Not OK)
         Wrap(
           spacing: AppSpacing.md,
           runSpacing: AppSpacing.md,

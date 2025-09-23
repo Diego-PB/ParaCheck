@@ -1,3 +1,9 @@
+/*
+ * This page implements the post-flight debrief form for the user to record flight details and feedback.
+ * It loads a list of questions from a local JSON file and presents them as input fields.
+ * The user can fill in the answers, validate to save the flight, and see a summary dialog.
+ * Data is saved using the SharedPrefsFlightRepository and can be viewed in the flight history.
+ */
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -21,23 +27,31 @@ class PostFlightDebriefPage extends StatefulWidget {
 }
 
 class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
+  // Path to the JSON file containing post-flight questions
   static const _assetPath = 'assets/postflight_questions.json';
 
+  // Repository for saving and retrieving flights
   final _flightRepo = SharedPrefsFlightRepository();
 
+  // List of questions loaded from the JSON file
   final List<_Q> _questions = [];
+  // Controllers for each input field
   final List<TextEditingController> _controllers = [];
 
+  // Loading state for async operations
   bool _loading = true;
+  // Error message if loading fails
   String? _error;
 
   @override
   void initState() {
     super.initState();
+    // Load questions and initialize controllers when the page is initialized
     _load();
   }
 
   Future<void> _load() async {
+    // Loads the questions from the local JSON file and initializes controllers
     try {
       final raw = await rootBundle.loadString(_assetPath);
       final list = jsonDecode(raw) as List<dynamic>;
@@ -46,7 +60,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
         ..addAll(list.map((e) => _Q.fromJson(e as Map<String, dynamic>)));
       _controllers..clear();
       for (var i = 0; i < _questions.length; i++) {
-        // Préremplir le champ de la date (index 1) avec la date du jour au format français
+        // Pre-fill the date field (index 1) with today's date in French format
         if (i == 1) {
           final now = DateTime.now();
           final dateStr =
@@ -66,8 +80,9 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
   }
 
   Future<void> _valider() async {
+    // Validates and saves the debrief form, then shows a summary dialog
     try {
-      // Récupérer les infos de vol dans les champs de texte
+      // Collect flight info from input fields
       final entries = <DebriefEntry>[];
       for (var i = 0; i < _questions.length; i++) {
         final answer = _controllers[i].text.trim();
@@ -76,7 +91,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
         }
       }
 
-      // 0 : site, 1 : date, 2 : durée, 3 : altitude
+      // 0: site, 1: date, 2: duration, 3: altitude
       final id = DateTime.now().microsecondsSinceEpoch.toString();
       final site = _controllers[0].text.trim();
       final date = parseDateFr(_controllers[1].text.trim());
@@ -94,6 +109,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
 
       await _flightRepo.add(flight);
 
+      // Build a summary buffer for the dialog
       final buffer = StringBuffer();
       for (var i = 0; i < _questions.length; i++) {
         buffer.writeln("• ${_questions[i].label}");
@@ -139,6 +155,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
   }
 
   void _reset() {
+    // Clears all input fields in the form
     for (final c in _controllers) {
       c.clear();
     }
@@ -147,6 +164,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
 
   @override
   void dispose() {
+    // Dispose all controllers when the widget is removed
     for (final c in _controllers) {
       c.dispose();
     }
@@ -155,6 +173,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Main UI for the post-flight debrief form
     if (_loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -166,11 +185,13 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
       title: "Débrief post-vol",
       showReturnButton: true,
       onReturn: () {
+        // Navigate back to the homepage
         Navigator.pushNamed(context, '/homepage');
       },
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.md),
         children: [
+          // Render each question as a title and input field
           for (var i = 0; i < _questions.length; i++) ...[
             _QuestionTitle(text: _questions[i].label),
             InputField(
@@ -184,7 +205,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
           ],
           const SizedBox(height: AppSpacing.md),
 
-          // Wrap pour éviter l’overflow horizontal des boutons
+          // Wrap to prevent horizontal overflow of buttons
           Wrap(
             spacing: AppSpacing.md,
             runSpacing: AppSpacing.md,
@@ -204,7 +225,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
   }
 }
 
-/// Titre de question qui **wrappe** proprement sur plusieurs lignes.
+/// Question title that wraps properly across multiple lines.
 class _QuestionTitle extends StatelessWidget {
   final String text;
   const _QuestionTitle({required this.text});
@@ -227,7 +248,9 @@ class _QuestionTitle extends StatelessWidget {
 }
 
 class _Q {
+  // Label for the question
   final String label;
+  // Example answer (optional)
   final String? exemple;
   const _Q({required this.label, this.exemple});
   factory _Q.fromJson(Map<String, dynamic> m) =>
