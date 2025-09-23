@@ -62,7 +62,7 @@ La version en ligne est disponible ici : https://bit.ly/paranote.
 |   | Sprint 1 | Cahier de tests | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/cahier_test_v1.adoc[Cahier de tests] | Cahiers de tests
 |   | Sprint 1 | Documentation Utilisateur | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/documentation_utilisateur_v1.adoc[Documentation Utilisateur]| Installation et présentation du projet avec ses fonctionnalités
 |   | Sprint 1 | Documentation Technique | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/documentation_technique_v1.adoc[Documentation Technique] | Fonctionnement et fichiers clés du projet
-|   | Sprint 1 | Release de fin de Sprint 1 | [Release de fin de Sprint 1] | Release de fin de Sprint 1
+|   | Sprint 1 | Release de fin de Sprint 1 | https://github.com/Diego-PB/ParaCheck/releases/tag/V1[Release de fin de Sprint 1] | Release de fin de Sprint 1
 |   | Sprint 1 | Prévision Sprint 2 | https://github.com/users/Diego-PB/projects/7[Prévision Sprint 2] | Prévision du prochain Sprint (2) 
 | Sem. 39-40 ( 22/09/25 - 03/10/25 )   | Sprint 2 | Sprint 2 |  https://github.com/users/Diego-PB/projects/7[Sprint 2] | Sprint 2, avec User Story et tâches associées
 |   | Sprint 2 | Cahier de tests | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_2/cahier_test_v2.adoc[Cahier de tests] | Cahiers de tests
