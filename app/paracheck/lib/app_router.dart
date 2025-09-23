@@ -3,6 +3,7 @@ import 'package:paracheck/pages/postflight_debrief.dart';
 import 'package:paracheck/pages/flights_history.dart';
 import 'package:paracheck/pages/home_page.dart';
 import 'package:paracheck/pages/mavie.dart';
+import 'package:paracheck/pages/settings.dart';
 import 'package:paracheck/pages/uikitdemopage.dart';
 import 'package:paracheck/pages/flight_condition.dart';
 import 'package:paracheck/pages/personal_weather.dart';
@@ -24,6 +25,7 @@ final Map<String, WidgetBuilder> appRoutes = {
     return RadarPage(flightId: flightId);
   },
   '/flights_history': (context) => const FlightsHistoryPage(),
+  '/settings': (context) => const SettingsPage(),
 };
 
 /* 
