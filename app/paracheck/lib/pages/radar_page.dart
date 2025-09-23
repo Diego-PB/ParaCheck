@@ -1,3 +1,12 @@
+/*
+ * RadarPage
+ * -------------
+ * This page allows the user to rate their flight skills using a radar chart.
+ * - If a radar evaluation already exists for the flight, the page is read-only and shows the chart.
+ * - Otherwise, the user can fill sliders for each skill, preview the chart, and save the evaluation.
+ * - Intermediate values are saved locally with SharedPreferences for pre-filling.
+ * - Final values are saved in the flight repository.
+ */
 import 'package:flutter/material.dart';
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:paracheck/models/radar.dart';
@@ -17,33 +26,36 @@ class RadarPage extends StatefulWidget {
 class _RadarPageState extends State<RadarPage> {
   final FlightRepository _flightRepo = SharedPrefsFlightRepository();
 
-  // Données du radar
+  // List of radar features (skills to rate)
   final List<String> features = radarFeatures;
+  // Helper to get the short label for a feature
   String _short(String f) => f.split(' - ').first;
+  // Stores the current values for each skill
   late final Map<String, double> _values;
 
-  // État UI
+  // UI state
   String? _openedFeature;
-  bool _showChart = false; // formulaire vs aperçu
-  bool _readOnly = false; // si déjà enregistré pour ce vol → lecture seule
+  bool _showChart = false; // Toggle between form and chart preview
+  bool _readOnly = false; // True if radar already exists for this flight
   List<List<double>> _radarData = [];
-  final List<int> _ticks = const [5, 10, 15, 20]; // 0–20
+  final List<int> _ticks = const [5, 10, 15, 20]; // Radar chart ticks
 
   @override
   void initState() {
     super.initState();
+    // Initialize all values to 0 and load flight data
     _values = {for (final f in features) f: 0.0};
     _bootstrap();
   }
 
   /// Charge le vol : si un radar existe déjà, on passe en lecture seule et on l’affiche.
   Future<void> _bootstrap() async {
-    // Paramètre manquant : on sort proprement
+    // Loads flight data and determines if the page is read-only or editable.
     if (widget.flightId.isEmpty) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Paramètre "flightId" manquant (navigation)'),
+          content: Text('Missing "flightId" parameter (navigation)'),
         ),
       );
       Navigator.pop(context);
@@ -52,17 +64,17 @@ class _RadarPageState extends State<RadarPage> {
 
     final flight = await _flightRepo.getById(widget.flightId);
 
-    // Vol introuvable
+    // If flight not found, show error and go back
     if (flight == null) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Vol introuvable (id=${widget.flightId})')),
+        SnackBar(content: Text('Flight not found (id=${widget.flightId})')),
       );
       Navigator.pop(context);
       return;
     }
 
-    // Si un radar est déjà attaché au vol → on passe en lecture seule + aperçu direct
+    // If radar already exists, show chart in read-only mode
     if (flight.radar != null) {
       setState(() {
         _readOnly = true;
@@ -72,7 +84,7 @@ class _RadarPageState extends State<RadarPage> {
       return;
     }
 
-    // Aucun radar enregistré → on tente le préremplissage local
+    // Otherwise, try to prefill from local storage
     await _loadSavedValues();
 
     if (!mounted) return;
@@ -80,6 +92,7 @@ class _RadarPageState extends State<RadarPage> {
 
   /// Préremplissage local existant (SharedPreferences) — inchangé esthétiquement
   Future<void> _loadSavedValues() async {
+    // Loads locally saved values from SharedPreferences for pre-filling the form.
     final prefs = await SharedPreferences.getInstance();
     for (final f in features) {
       final raw = prefs.getString('comp_$f') ?? '';
@@ -90,6 +103,7 @@ class _RadarPageState extends State<RadarPage> {
   }
 
   Future<void> _saveValuesLocally(Map<String, double> values) async {
+    // Saves current values locally in SharedPreferences (not final).
     final prefs = await SharedPreferences.getInstance();
     for (final e in values.entries) {
       await prefs.setString('comp_${e.key}', e.value.toString());
@@ -98,10 +112,12 @@ class _RadarPageState extends State<RadarPage> {
 
   /// Afficher l’aperçu
   void _onSaveAndShow() async {
+    // Validates and previews the radar chart (does not save to repository).
     final Map<String, double> values = Map.fromEntries(
       features.map((f) => MapEntry(f, _values[f] ?? 0.0)),
     );
 
+    // Check for invalid values
     final invalids =
         values.entries
             .where((e) => e.value < 0 || e.value > 20)
@@ -110,7 +126,7 @@ class _RadarPageState extends State<RadarPage> {
     if (invalids.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Valeur invalide (0–20) pour : ${invalids.join(', ')}"),
+          content: Text("Invalid value (0–20) for: ${invalids.join(', ')}"),
         ),
       );
       return;
@@ -127,12 +143,11 @@ class _RadarPageState extends State<RadarPage> {
 
   /// Enregistrement définitif dans le vol
   Future<void> _finalize() async {
+    // Finalizes and saves the radar evaluation to the flight repository.
     final invalid = _values.values.any((v) => v < 0 || v > 20);
     if (invalid) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Toutes les valeurs doivent être entre 0 et 20."),
-        ),
+        const SnackBar(content: Text("All values must be between 0 and 20.")),
       );
       return;
     }
@@ -149,7 +164,7 @@ class _RadarPageState extends State<RadarPage> {
         _radarData = [features.map((f) => _values[f] ?? 0.0).toList()];
       });
 
-      // Retour à l’accueil
+      // Navigate back to home after saving
       if (mounted) {
         Navigator.pushNamed(context, '/homepage');
       }
@@ -163,15 +178,17 @@ class _RadarPageState extends State<RadarPage> {
   }
 
   void _goBackToForm() {
+    // Returns to the form view from the chart preview.
     setState(() => _showChart = false);
   }
 
   Widget _buildChartView() {
+    // Builds the radar chart preview and action buttons.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const Text(
-          "Aperçu",
+          "Preview",
           style: TextStyle(
             fontSize: 14,
             color: Colors.black87,
@@ -191,15 +208,15 @@ class _RadarPageState extends State<RadarPage> {
           FilledButton.icon(
             onPressed: _goBackToForm,
             icon: const Icon(Icons.arrow_back),
-            label: const Text("Changer les valeurs"),
+            label: const Text("Change values"),
           ),
           const SizedBox(height: AppSpacing.lg),
           FilledButton(
-            onPressed: _finalize, // enregistre définitivement dans le vol
+            onPressed: _finalize,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: const [
-                Text("Terminer l'enregistrement du vol !"),
+                Text("Finalize flight record!"),
                 SizedBox(width: 8),
                 Icon(Icons.check),
               ],
@@ -210,7 +227,7 @@ class _RadarPageState extends State<RadarPage> {
           FilledButton.icon(
             onPressed: () => Navigator.pushNamed(context, '/homepage'),
             icon: const Icon(Icons.home),
-            label: const Text("Retour à l’accueil"),
+            label: const Text("Back to home"),
           ),
         ],
       ],
@@ -218,10 +235,12 @@ class _RadarPageState extends State<RadarPage> {
   }
 
   Widget _buildFormView() {
+    // Builds the form for entering radar values.
     return SingleChildScrollView(
       child: Column(
         children: [
           for (final f in features) ...[
+            // Each skill slider with label and value
             GestureDetector(
               onTap: () => setState(() => _openedFeature = f),
               child: Container(
@@ -233,7 +252,7 @@ class _RadarPageState extends State<RadarPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // En-tête + valeur
+                    // Header and value
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -256,7 +275,7 @@ class _RadarPageState extends State<RadarPage> {
                         ),
                       ],
                     ),
-                    // Slider 0..20
+                    // Slider for 0..20
                     Slider(
                       value: _values[f]!,
                       min: 0,
@@ -273,6 +292,7 @@ class _RadarPageState extends State<RadarPage> {
                 ),
               ),
             ),
+            // Show description if this feature is opened
             if (_openedFeature == f)
               Padding(
                 padding: const EdgeInsets.only(
@@ -297,13 +317,13 @@ class _RadarPageState extends State<RadarPage> {
             const SizedBox(height: 8),
           ],
           const SizedBox(height: 8),
+          // Button to preview the radar chart
           FilledButton(
-            onPressed:
-                _onSaveAndShow, // aperçu uniquement (pas de persistance dans le vol)
+            onPressed: _onSaveAndShow,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: const [
-                Text("Afficher la rose"),
+                Text("Show radar chart"),
                 SizedBox(width: 8),
                 Icon(Icons.arrow_forward),
               ],
@@ -311,7 +331,7 @@ class _RadarPageState extends State<RadarPage> {
           ),
           const SizedBox(height: 8),
           const Text(
-            "Choisissez une valeur entre 0 et 20 pour chaque compétence.",
+            "Choose a value between 0 and 20 for each skill.",
             style: TextStyle(fontSize: AppSpacing.md, color: Colors.black54),
           ),
           const SizedBox(height: AppSpacing.lg),
@@ -322,8 +342,9 @@ class _RadarPageState extends State<RadarPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Main build method: shows either the form or the radar chart preview
     return AppScaffold(
-      title: "Rose des compétences",
+      title: "Skill Radar",
       showReturnButton: true,
       onReturn: () => Navigator.pushNamed(context, '/postflight_debrief'),
       body: Padding(

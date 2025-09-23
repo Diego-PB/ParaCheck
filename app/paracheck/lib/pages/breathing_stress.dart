@@ -1,3 +1,9 @@
+/*
+ * BreathingStressPage
+ * -------------------
+ * This page provides static guidance for breathing and stress management before and during flight.
+ * It uses helper widgets for section titles and bullet points, and offers a button to return to the home page.
+ */
 import 'package:flutter/material.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
 import 'package:paracheck/widgets/secondary_button.dart';
@@ -13,10 +19,9 @@ class BreathingStressPage extends StatelessWidget {
   Widget _title(BuildContext context, String text) {
     return Text(
       text,
-      style: Theme.of(context)
-          .textTheme
-          .titleLarge
-          ?.copyWith(fontWeight: FontWeight.w700),
+      style: Theme.of(
+        context,
+      ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
     );
   }
 
@@ -28,7 +33,7 @@ class BreathingStressPage extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('•  '),          // The bullet symbol
+          const Text('•  '), // The bullet symbol
           Expanded(child: Text(text)), // The bullet content
         ],
       ),
@@ -37,6 +42,7 @@ class BreathingStressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Main UI for the breathing and stress management page
     return AppScaffold(
       // App bar title
       title: 'Respiration & Stress',
@@ -59,10 +65,9 @@ class BreathingStressPage extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               // Subtle background aligned with the theme
-              color: Theme.of(context)
-                  .colorScheme
-                  .surfaceContainerHighest
-                  .withOpacity(0.4),
+              color: Theme.of(
+                context,
+              ).colorScheme.surfaceContainerHighest.withOpacity(0.4),
               // Thin border using the theme's outline color
               border: Border.all(
                 color: Theme.of(context).colorScheme.outlineVariant,
@@ -82,10 +87,9 @@ class BreathingStressPage extends StatelessWidget {
                 Expanded(
                   child: Text(
                     'Gestion de la respiration et du stress',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall
-                        ?.copyWith(fontWeight: FontWeight.w800),
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
               ],
