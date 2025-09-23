@@ -1,10 +1,16 @@
+/*
+ HomeButton is a reusable custom button widget designed.
+ It displays a label with an optional icon, with adjustable size for both text and icon,
+ styled as a rounded elevated button with generous padding and slight elevation.
+*/
+
 import 'package:flutter/material.dart';
 
 class HomeButton extends StatelessWidget {
-  final String label;
-  final VoidCallback? onPressed;
-  final IconData? icon;
-  final double? size;
+  final String label;           // Text label on the button
+  final VoidCallback? onPressed; // Callback when the button is pressed
+  final IconData? icon;          // Optional icon displayed before the label
+  final double? size;            // Size for icon and text font (default 40)
 
   const HomeButton({
     super.key,
@@ -31,7 +37,7 @@ class HomeButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 20),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(32), // Plus arrondi
+          borderRadius: BorderRadius.circular(32), // More rounded corners
         ),
         textStyle: TextStyle(fontSize: effectiveSize),
         elevation: 2,

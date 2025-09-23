@@ -1,10 +1,17 @@
+/*
+ SecondaryButton is a customizable outlined button widget.
+ It supports an optional background color and a selected state,
+ which changes the button’s background, border, foreground colors, and adds a check icon.
+ The foreground color automatically adapts for contrast based on the background.
+*/
+
 import 'package:flutter/material.dart';
 
 class SecondaryButton extends StatelessWidget {
-  final String label;
-  final VoidCallback? onPressed;
-  final Color? backgroundColor; 
-  final bool selected;
+  final String label;                 // Button text label
+  final VoidCallback? onPressed;     // Callback for button tap
+  final Color? backgroundColor;      // Optional background color override
+  final bool selected;               // Whether the button is in a selected state
 
   const SecondaryButton({
     super.key,
@@ -18,13 +25,14 @@ class SecondaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
 
-    // Fond dynamique : si pas de couleur fournie et sélectionné -> primaryContainer
+    // Dynamic background color:
+    // If no color provided and selected -> use primaryContainer
     final Color? bg = backgroundColor ?? (selected ? scheme.primaryContainer : null);
 
-    // Couleur du texte/icône (foreground)
-    // - si bg vient de primaryContainer -> onPrimaryContainer
-    // - si bg est fourni (ex: Colors.green) -> calcul noir/blanc selon contraste
-    // - sinon, si sélectionné sans fond -> primary
+    // Foreground color logic:
+    // - If bg is primaryContainer (default background on selected), use onPrimaryContainer
+    // - If bg provided explicitly (e.g., Colors.green), compute white/black based on brightness for contrast
+    // - Otherwise, if selected but no background, use primary color
     final Color? fg = bg != null
         ? (backgroundColor == null ? scheme.onPrimaryContainer : _onColor(bg))
         : (selected ? scheme.primary : null);
@@ -57,7 +65,7 @@ class SecondaryButton extends StatelessWidget {
     );
   }
 
-  // Choisit blanc/noir selon la luminosité du fond fourni
+  // Chooses white or black based on the brightness of the background color
   static Color _onColor(Color bg) {
     return ThemeData.estimateBrightnessForColor(bg) == Brightness.dark
         ? Colors.white
