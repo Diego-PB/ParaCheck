@@ -43,6 +43,11 @@ jobs:
           name: coverage-lcov
           path: app/paracheck/coverage/lcov.info
           if-no-files-found: warn
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: app/paracheck/coverage/lcov.info
+          fail_ci_if_error: true
 
   integration_linux:
     name: Integration tests (Linux desktop headless)
