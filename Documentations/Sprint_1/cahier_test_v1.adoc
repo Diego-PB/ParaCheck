@@ -2,8 +2,6 @@
 :toc:
 :toclevels: 3
 
-image::../../img/Paracheck_logo.png
-
 == Introduction
 Ce document décrit les cas de test pour l’application mobile *ParaCheck*.  
 Il inclut des scénarios de test détaillés, des prérequis, des étapes à suivre, ainsi que les résultats attendus pour chaque cas de test.  
