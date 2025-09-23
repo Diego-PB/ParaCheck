@@ -15,6 +15,7 @@ import 'package:paracheck/pages/flight_condition.dart';
 import 'package:paracheck/pages/personal_weather.dart';
 import 'package:paracheck/pages/radar_page.dart';
 import 'package:paracheck/pages/breathing_stress.dart';
+import 'package:paracheck/pages/settings.dart';
 
 
 final Map<String, WidgetBuilder> appRoutes = {
@@ -50,4 +51,7 @@ final Map<String, WidgetBuilder> appRoutes = {
 
      // History of flights page
   '/flights_history': (context) => const FlightsHistoryPage(),
+
+     // Settings page
+  '/settings': (context) => const SettingsPage(),
 };
