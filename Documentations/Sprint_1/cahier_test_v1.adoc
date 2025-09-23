@@ -40,7 +40,6 @@ Ces tests visent à valider les fonctionnalités liées aux pages principales de
 - La page d’accueil s’affiche sans erreur.  
 - Le logo et les éléments principaux sont visibles.
 
-
 ==== 2. Navigation entre les pages
 *Objectif* :: Vérifier que l’utilisateur peut naviguer entre les différentes pages (`mavie`, `meteo_int`, `condition_vol`, etc.).  
 
@@ -51,8 +50,6 @@ Ces tests visent à valider les fonctionnalités liées aux pages principales de
 *Critères d’acceptation* ::  
 - Chaque clic redirige correctement vers la page attendue.  
 - Aucun crash de l’application.  
-
-
 
 ==== 3. Chargement des questions JSON
 *Objectif* :: Vérifier que les fichiers JSON (`questions_mavie.json`, `questions_meteo_int.json`, `questions_postvol.json`) sont correctement lus et affichés.  
@@ -65,16 +62,15 @@ Ces tests visent à valider les fonctionnalités liées aux pages principales de
 - Toutes les questions apparaissent correctement.  
 - Les données correspondent au contenu des fichiers JSON.   
 
-
 [[Suivi_Frontend]]
 === Suivi des Tests
 
 [cols="3,1,2", options="header"]
 |===
 | Test                         | Statut | Observations
-| Accès à la page d’accueil    | [x]      | Ok
-| Navigation entre les pages   | [x]      | Ok, nécessité de remplacer la flèche de retour automatique par une flèche avec un chemin forcé car considère le bouton principal comme une page à part entière 
-| Chargement des fichiers JSON | [x]      | Ok
+| Accès à la page d’accueil    | ☑      | Ok
+| Navigation entre les pages   | ☑      | Ok, nécessité de remplacer la flèche de retour automatique par une flèche avec un chemin forcé car considère le bouton principal comme une page à part entière 
+| Chargement des fichiers JSON | ☑      | Ok
 |===
 
 
@@ -102,7 +98,6 @@ Ces tests visent à valider la logique métier (services, utils, widgets) ainsi 
 *Critères d’acceptation* ::  
 - Les polices définies dans `assets/fonts` sont bien appliquées.
 
-
 ==== 3. Widgets réutilisables
 *Objectif* :: Vérifier que les composants dans `widgets/` fonctionnent correctement.  
 
@@ -116,7 +111,7 @@ Ces tests visent à valider la logique métier (services, utils, widgets) ainsi 
 [cols="3,1,2", options="header"]
 |===
 | Test                  | Statut | Observations
-| Routage (app_router)  | [x]     | Ok
-| Thème (theme.dart)    | [x]     | Ok, problèmes sur l'émulateur du client (??)
-| Widgets réutilisables | [x]     | Ok
+| Routage (app_router)  | ☑      | Ok
+| Thème (theme.dart)    | ☑      | Ok, problèmes sur l'émulateur du client (??)
+| Widgets réutilisables | ☑      | Ok
 |===
