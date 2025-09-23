@@ -1,3 +1,10 @@
+/*
+  This file defines the theme for the ParaCheck Flutter application.
+  It sets up colors, typography, and component styles to ensure a consistent
+  look and feel across the app, enhancing user experience and visual appeal.
+  This centralized theming approach simplifies maintenance and updates.
+*/
+
 import 'package:flutter/material.dart';
 import 'package:paracheck/design/colors.dart';
 

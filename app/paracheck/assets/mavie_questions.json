@@ -1,3 +1,10 @@
+/*
+ This JSON file contains a list of checklist questions used by the ParaCheck application.
+ Each question addresses a critical safety aspect such as equipment, harness, wind,
+ instruments, and airspace conditions before flight.
+ Possible answers indicate whether the condition is satisfactory ("Yes") or unsatisfactory ("No").
+*/
+
 [
   {
     "question": "M - Matériel (casque, voile, secours, accélérateur, lacets, ...)",
