@@ -1,24 +1,31 @@
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
 import 'dart:typed_data';
+import 'dart:js_interop';                // <-- pour .toJS
+import 'package:web/web.dart' as web;
 
 Future<String?> saveToDownloadsImpl(
   Uint8List bytes,
   String filename, {
   String mimeType = 'application/json',
 }) async {
-  final blob = html.Blob([bytes], mimeType);
-  final url = html.Url.createObjectUrlFromBlob(blob);
+  // Convertit Uint8List -> JS Uint8Array, puis List -> JSArray<BlobPart>
+  final parts = <web.BlobPart>[bytes.toJS].toJS;
 
-  final anchor =
-      html.AnchorElement(href: url)
-        ..download = filename
-        ..style.display = 'none';
-  html.document.body!.append(anchor);
+  final blob = web.Blob(
+    parts,
+    web.BlobPropertyBag(type: mimeType),
+  );
+
+  final url = web.URL.createObjectURL(blob);
+
+  final anchor = web.document.createElement('a') as web.HTMLAnchorElement
+    ..href = url
+    ..download = filename
+    ..style.display = 'none';
+
+  (web.document.body ?? web.document.documentElement)!.appendChild(anchor);
   anchor.click();
   anchor.remove();
-  html.Url.revokeObjectUrl(url);
+  web.URL.revokeObjectURL(url);
 
-  // Sur le Web, on ne connaît pas le chemin exact (c’est le dossier de téléchargements du navigateur).
-  return null;
+  return null; // chemin inconnu côté navigateur
 }
