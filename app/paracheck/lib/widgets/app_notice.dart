@@ -103,7 +103,7 @@ class AppNotice extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
-                        ?.copyWith(color: p.fg.withOpacity(0.95)),
+                        ?.copyWith(color: p.fg.withValues(alpha: 0.95)),
                   ),
                 ],
               ),
@@ -154,4 +154,4 @@ _Palette _palette(NoticeKind kind, bool isDark) {
 
 // Helper to apply opacity to base color, clamped between 0 and 1
 Color _tint(Color base, double opacity) =>
-    base.withOpacity(opacity.clamp(0.0, 1.0));
+    base.withValues(alpha: opacity.clamp(0.0, 1.0));

@@ -177,7 +177,7 @@ class _BubbleButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: scheme.surface,
             shape: BoxShape.circle,
-            border: Border.all(color: scheme.primary.withOpacity(1), width: 2),
+            border: Border.all(color: scheme.primary.withValues(alpha: 1), width: 2),
           ),
           child: Center(
             child: Icon(action.icon, size: 18, color: scheme.primary),

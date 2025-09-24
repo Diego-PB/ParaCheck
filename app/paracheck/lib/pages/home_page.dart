@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.symmetric(vertical: 8),
                         child: Text(
                           'Aucun vol enregistré pour le moment. Enregistrez votre premier vol dans la section Post-vol 👇',
-                          key: const ValueKey('no_flights_text'),
+                          key: ValueKey('no_flights_text'),
                         ),
                       );
                     }

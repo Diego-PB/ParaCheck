@@ -115,7 +115,7 @@ class _AppScaffoldState extends State<AppScaffold> {
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
                       child: Container(
-                        color: Colors.black.withOpacity(0.2), // subtle veil
+                        color: Colors.black.withValues(alpha: 0.2), // subtle veil
                       ),
                     ),
                   ),

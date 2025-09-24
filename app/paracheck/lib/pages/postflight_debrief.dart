@@ -58,7 +58,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
       _questions
         ..clear()
         ..addAll(list.map((e) => _Q.fromJson(e as Map<String, dynamic>)));
-      _controllers..clear();
+      _controllers.clear();
       for (var i = 0; i < _questions.length; i++) {
         // Pre-fill the date field (index 1) with today's date in French format
         if (i == 1) {
@@ -108,6 +108,8 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
       );
 
       await _flightRepo.add(flight);
+
+      if (!mounted) return;
 
       // Build a summary buffer for the dialog
       final buffer = StringBuffer();

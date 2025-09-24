@@ -24,6 +24,7 @@ class FlightConditionPage extends StatefulWidget {
 class _FlightConditionPageState extends State<FlightConditionPage> {
   // Key used to store the selected flight condition in SharedPreferences
   static const _key = 'condition_vol_level';
+
   // Stores the currently selected flight condition (null if not selected)
   int? selectedLevel;
 
@@ -65,30 +66,35 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
             // Title for the radio group section
             const SectionTitle('Choix de la cotation'),
             const SizedBox(height: AppSpacing.md),
+
             // Radio buttons for selecting the flight condition
-            Column(
-              children:
-                  conditions.map((c) {
-                    final level = c['level'] as int;
-                    return RadioListTile<int>(
-                      title: Text(c['label'] as String),
-                      value: level,
-                      groupValue: selectedLevel,
-                      onChanged: (val) {
-                        // Update selectedLevel when user selects a radio button
-                        setState(() => selectedLevel = val);
-                      },
-                    );
-                  }).toList(),
+            RadioGroup<int>(
+              groupValue: selectedLevel,
+              onChanged: (val) => setState(() => selectedLevel = val),
+              child: Column(
+                children:
+                    conditions.map((c) {
+                      final level = c['level'] as int;
+                      return RadioListTile<int>(
+                        title: Text(c['label'] as String),
+                        value:
+                            level, 
+                      );
+                    }).toList(),
+              ),
             ),
+
             const SizedBox(height: AppSpacing.lg),
+
             // Show contextual message if a condition is selected
             if (selectedLevel != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: AppSpacing.lg),
                 child: _buildNotice(selectedLevel!),
               ),
+
             const Spacer(),
+
             // Warning message always shown at the bottom
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -102,7 +108,7 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
                   horizontal: AppSpacing.md,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.danger.withOpacity(0.1),
+                  color: AppColors.danger.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Text(
@@ -115,6 +121,7 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
                 ),
               ),
             ),
+
             // Validation button aligned to the right
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -133,7 +140,7 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
                             : () async {
                               // Save the selected condition and navigate to the next page
                               await _saveLevel(selectedLevel!);
-                              print('Cotation sauvegardée : $selectedLevel');
+                              if (!context.mounted) return;
                               Navigator.pushNamed(context, '/personal_weather');
                             },
                   ),

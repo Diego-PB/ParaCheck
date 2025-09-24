@@ -67,7 +67,7 @@ class BreathingStressPage extends StatelessWidget {
               // Subtle background aligned with the theme
               color: Theme.of(
                 context,
-              ).colorScheme.surfaceContainerHighest.withOpacity(0.4),
+              ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
               // Thin border using the theme's outline color
               border: Border.all(
                 color: Theme.of(context).colorScheme.outlineVariant,
