@@ -8,7 +8,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:paracheck/models/debrief.dart';
-import 'package:paracheck/models/flights.dart';
+import 'package:paracheck/models/flight.dart';
 import 'package:paracheck/services/flight_repository.dart';
 import 'package:paracheck/utils/parsing_helpers.dart';
 

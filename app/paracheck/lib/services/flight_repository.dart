@@ -7,7 +7,7 @@
  */
 import 'dart:convert';
 
-import 'package:paracheck/models/flights.dart';
+import 'package:paracheck/models/flight.dart';
 import 'package:paracheck/models/radar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
