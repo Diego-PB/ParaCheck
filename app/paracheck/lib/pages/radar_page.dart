@@ -55,7 +55,7 @@ class _RadarPageState extends State<RadarPage> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Missing "flightId" parameter (navigation)'),
+          content: Text('Paramètre "flightId" manquant (navigation)'),
         ),
       );
       Navigator.pop(context);
@@ -68,7 +68,7 @@ class _RadarPageState extends State<RadarPage> {
     if (flight == null) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Flight not found (id=${widget.flightId})')),
+        SnackBar(content: Text('Vol non trouvé (id=${widget.flightId})')),
       );
       Navigator.pop(context);
       return;
@@ -126,7 +126,7 @@ class _RadarPageState extends State<RadarPage> {
     if (invalids.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Invalid value (0–20) for: ${invalids.join(', ')}"),
+          content: Text("Valeur non valide (0–20) pour : ${invalids.join(', ')}"),
         ),
       );
       return;
@@ -147,7 +147,7 @@ class _RadarPageState extends State<RadarPage> {
     final invalid = _values.values.any((v) => v < 0 || v > 20);
     if (invalid) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("All values must be between 0 and 20.")),
+        const SnackBar(content: Text("Tous les valeurs doivent être compris entre 0 et 20.")),
       );
       return;
     }
@@ -188,7 +188,7 @@ class _RadarPageState extends State<RadarPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const Text(
-          "Preview",
+          "Prévisualisation",
           style: TextStyle(
             fontSize: 14,
             color: Colors.black87,
@@ -208,7 +208,7 @@ class _RadarPageState extends State<RadarPage> {
           FilledButton.icon(
             onPressed: _goBackToForm,
             icon: const Icon(Icons.arrow_back),
-            label: const Text("Change values"),
+            label: const Text("Changer les valeurs"),
           ),
           const SizedBox(height: AppSpacing.lg),
           FilledButton(
@@ -216,7 +216,7 @@ class _RadarPageState extends State<RadarPage> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: const [
-                Text("Finalize flight record!"),
+                Text("Finaliser l'enregistrement du vol !"),
                 SizedBox(width: 8),
                 Icon(Icons.check),
               ],
@@ -227,7 +227,7 @@ class _RadarPageState extends State<RadarPage> {
           FilledButton.icon(
             onPressed: () => Navigator.pushNamed(context, '/homepage'),
             icon: const Icon(Icons.home),
-            label: const Text("Back to home"),
+            label: const Text("Retour à l'accueil"),
           ),
         ],
       ],
@@ -323,7 +323,7 @@ class _RadarPageState extends State<RadarPage> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: const [
-                Text("Show radar chart"),
+                Text("Afficher le radar de compétences"),
                 SizedBox(width: 8),
                 Icon(Icons.arrow_forward),
               ],
@@ -331,7 +331,7 @@ class _RadarPageState extends State<RadarPage> {
           ),
           const SizedBox(height: 8),
           const Text(
-            "Choose a value between 0 and 20 for each skill.",
+            "Choisissez une valeur entre 0 et 20 pour chaque compétence.",
             style: TextStyle(fontSize: AppSpacing.md, color: Colors.black54),
           ),
           const SizedBox(height: AppSpacing.lg),
@@ -344,7 +344,7 @@ class _RadarPageState extends State<RadarPage> {
   Widget build(BuildContext context) {
     // Main build method: shows either the form or the radar chart preview
     return AppScaffold(
-      title: "Skill Radar",
+      title: "Radar de compétences",
       showReturnButton: true,
       onReturn: () => Navigator.pushNamed(context, '/postflight_debrief'),
       body: Padding(

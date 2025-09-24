@@ -63,7 +63,7 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Title for the radio group section
-            const SectionTitle('Choisis la cotation'),
+            const SectionTitle('Choix de la cotation'),
             const SizedBox(height: AppSpacing.md),
             // Radio buttons for selecting the flight condition
             Column(
