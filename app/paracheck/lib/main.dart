@@ -6,6 +6,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:paracheck/app_router.dart';
 import 'pages/splash_screen.dart';
 import 'package:paracheck/theme.dart';
@@ -26,6 +27,11 @@ class MyApp extends StatelessWidget {
       theme: buildTheme(),
       debugShowCheckedModeBanner: false,
       routes: appRoutes,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
     );
   }
 }
