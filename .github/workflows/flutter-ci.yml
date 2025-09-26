@@ -43,11 +43,6 @@ jobs:
           name: coverage-lcov
           path: app/paracheck/coverage/lcov.info
           if-no-files-found: warn
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          files: app/paracheck/coverage/lcov.info
-          fail_ci_if_error: true
 
   integration_linux:
     name: Integration tests (Linux desktop headless)
@@ -60,7 +55,6 @@ jobs:
         with: { distribution: temurin, java-version: '17' }
       - uses: subosito/flutter-action@v2
         with: { channel: stable }
-      # Dépendances build Linux desktop
       - name: Install Linux desktop deps
         run: |
           sudo apt-get update
@@ -69,7 +63,6 @@ jobs:
         run: flutter config --enable-linux-desktop
       - name: Pub get
         run: flutter pub get
-      # Lancer les tests d'intégration via Xvfb pour gérer les animations/sheets
       - name: Run integration tests (xvfb)
         uses: GabrielBB/xvfb-action@v1
         with:
