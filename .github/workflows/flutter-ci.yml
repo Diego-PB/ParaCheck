@@ -2,8 +2,7 @@ name: Flutter CI (Android + Web + Pages + Integration)
 
 on:
   push:
-    branches: - '***'
-    tags: - '***'
+    branches: '***'
   pull_request:
   workflow_dispatch:
 
