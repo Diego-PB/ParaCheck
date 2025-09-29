@@ -145,12 +145,8 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
 
       await _flightRepo.add(flight);
 
-<<<<<<< HEAD
       if (!mounted) return;
 
-      // Build a summary buffer for the dialog
-=======
->>>>>>> 74-ux-des-dates-durees-etc
       final buffer = StringBuffer();
       for (var i = 0; i < _questions.length; i++) {
         buffer.writeln("• ${_questions[i].label}");
