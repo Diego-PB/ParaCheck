@@ -77,7 +77,7 @@ La version en ligne est disponible ici : https://bit.ly/paranote.
 
 == Réunions : 
 
-[cols="1,2,3,4,5",options="header"]
+[cols="1,2,3",options="header"]
 |===
 | Date | ODJ | CR 
 | 03/09  | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_0/odj_reunion_v0.adoc[ODJ 1 Sprint 0] | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_0/cr_reunion_v0.adoc[CR 1 Sprint 0]
