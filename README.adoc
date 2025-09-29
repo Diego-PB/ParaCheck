@@ -75,7 +75,7 @@ La version en ligne est disponible ici : https://bit.ly/paranote.
 |   | Sprint 2 | Release de fin de Sprint 2 | [Release de fin de Sprint 2] | Release de fin de Sprint 2
 |===
 
-Réunions : 
+== Réunions : 
 
 |===
 | Date | ODJ | CR 
