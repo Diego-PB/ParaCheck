@@ -1,1 +1,35 @@
+== Ordre du jour — 4^e^ rencontre avec JMB
+
+*Date* : 22/09/25 — *Durée* : 30 min  
+*Participants* : J.-M. Bruel (JMB), Équipe projet
+
+.Objectifs
+- Présenter la V1 en conditions réelles et recueillir les retours  
+- Évaluer les solutions pour l’**export des données** (stats, multi-appareils)  
+- Discuter des ajustements nécessaires sur les **questionnaires et sliders**  
+- Définir les dernières priorités du **Sprint 2** (gestion des sites)  
+- Aborder la récupération des sites via **Spot’air**  
+
+.Agenda (timebox indicatif)
+1. **Présentation V1 et tests** (10’)  
+   - Feedback d’un bêta testeur  
+   - Validation des fonctionnalités principales  
+2. **Interface utilisateur** (5’)  
+   - Slider pour durée / altitude  
+   - Révision du système de réponses « Oui / Bof / Non »  
+3. **Exports & synchronisation** (5’)  
+   - Export statistiques en PDF  
+   - Export multi-appareils via « Paracheck »  
+4. **Sprint 2 : gestion des sites** (5’)  
+   - Fonctionnalités à prioriser  
+   - Récupération de sites depuis Spot’air (appli web)  
+5. **Prochaines étapes** (5’)  
+   - Planification de la suite  
+   - Suivi des correctifs et intégrations
+
+.Décisions attendues
+- Validation des ajustements UI (sliders, questionnaires)  
+- Choix des formats d’export (PDF, multi-appareils)  
+- Confirmation de la **gestion des sites** comme priorité du Sprint 2  
+- Décider de l’intégration avec **Spot’air**  
 
