@@ -56,6 +56,7 @@ La version en ligne est disponible ici : https://bit.ly/paranote.
 |   |   | Sujet SAE    | https://webetud.iut-blagnac.fr/pluginfile.php/61576/mod_resource/content/1/SAES5.01_Support.pdf[Sujet SAE] | Sujet de la SAE, à retrouver sur Webetud
 |   |   | Backlog Produit Global | https://github.com/users/Diego-PB/projects/4/[Backlog Produit] | Backlog Produit Global
 |   |   | Guide d'installation | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/guide_installation.adoc[Guide d'installation] | Guide d'installation
+|   |   | Chiffrage du projet | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Devis.pdf[Chiffrage du projet] | Chiffrage du projet, validé et accepté par le client
 | Sem. 36 ( 01/09/25 - 05/09/25 )  | Sprint 0 | Sprint 0 | https://github.com/users/Diego-PB/projects/5[Sprint 0] | Sprint 0, avec User Story et tâches associées
 |   | Sprint 0 | Documentation Utilisateur | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_0/documentation_utilisateur_v0.adoc[Documentation Utilisateur] | Installation et présentation du projet avec ses fonctionnalités
 |   | Sprint 0 | Documentation Technique | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_0/documentation_technique_v0.adoc[Documentation Technique] | Fonctionnement et fichiers clés du projet
