@@ -10,6 +10,7 @@ import 'package:paracheck/widgets/secondary_button.dart';
 import 'package:paracheck/widgets/section_title.dart';
 import 'package:paracheck/widgets/app_notice.dart';
 import 'package:paracheck/design/spacing.dart';
+import 'package:paracheck/pages/manage_sites.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -78,6 +79,32 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
+          const SectionTitle('Sites de vol'),
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Gérez votre liste de sites enregistrés.',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              PrimaryButton(
+                label: 'Gérer les sites',
+                icon: Icons.place,
+                onPressed:
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const ManageSitesPage(),
+                      ),
+                    ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: AppSpacing.lg),
           const SectionTitle('Sauvegarde & transfert (fichier .json)'),
           const SizedBox(height: AppSpacing.md),
           const AppNotice(

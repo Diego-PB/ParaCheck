@@ -10,6 +10,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:paracheck/models/debrief.dart';
 import 'package:paracheck/models/flight.dart';
 import 'package:paracheck/services/flight_repository.dart';
+import 'package:paracheck/services/site_repository.dart';
 import 'package:paracheck/utils/parsing_helpers.dart';
 
 import 'package:paracheck/widgets/app_scaffold.dart';
@@ -29,9 +30,12 @@ class PostFlightDebriefPage extends StatefulWidget {
 class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
   static const _assetPath = 'assets/postflight_questions.json';
   final _flightRepo = SharedPrefsFlightRepository();
+  final _siteRepo = SharedPrefsSiteRepository();
 
   final List<_Q> _questions = [];
   final List<TextEditingController> _controllers = [];
+  final TextEditingController _siteController = TextEditingController();
+  List<String> _siteSuggestions = const [];
 
   bool _loading = true;
   String? _error;
@@ -46,6 +50,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
 
   Future<void> _load() async {
     try {
+      // Load questions
       final raw = await rootBundle.loadString(_assetPath);
       final list = jsonDecode(raw) as List<dynamic>;
       _questions
@@ -68,6 +73,8 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
           _controllers.add(TextEditingController());
         }
       }
+      // Load saved sites
+      _siteSuggestions = await _siteRepo.getAll();
       setState(() => _loading = false);
     } catch (e) {
       setState(() {
@@ -128,9 +135,12 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
           entries.add(DebriefEntry(label: _questions[i].label, value: answer));
         }
       }
-  
+
       final id = DateTime.now().microsecondsSinceEpoch.toString();
-      final site = _controllers[0].text.trim();
+      final site =
+          _siteController.text.trim().isNotEmpty
+              ? _siteController.text.trim()
+              : _controllers[0].text.trim();
       final date = parseDateFr(_controllers[1].text.trim());
       final duration = parseDurationFr(_controllers[2].text.trim());
       final altitude = _altitudeMeters;
@@ -145,6 +155,12 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
       );
 
       await _flightRepo.add(flight);
+
+      // Persist site for future suggestions
+      if (site.isNotEmpty) {
+        await _siteRepo.add(site);
+        _siteSuggestions = await _siteRepo.getAll();
+      }
 
       if (!mounted) return;
 
@@ -199,6 +215,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
     _altitudeMeters = 1000;
     _controllers[2].text = "0h 30m"; // durée par défaut
     _controllers[3].text = "1000 m"; // altitude par défaut
+    _siteController.clear();
     setState(() {});
   }
 
@@ -207,6 +224,7 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
     for (final c in _controllers) {
       c.dispose();
     }
+    _siteController.dispose();
     super.dispose();
   }
 
@@ -226,7 +244,59 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
         children: [
           for (var i = 0; i < _questions.length; i++) ...[
             _QuestionTitle(text: _questions[i].label),
-            if (i == 1) // Date
+            if (i == 0) // Site with autocomplete
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Autocomplete<String>(
+                    optionsBuilder: (TextEditingValue tev) {
+                      final q = tev.text.trim().toLowerCase();
+                      if (q.isEmpty) return _siteSuggestions;
+                      return _siteSuggestions.where(
+                        (s) => s.toLowerCase().contains(q),
+                      );
+                    },
+                    onSelected: (String sel) {
+                      _siteController.text = sel;
+                      _controllers[0].text = sel;
+                    },
+                    fieldViewBuilder: (
+                      context,
+                      textEditingController,
+                      focusNode,
+                      onFieldSubmitted,
+                    ) {
+                      // initialize from cached value if present
+                      if (_siteController.text.isNotEmpty &&
+                          _siteController.text != textEditingController.text) {
+                        textEditingController.text = _siteController.text;
+                        textEditingController
+                            .selection = TextSelection.fromPosition(
+                          TextPosition(
+                            offset: textEditingController.text.length,
+                          ),
+                        );
+                      }
+                      return TextField(
+                        controller: textEditingController,
+                        focusNode: focusNode,
+                        decoration: const InputDecoration(
+                          labelText: 'Site de vol',
+                        ),
+                        onChanged: (v) {
+                          if (_siteController.text != v)
+                            _siteController.text = v;
+                          if (_controllers.isNotEmpty &&
+                              _controllers[0].text != v) {
+                            _controllers[0].text = v;
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ],
+              )
+            else if (i == 1) // Date
               GestureDetector(
                 onTap: () => _pickDate(i),
                 child: AbsorbPointer(
