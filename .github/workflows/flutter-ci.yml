@@ -3,10 +3,10 @@ run-name: "CI • ${{ github.ref_name }} • ${{ github.sha }}"
 
 on:
   push:
-    branches: ['**']   
-    tags: ['*']        
+    branches: ['**']   # toutes les branches
+    tags: ['*']        # tous les tags
   pull_request:
-    branches: ['**']   
+    branches: ['**']
   workflow_dispatch:
 
 permissions:
@@ -22,7 +22,9 @@ jobs:
   test:
     name: Unit & Widget tests (Linux)
     runs-on: ubuntu-latest
-    defaults: { run: { working-directory: app/paracheck } }
+    defaults:
+      run:
+        working-directory: app/paracheck
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -66,16 +68,15 @@ jobs:
       - name: Run integration tests (xvfb)
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: |
-            cd app/paracheck
-            flutter pub get
-            flutter test integration_test -d linux -r expanded
+          run: bash -lc 'cd app/paracheck && flutter pub get && flutter test integration_test -d linux -r expanded'
 
   android:
     name: Build Android APK
     needs: integration_linux
     runs-on: ubuntu-latest
-    defaults: { run: { working-directory: app/paracheck } }
+    defaults:
+      run:
+        working-directory: app/paracheck
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -119,7 +120,9 @@ jobs:
     name: Build Web
     needs: integration_linux
     runs-on: ubuntu-latest
-    defaults: { run: { working-directory: app/paracheck } }
+    defaults:
+      run:
+        working-directory: app/paracheck
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
