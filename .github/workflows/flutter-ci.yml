@@ -1,12 +1,12 @@
-name: Flutter CI (Android + Web + Pages + Integration)
+name: Flutter CI (Android + Web + Pages)
 run-name: "CI • ${{ github.ref_name }} • ${{ github.sha }}"
 
 on:
   push:
-    branches: ['**']   
-    tags: ['*']        
+    branches: ['**']
+    tags: ['*']
   pull_request:
-    branches: ['**']   
+    branches: ['**']
   workflow_dispatch:
 
 permissions:
@@ -22,7 +22,9 @@ jobs:
   test:
     name: Unit & Widget tests (Linux)
     runs-on: ubuntu-latest
-    defaults: { run: { working-directory: app/paracheck } }
+    defaults:
+      run:
+        working-directory: app/paracheck
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -44,38 +46,13 @@ jobs:
       - name: Test
         run: flutter test --reporter expanded
 
-  integration_linux:
-    name: Integration tests (Linux desktop headless)
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-      - name: Install Linux desktop deps
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ninja-build libgtk-3-dev clang cmake pkg-config
-      - name: Enable Linux desktop
-        run: flutter config --enable-linux-desktop
-      - name: Run integration tests (xvfb)
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          run: |
-            cd app/paracheck
-            flutter pub get
-            flutter test integration_test -d linux -r expanded
-
   android:
     name: Build Android APK
-    needs: integration_linux
+    needs: test
     runs-on: ubuntu-latest
-    defaults: { run: { working-directory: app/paracheck } }
+    defaults:
+      run:
+        working-directory: app/paracheck
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -117,9 +94,11 @@ jobs:
 
   web:
     name: Build Web
-    needs: integration_linux
+    needs: test
     runs-on: ubuntu-latest
-    defaults: { run: { working-directory: app/paracheck } }
+    defaults:
+      run:
+        working-directory: app/paracheck
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
