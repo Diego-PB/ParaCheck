@@ -1,3 +1,15 @@
+/* Unit tests for the FlightsHistoryPage in the ParaCheck application.
+ This test suite covers various scenarios on the flight history screen:
+ - Loading state with a spinner
+ - Empty state message when no flights are stored
+ - Correct display of a list of saved flights
+ - Opening a bottom sheet with flight details (no radar data case)
+ - Deletion of a flight via confirmation dialog and snackbar feedback
+ - Pull-to-refresh behavior updating the list when repository data changes
+ - Error handling when stored JSON is invalid
+ */
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paracheck/pages/flights_history.dart';
@@ -5,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:paracheck/services/flight_repository.dart';
 import 'package:paracheck/models/flight.dart';
 
+/// Helper to create Flight instances for tests with minimal boilerplate
 Flight makeFlight({
   required String id,
   required String site,
@@ -21,30 +34,32 @@ Flight makeFlight({
   );
 }
 
+/// Seeds the mock SharedPreferences-backed repository with the given flights.
+/// MUST reset the mock storage before injecting data to ensure test isolation.
 Future<void> seedFlights(List<Flight> flights) async {
-  // Toujours réinitialiser le store mocké AVANT d'afficher la page
-  SharedPreferences.setMockInitialValues({});
+  SharedPreferences.setMockInitialValues({}); // Clear existing mock values
   final repo = SharedPrefsFlightRepository();
   await repo.replaceAll(flights);
 }
 
 void main() {
   testWidgets('Loading → Empty state', (tester) async {
-    await seedFlights(const []);
+    await seedFlights(const []); // No flights initially
 
     await tester.pumpWidget(const MaterialApp(home: FlightsHistoryPage()));
 
-    // Écran de chargement (spinner dans AppScaffold)
+    // While loading, a CircularProgressIndicator should be shown inside the scaffold
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(); // Wait for load to complete
 
-    // État vide : icône + texte
+    // Verify empty state UI: hourglass icon and no-flights text
     expect(find.byIcon(Icons.hourglass_empty_rounded), findsOneWidget);
     expect(find.text('Aucun vol enregistré pour le moment.'), findsOneWidget);
   });
 
   testWidgets('Affiche la liste des vols (2 items)', (tester) async {
+    // Seed with two flights
     await seedFlights([
       makeFlight(
         id: 'f1',
@@ -65,19 +80,19 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: FlightsHistoryPage()));
     await tester.pumpAndSettle();
 
-    // 2 ListTile (un par vol)
+    // Expect two ListTile widgets, one per stored flight
     expect(find.byType(ListTile), findsNWidgets(2));
 
-    // Quelques textes stables (site + morceaux de sous-titre)
+    // Check that each flight's site name appears
     expect(find.text('Organya'), findsOneWidget);
     expect(find.text('Annecy'), findsOneWidget);
-    expect(
-      find.textContaining('•'),
-      findsNWidgets(2),
-    ); // date • durée • altitude
+
+    // Subtitle should contain bullet separators for date, duration, altitude
+    expect(find.textContaining('•'), findsNWidgets(2));
   });
 
   testWidgets('Tap → bottom sheet (sans radar)', (tester) async {
+    // Seed with a single flight without radar data
     await seedFlights([
       makeFlight(
         id: 'f1',
@@ -91,40 +106,38 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: FlightsHistoryPage()));
     await tester.pumpAndSettle();
 
-    // Tape sur le titre du ListTile (plus fiable que byType(ListTile).first)
+    // Tap the flight title to open its detail bottom sheet
     expect(find.text('Sornin'), findsOneWidget);
     await tester.tap(find.text('Sornin'));
 
-    // Laisse le temps à l'animation du bottom sheet
-    await tester.pump(); // démarre l’anim
-    await tester.pump(const Duration(milliseconds: 300)); // durée typique
+    // Allow bottom sheet animation to complete
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
     await tester.pumpAndSettle();
 
-    // Le bottom sheet est monté
+    // Verify bottom sheet presence
     expect(find.byType(BottomSheet), findsOneWidget);
 
-    // Contenu attendu
-    expect(
-      find.text('Sornin'),
-      findsWidgets,
-    ); // dans la liste + dans le sheet, autorise plusieurs
+    // Detail fields in the sheet: site, date, duration, max altitude, no radar message
+    expect(find.text('Sornin'), findsWidgets);
     expect(find.textContaining('Date :'), findsOneWidget);
     expect(find.textContaining('Durée :'), findsOneWidget);
     expect(find.textContaining('Altitude max :'), findsOneWidget);
     expect(find.text('Aucune rose enregistrée pour ce vol.'), findsOneWidget);
 
-    // Fermer
+    // Close the sheet via 'Fermer' button
     await tester.tap(find.widgetWithText(TextButton, 'Fermer'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
     await tester.pumpAndSettle();
 
-    // Sheet fermé
+    // Bottom sheet should be dismissed
     expect(find.byType(BottomSheet), findsNothing);
     expect(find.text('Aucune rose enregistrée pour ce vol.'), findsNothing);
   });
 
   testWidgets('Suppression d’un vol via le dialog + snackbar', (tester) async {
+    // Seed with two flights
     await seedFlights([
       makeFlight(
         id: 'f1',
@@ -145,30 +158,27 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: FlightsHistoryPage()));
     await tester.pumpAndSettle();
 
-    // On part bien avec 2 items
+    // Ensure two items are shown initially
     expect(find.byType(ListTile), findsNWidgets(2));
 
-    // Tap sur l’icône "Supprimer" du premier item (IconButton avec tooltip)
-    // On cible par tooltip pour être robuste
+    // Tap delete icon button on first flight via tooltip selector
     await tester.tap(find.byTooltip('Supprimer').first);
     await tester.pumpAndSettle();
 
-    // Dialog : confirmer la suppression
+    // Confirm deletion in dialog
     expect(find.text('Supprimer le vol'), findsOneWidget);
     await tester.tap(find.widgetWithText(FilledButton, 'Supprimer'));
     await tester.pumpAndSettle();
 
-    // Snackbar de confirmation
+    // Snackbar confirmation should appear
     expect(find.text('Vol supprimé'), findsOneWidget);
 
-    // La liste est mise à jour (1 item restant)
+    // List should now contain only one flight
     expect(find.byType(ListTile), findsNWidgets(1));
   });
 
-  testWidgets('Pull-to-refresh → recharge la liste (1 → 2 items)', (
-    tester,
-  ) async {
-    // 1 vol au départ
+ testWidgets('Pull-to-refresh → recharge la liste (1 → 2 items)', (tester) async {
+    // Seed with a single flight
     await seedFlights([
       makeFlight(
         id: 'f1',
@@ -183,7 +193,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(ListTile), findsNWidgets(1));
 
-    // Pendant que la page est affichée, on ajoute un 2e vol dans le repo
+    // Dynamically add a second flight to the repository after page load
     final repo = SharedPrefsFlightRepository();
     await repo.add(
       makeFlight(
@@ -195,28 +205,24 @@ void main() {
       ),
     );
 
-    // Déclencher le RefreshIndicator (drag vers le bas au-dessus de la liste)
-    // Un grand drag pour être sûr de dépasser le seuil
+    // Perform pull-to-refresh gesture on the list
     await tester.drag(find.byType(ListView), const Offset(0, 300));
-    await tester.pump(); // commence l'animation du refresh
-    await tester.pump(
-      const Duration(seconds: 1),
-    ); // laisse le onRefresh se jouer
+    await tester.pump(); // start refresh animation
+    await tester.pump(const Duration(seconds: 1)); // wait for onRefresh
     await tester.pumpAndSettle();
 
-    // La liste doit refléter 2 items maintenant
+    // List should update to show two flights
     expect(find.byType(ListTile), findsNWidgets(2));
   });
 
-  testWidgets('Erreur de chargement (JSON invalide) → message d’erreur', (
-    tester,
-  ) async {
-    // JSON invalide pour key 'flights_v1' → getAll() lèvera une exception
+  testWidgets('Erreur de chargement (JSON invalide) → message d’erreur', (tester) async {
+    // Set invalid JSON in mock storage to trigger load error
     SharedPreferences.setMockInitialValues({'flights_v1': 'not a json array'});
 
     await tester.pumpWidget(const MaterialApp(home: FlightsHistoryPage()));
     await tester.pumpAndSettle();
 
+    // Error message should inform user of load failure
     expect(
       find.textContaining('Erreur de chargement des vols'),
       findsOneWidget,
