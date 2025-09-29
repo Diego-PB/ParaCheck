@@ -338,8 +338,9 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
                         ),
                         // Keep both controllers aligned as the user types.
                         onChanged: (v) {
-                          if (_siteController.text != v)
+                          if (_siteController.text != v) {
                             _siteController.text = v;
+                          }
                           if (_controllers.isNotEmpty &&
                               _controllers[0].text != v) {
                             _controllers[0].text = v;
