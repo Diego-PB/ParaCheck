@@ -2,7 +2,6 @@
 :toc: macro
 
 image:https://github.com/Diego-PB/ParaCheck/actions/workflows/flutter-ci.yml/badge.svg[link=https://github.com/Diego-PB/ParaCheck/actions/workflows/flutter-ci.yml, title="CI Status"]
-image:https://codecov.io/gh/Diego-PB/ParaCheck/branch/main/graph/badge.svg[link=https://codecov.io/gh/Diego-PB/ParaCheck, title="Coverage"]
 image:https://github.com/Diego-PB/ParaCheck/actions/workflows/pages/pages-build-deployment/badge.svg[link=https://Diego-PB.github.io/ParaCheck/, title="GitHub Pages"]
 
 ++++
