@@ -27,31 +27,24 @@ class PostFlightDebriefPage extends StatefulWidget {
 }
 
 class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
-  // Path to the JSON file containing post-flight questions
   static const _assetPath = 'assets/postflight_questions.json';
-
-  // Repository for saving and retrieving flights
   final _flightRepo = SharedPrefsFlightRepository();
 
-  // List of questions loaded from the JSON file
   final List<_Q> _questions = [];
-  // Controllers for each input field
   final List<TextEditingController> _controllers = [];
 
-  // Loading state for async operations
   bool _loading = true;
-  // Error message if loading fails
   String? _error;
+
+  double _altitudeMeters = 1000; // altitude par défaut
 
   @override
   void initState() {
     super.initState();
-    // Load questions and initialize controllers when the page is initialized
     _load();
   }
 
   Future<void> _load() async {
-    // Loads the questions from the local JSON file and initializes controllers
     try {
       final raw = await rootBundle.loadString(_assetPath);
       final list = jsonDecode(raw) as List<dynamic>;
@@ -60,12 +53,17 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
         ..addAll(list.map((e) => _Q.fromJson(e as Map<String, dynamic>)));
       _controllers.clear();
       for (var i = 0; i < _questions.length; i++) {
-        // Pre-fill the date field (index 1) with today's date in French format
         if (i == 1) {
           final now = DateTime.now();
           final dateStr =
               "${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year}";
           _controllers.add(TextEditingController(text: dateStr));
+        } else if (i == 2) {
+          // Durée -> default 0h 30m
+          _controllers.add(TextEditingController(text: "0h 30m"));
+        } else if (i == 3) {
+          // Altitude -> controlled by slider
+          _controllers.add(TextEditingController(text: "1000 m"));
         } else {
           _controllers.add(TextEditingController());
         }
@@ -79,10 +77,50 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
     }
   }
 
+  Future<void> _pickDate(int index) async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: DateTime(now.year - 1),
+      lastDate: now,
+      locale: const Locale("fr", "FR"),
+    );
+    if (picked != null) {
+      final dateStr =
+          "${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}";
+      setState(() => _controllers[index].text = dateStr);
+    }
+  }
+
+  Future<void> _pickDuration(int index) async {
+    final parts = _controllers[index].text.split(RegExp(r'[h ]'));
+    int hour = 0;
+    int minute = 30;
+    if (parts.length >= 2) {
+      hour = int.tryParse(parts[0]) ?? 0;
+      minute = int.tryParse(parts[1]) ?? 30;
+    }
+
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: hour, minute: minute),
+      builder:
+          (context, child) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child!,
+          ),
+    );
+
+    if (picked != null) {
+      setState(
+        () => _controllers[index].text = "${picked.hour}h ${picked.minute}m",
+      );
+    }
+  }
+
   Future<void> _valider() async {
-    // Validates and saves the debrief form, then shows a summary dialog
     try {
-      // Collect flight info from input fields
       final entries = <DebriefEntry>[];
       for (var i = 0; i < _questions.length; i++) {
         final answer = _controllers[i].text.trim();
@@ -90,20 +128,19 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
           entries.add(DebriefEntry(label: _questions[i].label, value: answer));
         }
       }
-
-      // 0: site, 1: date, 2: duration, 3: altitude
+  
       final id = DateTime.now().microsecondsSinceEpoch.toString();
       final site = _controllers[0].text.trim();
       final date = parseDateFr(_controllers[1].text.trim());
       final duration = parseDurationFr(_controllers[2].text.trim());
-      final altitude = parseAltitudeMeters(_controllers[3].text.trim());
+      final altitude = _altitudeMeters;
 
       final flight = Flight(
         id: id,
         site: site,
         date: date,
         duration: duration,
-        altitude: altitude,
+        altitude: altitude.round(),
         debrief: entries,
       );
 
@@ -111,7 +148,6 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
 
       if (!mounted) return;
 
-      // Build a summary buffer for the dialog
       final buffer = StringBuffer();
       for (var i = 0; i < _questions.length; i++) {
         buffer.writeln("• ${_questions[i].label}");
@@ -157,16 +193,17 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
   }
 
   void _reset() {
-    // Clears all input fields in the form
     for (final c in _controllers) {
       c.clear();
     }
+    _altitudeMeters = 1000;
+    _controllers[2].text = "0h 30m"; // durée par défaut
+    _controllers[3].text = "1000 m"; // altitude par défaut
     setState(() {});
   }
 
   @override
   void dispose() {
-    // Dispose all controllers when the widget is removed
     for (final c in _controllers) {
       c.dispose();
     }
@@ -175,39 +212,74 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Main UI for the post-flight debrief form
     if (_loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
-    if (_error != null) {
-      return Scaffold(body: Center(child: Text(_error!)));
-    }
+    if (_error != null) return Scaffold(body: Center(child: Text(_error!)));
 
     return AppScaffold(
       title: "Débrief post-vol",
       showReturnButton: true,
-      onReturn: () {
-        // Navigate back to the homepage
-        Navigator.pushNamed(context, '/homepage');
-      },
+      onReturn: () => Navigator.pushNamed(context, '/homepage'),
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.md),
         children: [
-          // Render each question as a title and input field
           for (var i = 0; i < _questions.length; i++) ...[
             _QuestionTitle(text: _questions[i].label),
-            InputField(
-              controller: _controllers[i],
-              label:
-                  _questions[i].exemple?.isNotEmpty == true
-                      ? _questions[i].exemple!
-                      : "Réponse",
-            ),
+            if (i == 1) // Date
+              GestureDetector(
+                onTap: () => _pickDate(i),
+                child: AbsorbPointer(
+                  child: InputField(
+                    controller: _controllers[i],
+                    label: "Choisir une date",
+                  ),
+                ),
+              )
+            else if (i == 2) // Durée
+              GestureDetector(
+                onTap: () => _pickDuration(i),
+                child: AbsorbPointer(
+                  child: InputField(
+                    controller: _controllers[i],
+                    label: "Choisir la durée",
+                  ),
+                ),
+              )
+            else if (i == 3) // Altitude
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Slider(
+                    min: 0,
+                    max: 6000,
+                    divisions: 120, // incrément de 50 m
+                    label: "${_altitudeMeters.round()} m",
+                    value: _altitudeMeters,
+                    onChanged: (v) {
+                      setState(() {
+                        _altitudeMeters = v;
+                        _controllers[i].text = "${_altitudeMeters.round()} m";
+                      });
+                    },
+                  ),
+                  Text(
+                    "Altitude sélectionnée : ${_altitudeMeters.round()} m",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              )
+            else
+              InputField(
+                controller: _controllers[i],
+                label:
+                    _questions[i].exemple?.isNotEmpty == true
+                        ? _questions[i].exemple!
+                        : "Réponse",
+              ),
             const SizedBox(height: AppSpacing.md),
           ],
           const SizedBox(height: AppSpacing.md),
-
-          // Wrap to prevent horizontal overflow of buttons
           Wrap(
             spacing: AppSpacing.md,
             runSpacing: AppSpacing.md,
@@ -227,7 +299,6 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
   }
 }
 
-/// Question title that wraps properly across multiple lines.
 class _QuestionTitle extends StatelessWidget {
   final String text;
   const _QuestionTitle({required this.text});
@@ -250,9 +321,7 @@ class _QuestionTitle extends StatelessWidget {
 }
 
 class _Q {
-  // Label for the question
   final String label;
-  // Example answer (optional)
   final String? exemple;
   const _Q({required this.label, this.exemple});
   factory _Q.fromJson(Map<String, dynamic> m) =>
