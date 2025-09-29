@@ -1,1 +1,57 @@
+= Compte rendu — Réunion avec Jean-Michel Bruel (JMB)
+YolanBrun & équipe
+v2025.09.22, {localdate}
+:toc:
+:icons: font
+:sectnums:
+:sectanchors:
+:sectlinks:
+
+toc::[]
+
+== Participants
+- **Client** : Jean-Michel Bruel (*JMB*)
+- **Équipe projet** :
+- link:https://github.com/leonardo-correiamendes[CORREIA MENDES Leonardo] -- Scrum Master / Développeur
+- link:https://github.com/Smogita[CRISTINI Aidan] -- Git Master / Product Owner / Développeur
+- link:https://github.com/YolanBrun[BRUN Yolan] -- Développeur
+- link:https://github.com/Diego-PB[PENICAUD-BERNAL Diego] -- Développeur
+- link:https://github.com/marwane-ibrahim[IBRAHIM Marwane] -- Développeur
+- link:https://github.com/adrian-guerrero[GUERRERO Adrian] -- Développeur
+
+== Contexte & objectifs
+- Tester la **release V1** avec retour de bêta testeur.  
+- Évaluer l’ergonomie (sliders, questionnaires).  
+- Discuter des besoins en **export de données**.  
+- Définir les fonctionnalités prioritaires du **Sprint 2** (gestion des sites).  
+- Aborder l’intégration potentielle avec **Spot’air**.  
+
+== Points abordés
+- **Interface utilisateur** :  
+  - Mise en place de sliders pour tout ce qui concerne les durées et altitudes (valeurs numériques).  
+  - Révision du système « Oui / Bof / Non » jugé trop simpliste, risque de réponses biaisées.  
+- **Tests** : premiers retours d’un bêta testeur.  
+- **Exports** :  
+  - Génération de **statistiques au format PDF**.  
+  - Export et synchronisation multi-appareils via « Paracheck ».  
+- **Sprint 2** :  
+  - Intégration de la gestion des sites comme fonctionnalité prioritaire.  
+  - Étudier la récupération automatique des sites depuis **Spot’air** (appli web).  
+- Référence interne : **C104**.  
+
+== Décisions actées
+- Remplacer les champs numériques par des **sliders** pour durée et altitude.  
+- Revoir le questionnaire « Oui / Bof / Non » afin d’améliorer la qualité des retours.  
+- Intégrer deux types d’exports :  
+  - **PDF** pour les statistiques.  
+  - **Multi-appareils** via « Paracheck ».  
+- Sprint 2 : priorité donnée à la **gestion des sites** avec option d’intégration de données depuis **Spot’air**.  
+
+== Actions
+- Implémenter les **sliders** pour durée et altitude.  
+- Retravailler la logique des **questionnaires**.  
+- Développer l’**export PDF** des statistiques.  
+- Mettre en place l’export **multi-appareils Paracheck**.  
+- Démarrer le développement de la **gestion des sites** (Sprint 2).  
+- Étudier la faisabilité technique de la récupération de données via **Spot’air**.  
 
