@@ -1,8 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -59,7 +57,7 @@ void mockMavieAssets({String? payload}) {
 /// Écran factice pour valider les routes.
 class _RouteScreen extends StatelessWidget {
   final String name;
-  const _RouteScreen(this.name, {super.key});
+  const _RouteScreen(this.name);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
