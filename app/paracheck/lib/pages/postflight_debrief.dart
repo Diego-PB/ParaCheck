@@ -124,10 +124,11 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
       final entries = <DebriefEntry>[];
       for (var i = 0; i < _questions.length; i++) {
         final answer = _controllers[i].text.trim();
-        if (answer.isNotEmpty)
+        if (answer.isNotEmpty) {
           entries.add(DebriefEntry(label: _questions[i].label, value: answer));
+        }
       }
-
+  
       final id = DateTime.now().microsecondsSinceEpoch.toString();
       final site = _controllers[0].text.trim();
       final date = parseDateFr(_controllers[1].text.trim());
@@ -192,7 +193,9 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
   }
 
   void _reset() {
-    for (final c in _controllers) c.clear();
+    for (final c in _controllers) {
+      c.clear();
+    }
     _altitudeMeters = 1000;
     _controllers[2].text = "0h 30m"; // durée par défaut
     _controllers[3].text = "1000 m"; // altitude par défaut
@@ -201,14 +204,17 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
 
   @override
   void dispose() {
-    for (final c in _controllers) c.dispose();
+    for (final c in _controllers) {
+      c.dispose();
+    }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_loading)
+    if (_loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     if (_error != null) return Scaffold(body: Center(child: Text(_error!)));
 
     return AppScaffold(
