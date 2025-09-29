@@ -73,3 +73,14 @@ La version en ligne est disponible ici : https://bit.ly/paranote.
 |   | Sprint 2 | Documentation Technique | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_2/documentation_technique_v2.adoc[Documentation Technique] | Fonctionnement et fichiers clés du projet
 |   | Sprint 2 | Release de fin de Sprint 2 | [Release de fin de Sprint 2] | Release de fin de Sprint 2
 |===
+
+Réunions : 
+
+|===
+| Date | ODJ | CR 
+| 03/09  | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_0/odj_reunion_v0.adoc[ODJ 1 Sprint 0] | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_0/cr_reunion_v0.adoc[CR 1 Sprint 0]
+| 08/09 | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/odj_reunion_v1.adoc[ODJ 1 Sprint 1] | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/cr_reunion_v1.adoc[CR 1 Sprint 1]
+| 15/09 | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/odj_reunion_v1_1.adoc[ODJ 2 Sprint 1] | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/odj_reunion_v1_1.adoc[CR 2 Sprint 1]
+| 16/09 | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/odj_reunion_v1_2.adoc[ODJ 3 Sprint 1] | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/cr_reunion_v1_2.adoc[CR 3 Sprint 1]
+| 22/09 | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_2/odj_reunion_v2.adoc[ODJ 1 Sprint 2] | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_2/cr_reunion_v2.adoc[CR 1 Sprint 2]
+|===
