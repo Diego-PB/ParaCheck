@@ -23,7 +23,7 @@ class TestNavObserver extends NavigatorObserver {
 
 void main() {
   // Helper to wrap widgets with MaterialApp and routing for testing
-  Widget _appWithRoutes(Widget child, {NavigatorObserver? observer}) {
+  Widget appWithRoutes(Widget child, {NavigatorObserver? observer}) {
     return MaterialApp(
       theme: ThemeData(useMaterial3: true),
       home: child,
@@ -37,26 +37,9 @@ void main() {
     );
   }
 
-  // Text finder with case-insensitive matching and whitespace normalization
-  // Handles non-breaking spaces (NBSP/NNBSP) that may appear in Flutter text
-  Finder _textContains(String needle) {
-    final target = needle.toLowerCase();
-    return find.byWidgetPredicate((w) {
-      if (w is Text) {
-        final raw = (w.data ?? w.textSpan?.toPlainText()) ?? '';
-        final norm = raw
-            .toLowerCase()
-            .replaceAll('\u00A0', ' ')    // Replace NBSP with regular space
-            .replaceAll('\u202F', ' ');   // Replace NNBSP with regular space
-        return norm.contains(target);
-      }
-      return false;
-    });
-  }
-
   group('BreathingStressPage — tests pertinents', () {
     testWidgets('affiche titres et toutes les puces exactes', (tester) async {
-      await tester.pumpWidget(_appWithRoutes(const BreathingStressPage()));
+      await tester.pumpWidget(appWithRoutes(const BreathingStressPage()));
       await tester.pumpAndSettle();
 
       // Main header with icon
@@ -91,7 +74,7 @@ void main() {
     });
 
     testWidgets('structure de page OK (ListView + 2 Cards + 5 puces)', (tester) async {
-      await tester.pumpWidget(_appWithRoutes(const BreathingStressPage()));
+      await tester.pumpWidget(appWithRoutes(const BreathingStressPage()));
       await tester.pumpAndSettle();
 
       // Verify overall page structure
@@ -115,7 +98,7 @@ void main() {
 class _RouteScreen extends StatelessWidget {
   final String name;  // Route identifier for testing purposes
   
-  const _RouteScreen({super.key, required this.name});
+  const _RouteScreen({required this.name});
 
   @override
   Widget build(BuildContext context) {
