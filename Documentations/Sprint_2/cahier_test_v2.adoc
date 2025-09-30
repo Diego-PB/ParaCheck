@@ -1,0 +1,163 @@
+= Cahier de Test - ParaCheck
+:toc: left
+:toclevels: 3
+
+== Introduction
+Ce document décrit les cas de test pour l’application mobile *ParaCheck*.  
+Il inclut des scénarios de test détaillés, des prérequis, les étapes de validation, ainsi que les résultats attendus.  
+L'objectif est de garantir que toutes les fonctionnalités de l’application fonctionnent correctement et répondent aux exigences spécifiées.  
+
+== Sommaire
+
+* <<Tests_Pages, Pages>>
+** <<Contexte_Pages, Contexte>>
+** <<Tests_Pages_List, Tests à effectuer>>
+** <<Suivi_Pages, Suivi des Tests>>
+* <<Tests_Models, Models>>
+** <<Contexte_Models, Contexte>>
+** <<Tests_Models_List, Tests à effectuer>>
+** <<Suivi_Models, Suivi des Tests>>
+
+// ==========================================================
+
+
+[[Tests_Pages]]
+== Pages
+
+[[Contexte_Pages]]
+=== Contexte
+Les tests *Pages* valident les écrans/écrans-clés de l’application : rendu visuel, structure des widgets, navigation et éléments interactifs.  
+Chaque page est testée pour :  
+- Présence des éléments d’interface attendus (titres, icônes, sections).  
+- Structure générale (scaffold, navigation, assets).  
+- Contenu textuel attendu (labels, consignes, données JSON).  
+- Comportement basique (smoke tests) et cas d’erreur/états vides si nécessaire.
+
+[[Tests_Pages_List]]
+=== Tests à effectuer
+
+==== MaviePage
+*Fichier source des tests* : `test/pages/mavie_test.dart`  
+*Localisation dans l’application* : page *Mavie* (utilisée pour gérer les questionnaires MAVIE et accéder aux outils comme la respiration).  
+
+Prérequis :
+- Mock des assets requis (`mavie_questions.json`, images, manifests).  
+- Flutter TestWidgets configuré.  
+
+Cas de tests :  
+1. **Chargement de l’asset JSON**  
+   - Charger `assets/mavie_questions.json` via `rootBundle.loadString`.  
+   - Vérifier que les données sont non vides et que la première question est bien `"Q1?"`.  
+
+2. **Navigation (pushNamed)**  
+   - Configurer un `MaterialApp` avec un `navigatorKey`.  
+   - Pousser la route `'/breathing'`.  
+   - Vérifier que l’écran de destination (`ROUTE: breathing`) est rendu.  
+
+3. **Rendu de la page Mavie**  
+   - Monter `MaviePage` dans un `MaterialApp` avec les routes nécessaires.  
+   - Vérifier que la page rend un `AppScaffold`.  
+   - Vérifier que le titre `"MAVIE"` est présent à l’écran.  
+
+Résultats attendus :  
+- Les assets JSON se chargent correctement.  
+- La navigation vers la route `'/breathing'` fonctionne.  
+- La page affiche bien un `AppScaffold` avec le titre `"MAVIE"`.  
+
+Notes :  
+- Les mocks garantissent l’indépendance vis-à-vis des fichiers réels et images.  
+- Ces tests valident la structure de base et la configuration de navigation, mais pas encore la logique métier complète.  
+
+[[Suivi_Pages]]
+=== Suivi des Tests
+[cols="3,1,2", options="header"]
+|===
+| Cas de Test | Statut | Commentaires
+| MaviePage — Chargement JSON | ☑ | Asset chargé et question `"Q1?"` trouvée
+| MaviePage — Navigation /breathing | ☑ | Route atteinte et écran `"ROUTE: breathing"` rendu
+| MaviePage — Rendu AppScaffold | ☑ | Scaffold affiché avec titre `"MAVIE"`
+|===
+
+
+
+// ==========================================================
+
+[[Tests_Models]]
+== Models
+
+[[Contexte_Models]]
+=== Contexte
+Les tests *Models* visent à vérifier l’intégrité et la cohérence des objets métiers utilisés par l’application.  
+Chaque modèle est testé pour s’assurer que :  
+- La sérialisation/désérialisation JSON fonctionne correctement.  
+- Les conversions de types et formats utilitaires sont correctes.  
+- Les scénarios d’erreurs sont bien gérés.  
+
+[[Tests_Models_List]]
+=== Tests à effectuer
+
+==== DebriefEntry
+*Localisation dans l’application* : utilisé dans la fonctionnalité de *Débriefing* (après un vol).
+
+Cas de tests :  
+- `toJson` doit produire la map `{label, value}`.  
+- `fromJson` doit reconstruire correctement un objet valide.  
+- Round-trip JSON (encodage + décodage) fonctionne avec une entrée unique et une liste d’entrées.  
+- Gestion d’erreurs :  
+  * Label ou value non-string → doit lever une erreur.  
+  * Clés manquantes → doit lever une erreur.  
+
+==== Flight
+*Localisation dans l’application* : utilisé pour la gestion et l’enregistrement des vols (site, date, durée, altitude).
+
+Cas de tests :  
+- `toJson` doit contenir les champs principaux : `id`, `site`, `date`, `duration_sec`, `altitude_m`.  
+- `fromJson` doit reconstruire un objet identique.  
+- Conversion `Duration` ↔ secondes correcte (ex. 1h45 = 6300 s).  
+- Date conservée en ISO 8601.  
+- Méthodes utilitaires : `formatDuration(2h03) → "2h 3m"`.
+
+==== Radar
+*Localisation dans l’application* : utilisé pour représenter les scores d’auto-évaluation / évaluation (radar chart) sur plusieurs dimensions (pilotage, météo, gestion du stress, etc.).
+
+Cas de tests :  
+- `fromJson` doit caster des entiers en `double` lorsqu’il le faut (ex. `10` → `10.0`).  
+- `average()` :  
+  * retourne `0.0` si la map est vide.  
+  * calcule la moyenne correcte sinon (ex. (10 + 14 + 16)/3).  
+- `scoreOf(key)` : retourne la valeur si la clé existe, sinon `0.0`.  
+- `toOrderedList(order)` : respecte l’ordre fourni et place `0.0` pour les clés inconnues.  
+- `normalizedScores(requiredList)` :  
+  * remplit les clés requises manquantes avec `0.0`.  
+  * conserve les entrées « extra » existantes.  
+  * ne perd aucune clé (taille attendue = requis + extras).  
+- JSON round-trip : `toJsonString()` ↔ `fromJsonString()` doit restituer les mêmes scores.  
+- `descriptionFor(feature)` :  
+  * retourne la description attendue pour une clé connue (ex. `PIL - Pilotage` → texte descriptif).  
+  * retourne `''` pour une clé inconnue.  
+- `radarFeatures` : doit être non vide et contenir au minimum quelques clés majeures (`PIL - Pilotage`, `STS - Gestion du stress`).
+
+[[Suivi_Models]]
+=== Suivi des Tests
+[cols="3,1,2", options="header"]
+|===
+| Cas de Test | Statut | Commentaires
+| DebriefEntry.toJson | ☑ | Map correcte générée
+| DebriefEntry.fromJson (valide) | ☑ | Objet reconstruit
+| DebriefEntry Round-trip JSON (1 entrée) | ☑ | Fonctionnel
+| DebriefEntry Round-trip JSON (liste) | ☑ | Fonctionnel
+| DebriefEntry.fromJson (types invalides) | ☑ | Erreurs levées comme attendu
+| Flight.toJson (champs principaux) | ☑ | Conversion correcte (id, site, durée, altitude)
+| Flight.fromJson (valide) | ☑ | Objet reconstruit avec les bonnes valeurs
+| Flight.date (ISO 8601) | ☑ | Conservation correcte
+| Flight.duration (conversion) | ☑ | 1h45 = 6300s validé
+| Flight.formatDuration | ☑ | "2h 3m" généré
+| Radar.fromJson (int → double) | ☑ | Cast correct des ints en double
+| Radar.average | ☑ | 0.0 si vide, moyenne correcte sinon
+| Radar.scoreOf | ☑ | Retourne 0.0 pour clés absentes
+| Radar.toOrderedList | ☑ | Respecte l’ordre, met 0.0 pour inconnus
+| Radar.normalizedScores | ☑ | Remplit requis et préserve extras
+| Radar.JSON round-trip | ☑ | toJsonString ↔ fromJsonString OK
+| Radar.descriptionFor | ☑ | Description connue renvoyée; inconnue → ''
+| Radar.radarFeatures | ☑ | Contient clés majeures
+|===
