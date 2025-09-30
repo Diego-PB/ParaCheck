@@ -23,7 +23,7 @@ class _ManageSitesPageState extends State<ManageSitesPage> {
   }
 
   Future<void> _refresh() async {
-    final list = await _siteRepo.getAll();
+    final list = await _siteRepo.getAllNames();
     setState(() => _sites = list);
   }
 
@@ -59,7 +59,7 @@ class _ManageSitesPageState extends State<ManageSitesPage> {
                 onPressed: () async {
                   final v = _newSiteCtrl.text.trim();
                   if (v.isEmpty) return;
-                  await _siteRepo.add(v);
+                  await _siteRepo.addName(v);
                   _newSiteCtrl.clear();
                   await _refresh();
                 },
@@ -114,7 +114,10 @@ class _ManageSitesPageState extends State<ManageSitesPage> {
                                     ),
                               );
                               if (newName != null && newName.isNotEmpty) {
-                                await _siteRepo.rename(_sites[i], newName);
+                                await _siteRepo.renameByName(
+                                  _sites[i],
+                                  newName,
+                                );
                                 await _refresh();
                               }
                             },
@@ -146,7 +149,7 @@ class _ManageSitesPageState extends State<ManageSitesPage> {
                                     ),
                               );
                               if (ok == true) {
-                                await _siteRepo.remove(_sites[i]);
+                                await _siteRepo.removeByName(_sites[i]);
                                 await _refresh();
                               }
                             },

@@ -90,8 +90,8 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
         }
       }
 
-      // Load saved sites for autocomplete suggestions
-      _siteSuggestions = await _siteRepo.getAll();
+      // Load saved sites for autocomplete suggestions (names only)
+      _siteSuggestions = await _siteRepo.getAllNames();
       setState(() => _loading = false);
     } catch (e) {
       setState(() {
@@ -195,8 +195,8 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
 
       // Persist the site for future autocomplete suggestions.
       if (site.isNotEmpty) {
-        await _siteRepo.add(site);
-        _siteSuggestions = await _siteRepo.getAll();
+        await _siteRepo.addName(site);
+        _siteSuggestions = await _siteRepo.getAllNames();
       }
 
       if (!mounted) return;
