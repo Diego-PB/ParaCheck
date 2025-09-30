@@ -1,12 +1,10 @@
 // test/pages/postflight_debrief_test.dart
-import 'dart:convert';
-import 'dart:typed_data';
+// ignore_for_file: deprecated_member_use
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:paracheck/pages/postflight_debrief.dart';
 
 /// Mock assets: JSON du formulaire + manifests + images (PNG 1x1)
 void _installPostflightAssetMocks({String? payload}) {
@@ -63,7 +61,7 @@ void _installPostflightAssetMocks({String? payload}) {
 /// Écran factice pour vérifier les routes
 class _RouteScreen extends StatelessWidget {
   final String name;
-  const _RouteScreen(this.name, {super.key});
+  const _RouteScreen(this.name);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
