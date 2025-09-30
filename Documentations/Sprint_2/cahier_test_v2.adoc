@@ -1,1 +1,117 @@
+= Cahier de Test - ParaCheck
 
+== Introduction
+Ce document décrit les cas de test pour l’application mobile *ParaCheck*.  
+Il inclut des scénarios de test détaillés, des prérequis, des étapes à suivre, ainsi que les résultats attendus pour chaque cas de test.  
+L'objectif est de garantir que toutes les fonctionnalités de l’application fonctionnent correctement et répondent aux exigences spécifiées.  
+
+== Sommaire
+
+* <<Tests_Frontend, Tests pour l’interface utilisateur (Frontend Flutter)>>
+** <<Contexte_Frontend, Contexte>>
+** <<Tests_Frontend_List, Tests à effectuer>>
+** <<Suivi_Frontend, Suivi des Tests>>
+* <<Tests_Backend, Tests pour la logique et services (Backend Flutter)>>
+** <<Contexte_Backend, Contexte>>
+** <<Tests_Backend_List, Tests à effectuer>>
+** <<Suivi_Backend, Suivi des Tests>>
+
+// ==========================================================
+[[Tests_Frontend]]
+== Tests pour l’interface utilisateur (Frontend Flutter)
+
+[[Contexte_Frontend]]
+=== Contexte
+Ces tests visent à valider les fonctionnalités liées aux pages principales de l’application, la navigation et l’affichage des données.  
+
+[[Tests_Frontend_List]]
+=== Tests à effectuer
+
+==== 1. Accès à la page d’accueil (HomePage)
+*Objectif* :: Vérifier que la page d’accueil se charge correctement.  
+*Préconditions* ::  
+- L’application est installée sur l’appareil.  
+
+*Étapes* ::  
+. Lancer l’application.  
+. Observer le chargement de la page d’accueil.  
+
+*Critères d’acceptation* ::  
+- La page d’accueil s’affiche sans erreur.  
+- Le logo et les éléments principaux sont visibles.
+
+==== 2. Navigation entre les pages
+*Objectif* :: Vérifier que l’utilisateur peut naviguer entre les différentes pages (`mavie`, `meteo_int`, `condition_vol`, etc.).  
+
+*Étapes* ::  
+. Depuis la HomePage, cliquer sur les boutons de navigation.  
+. Vérifier que la page correspondante s’affiche.  
+
+*Critères d’acceptation* ::  
+- Chaque clic redirige correctement vers la page attendue.  
+- Aucun crash de l’application.  
+
+==== 3. Chargement des questions JSON
+*Objectif* :: Vérifier que les fichiers JSON (`questions_mavie.json`, `questions_meteo_int.json`, `questions_postvol.json`) sont correctement lus et affichés.  
+
+*Étapes* ::  
+. Ouvrir la page correspondante à chaque questionnaire.  
+. Vérifier que les questions sont affichées.  
+
+*Critères d’acceptation* ::  
+- Toutes les questions apparaissent correctement.  
+- Les données correspondent au contenu des fichiers JSON.   
+
+[[Suivi_Frontend]]
+=== Suivi des Tests
+
+[cols="3,1,2", options="header"]
+|===
+| Test                         | Statut | Observations
+| Accès à la page d’accueil    | ☑      | Ok
+| Navigation entre les pages   | ☑      | Ok, nécessité de remplacer la flèche de retour automatique par une flèche avec un chemin forcé car considère le bouton principal comme une page à part entière 
+| Chargement des fichiers JSON | ☑      | Ok
+|===
+
+
+// ==========================================================
+[[Tests_Backend]]
+== Tests pour la logique et services (Backend Flutter)
+
+[[Contexte_Backend]]
+=== Contexte
+Ces tests visent à valider la logique métier (services, utils, widgets) ainsi que le routage et le thème global de l’application.  
+
+[[Tests_Backend_List]]
+=== Tests à effectuer
+
+==== 1. Routage de l’application
+*Objectif* :: Vérifier que `app_router.dart` gère correctement les routes.  
+
+*Critères d’acceptation* ::  
+- Chaque route redirige vers la bonne page.  
+- Une erreur de navigation affiche un écran d’erreur lisible.  
+
+==== 2. Gestion des thèmes
+*Objectif* :: Vérifier que `theme.dart` applique bien les polices et couleurs.  
+
+*Critères d’acceptation* ::  
+- Les polices définies dans `assets/fonts` sont bien appliquées.
+
+==== 3. Widgets réutilisables
+*Objectif* :: Vérifier que les composants dans `widgets/` fonctionnent correctement.  
+
+*Critères d’acceptation* ::  
+- Les widgets personnalisés s’affichent sans erreur.  
+- Ils gardent le même style sur toutes les pages.  
+
+[[Suivi_Backend]]
+=== Suivi des Tests
+
+[cols="3,1,2", options="header"]
+|===
+| Test                  | Statut | Observations
+| Routage (app_router)  | ☑      | Ok
+| Thème (theme.dart)    | ☑      | Ok, problèmes sur l'émulateur du client (??)
+| Widgets réutilisables | ☑      | Ok
+|===
