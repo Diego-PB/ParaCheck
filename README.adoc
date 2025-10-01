@@ -16,13 +16,20 @@ toc::[]
 
 == Projet : 
 
-Le parapente est un sport à risque où la sécurité est importante.
-Il n’existe pas d’application dédiée.
+=== ParaCheck – Un outil numérique pour la sécurité en parapente
 
-Un embryon a été initié sur la base d’un PDF utilisé par un moniteur et se trouve ici :
-https://github.com/jmbruel/paranote
+Le parapente est une activité passionnante mais qui comporte aussi une part de risque importante. 
+La sécurité y occupe donc une place centrale, aussi bien pour les pilotes débutants que pour les pratiquants confirmés. 
+Pourtant, à ce jour, il n’existe pas d’application réellement dédiée qui centralise les bonnes pratiques, les vérifications pré-vol et les outils d’aide à la décision.  
 
-L’idée est de rendre cet outil robuste, sûr et validé par la fédération de vol libre pour inciter tous les parapentistes à l’utiliser.
+Un premier prototype a déjà vu le jour sous la forme d’un simple PDF, utilisé par un moniteur 
+comme support pédagogique et de vérification (voir https://github.com/Diego-PB/ParaCheck/blob/main/files/carnetA4.pdf[PDF]). 
+Ce document a été transposé en version numérique et se trouve actuellement dans un dépôt public : 
+https://github.com/jmbruel/paranote[Paranote]. 
+Ce point de départ constitue une base intéressante, mais reste encore limité en termes de fonctionnalités et d’ergonomie.  
+
+Avec *ParaCheck*, l’ambition est de transformer cet embryon en un outil robuste, fiable et validé par la Fédération Française de Vol Libre. 
+L’objectif est de proposer une application accessible et reconnue, que tous les parapentistes pourraient adopter comme référence pour renforcer leur sécurité au quotidien.  
 Pour ce sujet, il y a énormément d’ouvertures et d’extensions possibles (prise en compte de la météo en temps réel, analyse de risques, suivi en temps réel de la position, …).
 
 == Equipe :
