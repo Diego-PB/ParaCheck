@@ -244,6 +244,120 @@ Notes :
 - Tests sont des *smoke* et interaction simple ; on peut compléter par des tests d’export/import (mock des fichiers, permissions) si nécessaire.  
 - Vérifier l’accessibilité (semantics) et l’orientation/responsive si souhaité.
 
+==== FlightConditionPage
+*Fichier source des tests* : `test/pages/flight_condition_test.dart`  
+*Localisation dans l’application* : écran « Conditions de vol » (classification des niveaux de turbulence / bannière d’avertissement).
+
+Prérequis :
+- Mock minimal des assets (manifests + toutes images sous `assets/` renvoyant un PNG 1x1) via `mockMinimalAssets()`.  
+- `MaterialApp` autour de la page pour permettre le rendu et la navigation.
+
+Cas de tests :
+
+1. **Rendu des 4 niveaux + bannière d’avertissement**  
+- Appeler `mockMinimalAssets()` puis monter `FlightConditionPage`.  
+- `await tester.pump(Duration(milliseconds:50));`  
+- Vérifier le titre de la page : `Conditions de vol`.  
+- Vérifier la présence (matching partiel possible) des 4 libellés attendus :  
+  - `Conditions calmes`  
+  - `Turbulences moyennes`  
+  - `Turbulences fortes et fréquentes`  
+  - `Turbulences très fortes et constantes`  
+- Vérifier la bannière d’avertissement en bas :  
+  `Une fermeture reste toujours une erreur de pilotage`.
+
+2. **Navigation (pushNamed → /personal_weather)**  
+- Monter un `MaterialApp` avec `navigatorKey` et la route `/personal_weather` pointant vers un écran factice.  
+- Appeler `navKey.currentState!.pushNamed('/personal_weather')`.  
+- `pump()` puis `pump(Duration(milliseconds:50))` et vérifier que l’écran cible (`ROUTE: personal_weather`) est rendu.
+
+3. **Rendu AppScaffold**  
+- Avec `mockMinimalAssets()`, monter la page dans un `MaterialApp`.  
+- Vérifier que la page rend bien un `AppScaffold`.
+
+Données de test :
+- Assets minimal mockés (manifest + images 1x1) pour garantir l’indépendance vis-à-vis du package d’assets réel.
+
+Résultats attendus :
+- Les 4 niveaux de turbulence et la bannière d’avertissement sont visibles.  
+- La route `/personal_weather` est navigable via `pushNamed`.  
+- La page rend un `AppScaffold`.
+
+Notes :
+- Tests ciblent rendu statique et navigation. On peut compléter par des tests d’accessibilité (semantics) ou d’affichage responsive si nécessaire.
+
+==== PostFlightDebriefPage
+*Fichier source des tests* : `test/pages/postflight_debrief_test.dart`  
+*Localisation dans l’application* : écran de débrief post-vol (formulaire basé sur un JSON d’assets).
+
+Prérequis :
+- Mock des assets via `_installPostflightAssetMocks()` installé avant chaque test.  
+  - Fournit un JSON de base (`assets/postflight_questions.json`) avec 5 questions : Site, Date, Durée, Altitude, Commentaires.  
+  - Fournit aussi des réponses par défaut aux requêtes `AssetManifest` et `FontManifest`.  
+  - Les images sous `assets/` sont remplacées par un PNG transparent 1×1.  
+- `MaterialApp` nécessaire autour de la page pour le rendu et la navigation.
+
+Cas de tests :
+
+1. **Chargement de l’asset JSON**  
+- Charger `assets/postflight_questions.json` via `rootBundle.loadString`.  
+- Vérifier que la donnée est non vide (`isNotEmpty`).  
+- Vérifier que le premier élément contient bien `"label": "Site"`.
+
+2. **Navigation vers /radar**  
+- Monter un `MaterialApp` avec `navigatorKey` et définir la route `/radar` vers un écran factice.  
+- Appeler `navKey.currentState!.pushNamed('/radar')`.  
+- `pump()` puis `pump(Duration(milliseconds:50))`.  
+- Vérifier que l’écran attendu (`ROUTE: radar`) est rendu.
+
+Données de test :
+- JSON de formulaire mocké (5 labels).  
+- Écran factice `_RouteScreen` pour tester la navigation.
+
+Résultats attendus :
+- L’asset JSON se charge correctement et contient les labels attendus.  
+- La route `/radar` est navigable via `pushNamed`.
+
+Notes :
+- Les tests actuels couvrent uniquement le chargement du JSON et la navigation.  
+- On peut compléter par des tests de rendu de formulaire (présence des champs, validation, envoi).
+
+==== RadarPage
+*Fichier source des tests* : `test/pages/radar_page_test.dart`  
+*Localisation dans l’application* : page "Radar de compétences" (édition / lecture des scores radar liés à un vol).
+
+Prérequis :
+- Mock minimal des assets (manifests + images → PNG 1×1) via `_installMinimalAssets()`.  
+- `SharedPreferences` mockable pour seed d’un vol (utiliser `_seedFlight(...)` ou `SharedPrefsFlightRepository()` directement).  
+- `MaterialApp` autour de la page pour permettre le rendu et la navigation.
+
+Cas de tests :
+
+1. **radarFeatures (source) non vide**  
+- Vérifier que la constante `radarFeatures` contient des éléments (test pur Dart, pas de widget).
+
+2. **Navigation (pushNamed → /postflight_debrief)**  
+- Monter un `MaterialApp` avec `navigatorKey` et une route `/postflight_debrief` pointant vers un écran factice.  
+- Appeler `navKey.currentState!.pushNamed('/postflight_debrief')`.  
+- `pump()` puis `pump(Duration(milliseconds:50))` et vérifier que `ROUTE: postflight_debrief` est rendu.
+
+3. **Rendu AppScaffold + titre**  
+- Seed d’un vol en mémoire (ex. `_seedFlight(id: 'f1')`) pour que `RadarPage(flightId: 'f1')` trouve le vol.  
+- Monter la page dans un `MaterialApp` et `pump(Duration(milliseconds:50))`.  
+- Vérifier la présence d’un `AppScaffold` et la présence du titre `Radar de compétences`.
+
+Données de test :
+- Vol seedé via `_seedFlight` (id, site par défaut, date, durée, altitude, optionnellement un `Radar` si lecture seule).  
+- Assets minimal mockés pour éviter les erreurs liées aux images/manifests.
+
+Résultats attendus :
+- `radarFeatures` n’est pas vide.  
+- La route `/postflight_debrief` est navigable via `pushNamed`.  
+- La page rend un `AppScaffold` et affiche le titre `Radar de compétences`.
+
+Notes :
+- Le test 3 valide principalement le rendu de scaffolding et du titre ; la logique d’édition/lecture du radar peut être couverte par des tests supplémentaires (ex. présence/édition des sliders, persistance des scores, mode lecture quand `flight.radar != null`).
+
 
 [[Suivi_Pages]]
 === Suivi des Tests
@@ -269,7 +383,14 @@ Notes :
 | SettingsPage — Titre, section & notice | ☑ | Titre "Paramètres", SectionTitle et AppNotice présents
 | SettingsPage — Boutons Export / Import & icône | ☑ | Boutons et icône `Icons.download` présents
 | SettingsPage — Switch "Remplacer tout" | ☑ | Switch bascule false→true et texte explicatif affiché
-
+| FlightConditionPage — 4 niveaux & bannière | ☑ | Titres des niveaux et bannière d’avertissement présents
+| FlightConditionPage — Navigation /personal_weather | ☑ | Route atteinte et écran cible rendu
+| FlightConditionPage — Rendu AppScaffold | ☑ | AppScaffold présent
+| PostFlightDebriefPage — Chargement JSON | ☑ | Asset postflight_questions.json chargé et premier label = "Site"
+| PostFlightDebriefPage — Navigation /radar | ☑ | Route atteinte et écran cible rendu
+| RadarPage — radarFeatures non vide | ☑ | Source `radarFeatures` contient des clés
+| RadarPage — Navigation /postflight_debrief | ☑ | Route atteinte et écran cible rendu
+| RadarPage — Rendu AppScaffold & titre | ☑ | `AppScaffold` et titre "Radar de compétences" présents
 |===
 
 
