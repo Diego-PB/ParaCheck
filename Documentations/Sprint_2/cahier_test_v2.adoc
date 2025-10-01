@@ -45,28 +45,205 @@ Prérequis :
 - Flutter TestWidgets configuré.  
 
 Cas de tests :  
-1. **Chargement de l’asset JSON**  
-   - Charger `assets/mavie_questions.json` via `rootBundle.loadString`.  
-   - Vérifier que les données sont non vides et que la première question est bien `"Q1?"`.  
-
-2. **Navigation (pushNamed)**  
-   - Configurer un `MaterialApp` avec un `navigatorKey`.  
-   - Pousser la route `'/breathing'`.  
-   - Vérifier que l’écran de destination (`ROUTE: breathing`) est rendu.  
-
-3. **Rendu de la page Mavie**  
-   - Monter `MaviePage` dans un `MaterialApp` avec les routes nécessaires.  
-   - Vérifier que la page rend un `AppScaffold`.  
-   - Vérifier que le titre `"MAVIE"` est présent à l’écran.  
+1. **Chargement de l’asset JSON** : charger `assets/mavie_questions.json` via `rootBundle.loadString` et vérifier que les données sont non vides (première question `"Q1?"`).  
+2. **Navigation (pushNamed)** : configurer `MaterialApp` avec `navigatorKey`, pousser la route `'/breathing'`, vérifier l’écran de destination.  
+3. **Rendu de la page Mavie** : monter `MaviePage` et vérifier la présence d’un `AppScaffold` et du titre `"MAVIE"`.  
 
 Résultats attendus :  
-- Les assets JSON se chargent correctement.  
-- La navigation vers la route `'/breathing'` fonctionne.  
-- La page affiche bien un `AppScaffold` avec le titre `"MAVIE"`.  
+- Assets JSON chargeables et non vides.  
+- Navigation `/breathing` fonctionnelle.  
+- `AppScaffold` rendu avec titre `"MAVIE"`.
 
-Notes :  
-- Les mocks garantissent l’indépendance vis-à-vis des fichiers réels et images.  
-- Ces tests valident la structure de base et la configuration de navigation, mais pas encore la logique métier complète.  
+==== PersonalWeatherPage
+*Fichier source des tests* : `test/pages/personal_weather_test.dart`  
+*Localisation dans l’application* : page *Météo personnelle* (questionnaire / évaluation météorologique personnelle).
+
+Prérequis :
+- Mock des assets requis (`personal_weather_questions.json`, images, manifests).  
+- Flutter TestWidgets configuré.
+
+Cas de tests :  
+1. **Chargement de l’asset JSON**  
+   - Utiliser le mock `mockQuestionsAsset()` qui fournit `assets/personal_weather_questions.json`.  
+   - Charger l’asset via `rootBundle.loadString` et `jsonDecode`.  
+   - Vérifier que la liste résultante n’est pas vide et que la première entrée contient la question `"Q1?"`.  
+
+2. **Navigation (pushNamed)**  
+   - Construire un `MaterialApp` avec `navigatorKey` et une route `/mavie`.  
+   - Appeler `navKey.currentState!.pushNamed('/mavie')`.  
+   - Vérifier que l’écran cible (`ROUTE: mavie`) est rendu.
+
+3. **Rendu de la page PersonalWeather**  
+   - Monter `PersonalWeatherPage` dans un `MaterialApp`.  
+   - Vérifier la présence d’un `AppScaffold`.  
+   - Vérifier que le titre `"Météo personnelle"` est affiché.
+
+Données de test :
+- Le mock d’assets fournit un JSON minimal :  
+  `[{"question":"Q1?","answer_ok":"OK","answer_bof":"BOF","answer_nok":"NOK"}]`  
+- Images d’assets rendues via un PNG transparent en mémoire.
+
+Résultats attendus :  
+- JSON asset chargeable et non vide.  
+- Navigation vers `/mavie` possible via `pushNamed`.  
+- `AppScaffold` et titre `"Météo personnelle"` visibles.
+
+Notes :
+- Les mocks assurent l’indépendance des tests vis-à-vis des fichiers physiques.  
+- Tests ciblent structure et navigation ; complément possible pour la logique du questionnaire (sélections de réponses, persistance, etc.).
+
+==== HomePage
+*Fichier source des tests* : `test/pages/home_page_test.dart`  
+*Localisation dans l’application* : écran d'accueil affichant un résumé des derniers vols, accès à l'historique, pré-vol et post-vol.
+
+Prérequis :
+- `SharedPreferences` mockable (utiliser `SharedPreferences.setMockInitialValues`).
+- Fonction utilitaire `seedFlights(List<Flight>)` appelée **avant** d'afficher `HomePage` pour préparer le repository en mémoire.
+- Helper `makeFlight(...)` pour construire des objets `Flight`.
+
+Cas de tests :
+
+1. **Loading puis état vide**  
+- Préparer le store : `await seedFlights(const []);` (aucun vol).  
+- Monter la page : `await tester.pumpWidget(const MaterialApp(home: HomePage()));`  
+- Vérifier la présence d'un `CircularProgressIndicator` pendant la résolution du `FutureBuilder`.  
+- `await tester.pumpAndSettle();` puis vérifier l’état vide : présence de l’élément identifié par la clé `no_flights_text` et l’absence de `StatTile`.
+
+2. **Affichage maximal de 3 StatTile (take(3))**  
+- Seed du repo avec 4 vols via `seedFlights([...])` (vols f1..f4).  
+- Monter la page et `pumpAndSettle()`.  
+- Vérifier la présence de la list identifiée par la clé `flights_3last_list`.  
+- Vérifier exactement 3 `StatTile` (findsNWidgets(3)).  
+- Vérifications textuelles souples : `find.textContaining('Durée :')` et `find.textContaining('Altitude :')` trouvent 3 occurrences.
+
+3. **Navigation (historique / pré-vol / post-vol) via Keys**  
+- Monter `HomePage` dans un `MaterialApp` qui définit les routes `/flights_history`, `/flight_condition`, `/postflight_debrief` renvoyant des écrans factices (`AppScaffold` avec textes `HISTORY_SCREEN`, `PRE_SCREEN`, `POST_SCREEN`).  
+- Simuler les taps sur les boutons via leurs `ValueKey`s :  
+  - `flights_history_button` → vérifie `HISTORY_SCREEN`.  
+  - `pre_flight_button` → vérifie `PRE_SCREEN`.  
+  - `post_flight_button` → vérifie `POST_SCREEN`.  
+- Utiliser `Navigator.pop()` entre les actions pour revenir à l'écran d'accueil.
+
+4. **Affichage d’un message d’erreur si getAll() plante (JSON invalide)**  
+- Injecter un JSON invalide directement dans le store mocké :  
+  `SharedPreferences.setMockInitialValues({'flights_v1': 'not a json array'});`  
+- Monter `HomePage`, `pumpAndSettle()` et vérifier la présence d’un message contenant `Erreur de chargement`.
+
+Données de test :
+- Exemples de vols fournis par `makeFlight(...)` (id, site, date, duration, altitude).
+- SharedPreferences mockées pour simuler différents états (vide, plusieurs vols, JSON invalide).
+
+Résultats attendus :
+- Le spinner s’affiche puis l’état vide est rendu lorsque la liste est vide.  
+- Lorsque plus de 3 vols sont présents, seules 3 `StatTile` sont affichées (les 3 derniers).  
+- Les boutons mènent bien aux routes attendues.  
+- En cas de JSON invalide, un message d’erreur explicite est affiché.
+
+Notes :
+- `seedFlights` doit être appelée **avant** de monter `HomePage`, sinon le repository aura déjà essayé de lire les données.  
+- Les tests font de la vérification fonctionnelle / UI (smoke + cas d’erreur). On peut ajouter des tests de tri/ordre des vols et de formats d’affichage si souhaité (ex. format date/durée).
+
+==== FlightsHistoryPage
+*Fichier source des tests* : `test/pages/flights_history_test.dart`  
+*Localisation dans l’application* : écran d'historique des vols (liste complète, suppression, détails via bottom sheet, rafraîchissement).
+
+Prérequis :
+- `SharedPreferences` mockable (`SharedPreferences.setMockInitialValues`).
+- Helpers `makeFlight(...)` et `seedFlights(List<Flight>)` pour préparer l'état du repo avant d'afficher la page.
+- Page rendue dans un `MaterialApp` pour permettre les animations, bottom sheet et navigation.
+
+Cas de tests :
+
+1. **Loading → Empty state**  
+- Appeler `await seedFlights(const [])` puis monter `FlightsHistoryPage`.  
+- Vérifier le `CircularProgressIndicator` pendant le chargement.  
+- Après `pumpAndSettle()`, vérifier l’état vide : icône `Icons.hourglass_empty_rounded` et texte `Aucun vol enregistré pour le moment.`.
+
+2. **Affiche la liste des vols (2 items)**  
+- Seed avec 2 vols (ex. Organya, Annecy).  
+- Monter la page, `pumpAndSettle()` et vérifier : deux `ListTile`, présence des noms de site (`Organya`, `Annecy`) et présence de puces (`•`) dans les sous-titres (date • durée • altitude) pour chaque item.
+
+3. **Tap → bottom sheet (sans radar)**  
+- Seed avec 1 vol (site `Sornin`).  
+- Taper sur le titre `Sornin`.  
+- Laisser jouer l’animation du bottom sheet (`pump`, `pump(Duration(...))`, `pumpAndSettle()`).  
+- Vérifier la présence d’un `BottomSheet`.  
+- Vérifier le contenu attendu : titre (`Sornin`), textes `Date :`, `Durée :`, `Altitude max :`, et le message `Aucune rose enregistrée pour ce vol.`.  
+- Fermer via le bouton `Fermer` (TextButton) et vérifier la disparition du sheet.
+
+4. **Suppression d’un vol via le dialog + snackbar**  
+- Seed avec 2 vols (Organya, Annecy).  
+- Taper sur l’icône `Supprimer` (ciblée par `tooltip='Supprimer'`) du premier item.  
+- Confirmer dans le dialog (`FilledButton` texte `Supprimer`).  
+- Vérifier la présence d’un `Snackbar` avec `Vol supprimé`.  
+- Vérifier que la liste s’est mise à jour (1 item restant).
+
+5. **Pull-to-refresh → recharge la liste (1 → 2 items)**  
+- Seed initial avec 1 vol.  
+- Afficher la page et vérifier 1 `ListTile`.  
+- Pendant que la page est affichée, ajouter un vol au repo via `SharedPrefsFlightRepository().add(...)`.  
+- Déclencher le `RefreshIndicator` par un `drag` important sur la `ListView`.  
+- Laisser le onRefresh se jouer (`pump(Duration(seconds:1))` + `pumpAndSettle()`).  
+- Vérifier que la liste reflète maintenant 2 items.
+
+6. **Erreur de chargement (JSON invalide) → message d’erreur**  
+- Injecter dans `SharedPreferences` une valeur invalide pour la clé `flights_v1` : `'not a json array'`.  
+- Monter la page, `pumpAndSettle()` et vérifier la présence d’un message contenant `Erreur de chargement des vols`.
+
+Données de test :
+- Vols créés par `makeFlight(...)` avec champs : `id`, `site`, `date`, `duration`, `altitude`.
+- Store mocké pour simuler états : vide, plusieurs vols, JSON invalide.
+
+Résultats attendus :
+- Chargement visuel suivi de l’état vide lorsque la base est vide.  
+- Liste rendue correctement avec autant de `ListTile` que de vols seedés.  
+- Bottom sheet affiche les détails attendus et gère l’absence de radar.  
+- Suppression via dialog entraîne snackbar de confirmation et mise à jour de la liste.  
+- Pull-to-refresh recharge la liste et affiche les nouveaux éléments.  
+- En cas de JSON invalide, un message d’erreur explicite est affiché.
+
+Notes :
+- Le test timing-sensitive autour des animations (bottom sheet, snackbar, refresh) utilise `pump` avec de courtes durées pour laisser le framework animer les transitions.  
+- Ces tests couvrent UI / comportement ; si souhaité, on peut ajouter des tests de tri, pagination, export d’items ou interaction avec le radar lorsqu’il est présent.
+
+==== SettingsPage
+*Fichier source des tests* : `test/pages/settings_test.dart`  
+*Localisation dans l’application* : écran Paramètres (export/import de données, options de sauvegarde).
+
+Prérequis :
+- Environnement `flutter_test` configuré.
+- `MaterialApp` autour de la page pour le rendu (`ThemeData(useMaterial3: true)`).
+
+Cas de tests :
+
+1. **Smoke — titre, section et notice**  
+- Monter la page via `await tester.pumpWidget(wrap(const SettingsPage()));` puis `await tester.pumpAndSettle();`.  
+- Vérifier la présence du titre principal `Paramètres`.  
+- Vérifier la présence du `SectionTitle` intitulé `Sauvegarde & transfert (fichier .json)`.  
+- Vérifier la présence d’un `AppNotice` d’introduction et des textes `Export / Import` et `Exportez vos données locales (SharedPreferences)` (ou début de ce texte).
+
+2. **Boutons Export / Import et icône download**  
+- Vérifier la présence des deux boutons libellés : `Exporter vers un fichier` et `Importer depuis un fichier`.  
+- Vérifier que l’icône `Icons.download` est présente (sur le bouton d’export).
+
+3. **Switch "Remplacer tout" bascule false → true**  
+- Repérer le `Switch` et vérifier sa valeur initiale false.  
+- Simuler un `tap` sur le `Switch` puis `pumpAndSettle()` et vérifier que sa valeur devient true.  
+- Vérifier la présence du texte explicatif :  
+  `"Remplacer tout lors de l'import (sinon, les données existantes sont conservées)"`.
+
+Données de test :
+- Page statique : pas d’assets externes requis pour ces vérifications de base.
+
+Résultats attendus :
+- Titre, section et notice visibles.  
+- Boutons Export / Import et icône download présents.  
+- Le `Switch` bascule correctement et le texte explicatif est affiché.
+
+Notes :
+- Tests sont des *smoke* et interaction simple ; on peut compléter par des tests d’export/import (mock des fichiers, permissions) si nécessaire.  
+- Vérifier l’accessibilité (semantics) et l’orientation/responsive si souhaité.
+
 
 [[Suivi_Pages]]
 === Suivi des Tests
@@ -76,7 +253,25 @@ Notes :
 | MaviePage — Chargement JSON | ☑ | Asset chargé et question `"Q1?"` trouvée
 | MaviePage — Navigation /breathing | ☑ | Route atteinte et écran `"ROUTE: breathing"` rendu
 | MaviePage — Rendu AppScaffold | ☑ | Scaffold affiché avec titre `"MAVIE"`
+| PersonalWeather — Chargement JSON | ☑ | Asset chargé et question `"Q1?"` trouvée
+| PersonalWeather — Navigation /mavie | ☑ | Route atteinte et écran `"ROUTE: mavie"` rendu
+| PersonalWeather — Rendu AppScaffold | ☑ | Scaffold affiché avec titre `"Météo personnelle"`
+| HomePage — Loading puis état vide | ☑ | Spinner affiché puis `no_flights_text` présent
+| HomePage — Affiche max 3 StatTile | ☑ | `flights_3last_list` présent, 3 StatTile rendues
+| HomePage — Navigation via Keys | ☑ | Buttons mènent à HISTORY/PRE/POST screens
+| HomePage — Erreur JSON invalide | ☑ | Message `Erreur de chargement` affiché
+| FlightsHistoryPage — Loading → Empty state | ☑ | Spinner puis message "Aucun vol enregistré pour le moment."
+| FlightsHistoryPage — Affiche liste (2 items) | ☑ | 2 ListTile rendues, site + sous-titre OK
+| FlightsHistoryPage — Bottom sheet (tap) | ☑ | BottomSheet monté, détails affichés, "Aucune rose..." présent
+| FlightsHistoryPage — Suppression + snackbar | ☑ | Dialog + Snackbar "Vol supprimé", liste mise à jour
+| FlightsHistoryPage — Pull-to-refresh | ☑ | Refresh recharge la liste (1 → 2 items)
+| FlightsHistoryPage — Erreur JSON invalide | ☑ | Message "Erreur de chargement des vols" affiché
+| SettingsPage — Titre, section & notice | ☑ | Titre "Paramètres", SectionTitle et AppNotice présents
+| SettingsPage — Boutons Export / Import & icône | ☑ | Boutons et icône `Icons.download` présents
+| SettingsPage — Switch "Remplacer tout" | ☑ | Switch bascule false→true et texte explicatif affiché
+
 |===
+
 
 
 
