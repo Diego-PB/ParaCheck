@@ -264,17 +264,14 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
 
   @override
   void dispose() {
-    // Dispose all controllers to avoid memory leaks.
     for (final c in _controllers) {
       c.dispose();
     }
-    _siteController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Loading and error states
     if (_loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }

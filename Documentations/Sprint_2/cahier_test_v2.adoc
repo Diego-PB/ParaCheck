@@ -1,117 +1,438 @@
 = Cahier de Test - ParaCheck
+:toc: left
+:toclevels: 3
 
 == Introduction
 Ce document décrit les cas de test pour l’application mobile *ParaCheck*.  
-Il inclut des scénarios de test détaillés, des prérequis, des étapes à suivre, ainsi que les résultats attendus pour chaque cas de test.  
+Il inclut des scénarios de test détaillés, des prérequis, les étapes de validation, ainsi que les résultats attendus.  
 L'objectif est de garantir que toutes les fonctionnalités de l’application fonctionnent correctement et répondent aux exigences spécifiées.  
 
 == Sommaire
 
-* <<Tests_Frontend, Tests pour l’interface utilisateur (Frontend Flutter)>>
-** <<Contexte_Frontend, Contexte>>
-** <<Tests_Frontend_List, Tests à effectuer>>
-** <<Suivi_Frontend, Suivi des Tests>>
-* <<Tests_Backend, Tests pour la logique et services (Backend Flutter)>>
-** <<Contexte_Backend, Contexte>>
-** <<Tests_Backend_List, Tests à effectuer>>
-** <<Suivi_Backend, Suivi des Tests>>
+* <<Tests_Pages, Pages>>
+** <<Contexte_Pages, Contexte>>
+** <<Tests_Pages_List, Tests à effectuer>>
+** <<Suivi_Pages, Suivi des Tests>>
+* <<Tests_Models, Models>>
+** <<Contexte_Models, Contexte>>
+** <<Tests_Models_List, Tests à effectuer>>
+** <<Suivi_Models, Suivi des Tests>>
 
 // ==========================================================
-[[Tests_Frontend]]
-== Tests pour l’interface utilisateur (Frontend Flutter)
 
-[[Contexte_Frontend]]
+
+[[Tests_Pages]]
+== Pages
+
+[[Contexte_Pages]]
 === Contexte
-Ces tests visent à valider les fonctionnalités liées aux pages principales de l’application, la navigation et l’affichage des données.  
+Les tests *Pages* valident les écrans/écrans-clés de l’application : rendu visuel, structure des widgets, navigation et éléments interactifs.  
+Chaque page est testée pour :  
+- Présence des éléments d’interface attendus (titres, icônes, sections).  
+- Structure générale (scaffold, navigation, assets).  
+- Contenu textuel attendu (labels, consignes, données JSON).  
+- Comportement basique (smoke tests) et cas d’erreur/états vides si nécessaire.
 
-[[Tests_Frontend_List]]
+[[Tests_Pages_List]]
 === Tests à effectuer
 
-==== 1. Accès à la page d’accueil (HomePage)
-*Objectif* :: Vérifier que la page d’accueil se charge correctement.  
-*Préconditions* ::  
-- L’application est installée sur l’appareil.  
+==== MaviePage
+*Fichier source des tests* : `test/pages/mavie_test.dart`  
+*Localisation dans l’application* : page *Mavie* (utilisée pour gérer les questionnaires MAVIE et accéder aux outils comme la respiration).  
 
-*Étapes* ::  
-. Lancer l’application.  
-. Observer le chargement de la page d’accueil.  
+Prérequis :
+- Mock des assets requis (`mavie_questions.json`, images, manifests).  
+- Flutter TestWidgets configuré.  
 
-*Critères d’acceptation* ::  
-- La page d’accueil s’affiche sans erreur.  
-- Le logo et les éléments principaux sont visibles.
+Cas de tests :  
+1. **Chargement de l’asset JSON** : charger `assets/mavie_questions.json` via `rootBundle.loadString` et vérifier que les données sont non vides (première question `"Q1?"`).  
+2. **Navigation (pushNamed)** : configurer `MaterialApp` avec `navigatorKey`, pousser la route `'/breathing'`, vérifier l’écran de destination.  
+3. **Rendu de la page Mavie** : monter `MaviePage` et vérifier la présence d’un `AppScaffold` et du titre `"MAVIE"`.  
 
-==== 2. Navigation entre les pages
-*Objectif* :: Vérifier que l’utilisateur peut naviguer entre les différentes pages (`mavie`, `meteo_int`, `condition_vol`, etc.).  
+Résultats attendus :  
+- Assets JSON chargeables et non vides.  
+- Navigation `/breathing` fonctionnelle.  
+- `AppScaffold` rendu avec titre `"MAVIE"`.
 
-*Étapes* ::  
-. Depuis la HomePage, cliquer sur les boutons de navigation.  
-. Vérifier que la page correspondante s’affiche.  
+==== PersonalWeatherPage
+*Fichier source des tests* : `test/pages/personal_weather_test.dart`  
+*Localisation dans l’application* : page *Météo personnelle* (questionnaire / évaluation météorologique personnelle).
 
-*Critères d’acceptation* ::  
-- Chaque clic redirige correctement vers la page attendue.  
-- Aucun crash de l’application.  
+Prérequis :
+- Mock des assets requis (`personal_weather_questions.json`, images, manifests).  
+- Flutter TestWidgets configuré.
 
-==== 3. Chargement des questions JSON
-*Objectif* :: Vérifier que les fichiers JSON (`questions_mavie.json`, `questions_meteo_int.json`, `questions_postvol.json`) sont correctement lus et affichés.  
+Cas de tests :  
+1. **Chargement de l’asset JSON**  
+   - Utiliser le mock `mockQuestionsAsset()` qui fournit `assets/personal_weather_questions.json`.  
+   - Charger l’asset via `rootBundle.loadString` et `jsonDecode`.  
+   - Vérifier que la liste résultante n’est pas vide et que la première entrée contient la question `"Q1?"`.  
 
-*Étapes* ::  
-. Ouvrir la page correspondante à chaque questionnaire.  
-. Vérifier que les questions sont affichées.  
+2. **Navigation (pushNamed)**  
+   - Construire un `MaterialApp` avec `navigatorKey` et une route `/mavie`.  
+   - Appeler `navKey.currentState!.pushNamed('/mavie')`.  
+   - Vérifier que l’écran cible (`ROUTE: mavie`) est rendu.
 
-*Critères d’acceptation* ::  
-- Toutes les questions apparaissent correctement.  
-- Les données correspondent au contenu des fichiers JSON.   
+3. **Rendu de la page PersonalWeather**  
+   - Monter `PersonalWeatherPage` dans un `MaterialApp`.  
+   - Vérifier la présence d’un `AppScaffold`.  
+   - Vérifier que le titre `"Météo personnelle"` est affiché.
 
-[[Suivi_Frontend]]
+Données de test :
+- Le mock d’assets fournit un JSON minimal :  
+  `[{"question":"Q1?","answer_ok":"OK","answer_bof":"BOF","answer_nok":"NOK"}]`  
+- Images d’assets rendues via un PNG transparent en mémoire.
+
+Résultats attendus :  
+- JSON asset chargeable et non vide.  
+- Navigation vers `/mavie` possible via `pushNamed`.  
+- `AppScaffold` et titre `"Météo personnelle"` visibles.
+
+Notes :
+- Les mocks assurent l’indépendance des tests vis-à-vis des fichiers physiques.  
+- Tests ciblent structure et navigation ; complément possible pour la logique du questionnaire (sélections de réponses, persistance, etc.).
+
+==== HomePage
+*Fichier source des tests* : `test/pages/home_page_test.dart`  
+*Localisation dans l’application* : écran d'accueil affichant un résumé des derniers vols, accès à l'historique, pré-vol et post-vol.
+
+Prérequis :
+- `SharedPreferences` mockable (utiliser `SharedPreferences.setMockInitialValues`).
+- Fonction utilitaire `seedFlights(List<Flight>)` appelée **avant** d'afficher `HomePage` pour préparer le repository en mémoire.
+- Helper `makeFlight(...)` pour construire des objets `Flight`.
+
+Cas de tests :
+
+1. **Loading puis état vide**  
+- Préparer le store : `await seedFlights(const []);` (aucun vol).  
+- Monter la page : `await tester.pumpWidget(const MaterialApp(home: HomePage()));`  
+- Vérifier la présence d'un `CircularProgressIndicator` pendant la résolution du `FutureBuilder`.  
+- `await tester.pumpAndSettle();` puis vérifier l’état vide : présence de l’élément identifié par la clé `no_flights_text` et l’absence de `StatTile`.
+
+2. **Affichage maximal de 3 StatTile (take(3))**  
+- Seed du repo avec 4 vols via `seedFlights([...])` (vols f1..f4).  
+- Monter la page et `pumpAndSettle()`.  
+- Vérifier la présence de la list identifiée par la clé `flights_3last_list`.  
+- Vérifier exactement 3 `StatTile` (findsNWidgets(3)).  
+- Vérifications textuelles souples : `find.textContaining('Durée :')` et `find.textContaining('Altitude :')` trouvent 3 occurrences.
+
+3. **Navigation (historique / pré-vol / post-vol) via Keys**  
+- Monter `HomePage` dans un `MaterialApp` qui définit les routes `/flights_history`, `/flight_condition`, `/postflight_debrief` renvoyant des écrans factices (`AppScaffold` avec textes `HISTORY_SCREEN`, `PRE_SCREEN`, `POST_SCREEN`).  
+- Simuler les taps sur les boutons via leurs `ValueKey`s :  
+  - `flights_history_button` → vérifie `HISTORY_SCREEN`.  
+  - `pre_flight_button` → vérifie `PRE_SCREEN`.  
+  - `post_flight_button` → vérifie `POST_SCREEN`.  
+- Utiliser `Navigator.pop()` entre les actions pour revenir à l'écran d'accueil.
+
+4. **Affichage d’un message d’erreur si getAll() plante (JSON invalide)**  
+- Injecter un JSON invalide directement dans le store mocké :  
+  `SharedPreferences.setMockInitialValues({'flights_v1': 'not a json array'});`  
+- Monter `HomePage`, `pumpAndSettle()` et vérifier la présence d’un message contenant `Erreur de chargement`.
+
+Données de test :
+- Exemples de vols fournis par `makeFlight(...)` (id, site, date, duration, altitude).
+- SharedPreferences mockées pour simuler différents états (vide, plusieurs vols, JSON invalide).
+
+Résultats attendus :
+- Le spinner s’affiche puis l’état vide est rendu lorsque la liste est vide.  
+- Lorsque plus de 3 vols sont présents, seules 3 `StatTile` sont affichées (les 3 derniers).  
+- Les boutons mènent bien aux routes attendues.  
+- En cas de JSON invalide, un message d’erreur explicite est affiché.
+
+Notes :
+- `seedFlights` doit être appelée **avant** de monter `HomePage`, sinon le repository aura déjà essayé de lire les données.  
+- Les tests font de la vérification fonctionnelle / UI (smoke + cas d’erreur). On peut ajouter des tests de tri/ordre des vols et de formats d’affichage si souhaité (ex. format date/durée).
+
+==== FlightsHistoryPage
+*Fichier source des tests* : `test/pages/flights_history_test.dart`  
+*Localisation dans l’application* : écran d'historique des vols (liste complète, suppression, détails via bottom sheet, rafraîchissement).
+
+Prérequis :
+- `SharedPreferences` mockable (`SharedPreferences.setMockInitialValues`).
+- Helpers `makeFlight(...)` et `seedFlights(List<Flight>)` pour préparer l'état du repo avant d'afficher la page.
+- Page rendue dans un `MaterialApp` pour permettre les animations, bottom sheet et navigation.
+
+Cas de tests :
+
+1. **Loading → Empty state**  
+- Appeler `await seedFlights(const [])` puis monter `FlightsHistoryPage`.  
+- Vérifier le `CircularProgressIndicator` pendant le chargement.  
+- Après `pumpAndSettle()`, vérifier l’état vide : icône `Icons.hourglass_empty_rounded` et texte `Aucun vol enregistré pour le moment.`.
+
+2. **Affiche la liste des vols (2 items)**  
+- Seed avec 2 vols (ex. Organya, Annecy).  
+- Monter la page, `pumpAndSettle()` et vérifier : deux `ListTile`, présence des noms de site (`Organya`, `Annecy`) et présence de puces (`•`) dans les sous-titres (date • durée • altitude) pour chaque item.
+
+3. **Tap → bottom sheet (sans radar)**  
+- Seed avec 1 vol (site `Sornin`).  
+- Taper sur le titre `Sornin`.  
+- Laisser jouer l’animation du bottom sheet (`pump`, `pump(Duration(...))`, `pumpAndSettle()`).  
+- Vérifier la présence d’un `BottomSheet`.  
+- Vérifier le contenu attendu : titre (`Sornin`), textes `Date :`, `Durée :`, `Altitude max :`, et le message `Aucune rose enregistrée pour ce vol.`.  
+- Fermer via le bouton `Fermer` (TextButton) et vérifier la disparition du sheet.
+
+4. **Suppression d’un vol via le dialog + snackbar**  
+- Seed avec 2 vols (Organya, Annecy).  
+- Taper sur l’icône `Supprimer` (ciblée par `tooltip='Supprimer'`) du premier item.  
+- Confirmer dans le dialog (`FilledButton` texte `Supprimer`).  
+- Vérifier la présence d’un `Snackbar` avec `Vol supprimé`.  
+- Vérifier que la liste s’est mise à jour (1 item restant).
+
+5. **Pull-to-refresh → recharge la liste (1 → 2 items)**  
+- Seed initial avec 1 vol.  
+- Afficher la page et vérifier 1 `ListTile`.  
+- Pendant que la page est affichée, ajouter un vol au repo via `SharedPrefsFlightRepository().add(...)`.  
+- Déclencher le `RefreshIndicator` par un `drag` important sur la `ListView`.  
+- Laisser le onRefresh se jouer (`pump(Duration(seconds:1))` + `pumpAndSettle()`).  
+- Vérifier que la liste reflète maintenant 2 items.
+
+6. **Erreur de chargement (JSON invalide) → message d’erreur**  
+- Injecter dans `SharedPreferences` une valeur invalide pour la clé `flights_v1` : `'not a json array'`.  
+- Monter la page, `pumpAndSettle()` et vérifier la présence d’un message contenant `Erreur de chargement des vols`.
+
+Données de test :
+- Vols créés par `makeFlight(...)` avec champs : `id`, `site`, `date`, `duration`, `altitude`.
+- Store mocké pour simuler états : vide, plusieurs vols, JSON invalide.
+
+Résultats attendus :
+- Chargement visuel suivi de l’état vide lorsque la base est vide.  
+- Liste rendue correctement avec autant de `ListTile` que de vols seedés.  
+- Bottom sheet affiche les détails attendus et gère l’absence de radar.  
+- Suppression via dialog entraîne snackbar de confirmation et mise à jour de la liste.  
+- Pull-to-refresh recharge la liste et affiche les nouveaux éléments.  
+- En cas de JSON invalide, un message d’erreur explicite est affiché.
+
+Notes :
+- Le test timing-sensitive autour des animations (bottom sheet, snackbar, refresh) utilise `pump` avec de courtes durées pour laisser le framework animer les transitions.  
+- Ces tests couvrent UI / comportement ; si souhaité, on peut ajouter des tests de tri, pagination, export d’items ou interaction avec le radar lorsqu’il est présent.
+
+==== FlightConditionPage
+*Fichier source des tests* : `test/pages/flight_condition_test.dart`  
+*Localisation dans l’application* : écran « Conditions de vol » (classification des niveaux de turbulence / bannière d’avertissement).
+
+Prérequis :
+- Mock minimal des assets (manifests + toutes images sous `assets/` renvoyant un PNG 1x1) via `mockMinimalAssets()`.  
+- `MaterialApp` autour de la page pour permettre le rendu et la navigation.
+
+Cas de tests :
+
+1. **Rendu des 4 niveaux + bannière d’avertissement**  
+- Appeler `mockMinimalAssets()` puis monter `FlightConditionPage`.  
+- `await tester.pump(Duration(milliseconds:50));`  
+- Vérifier le titre de la page : `Conditions de vol`.  
+- Vérifier la présence (matching partiel possible) des 4 libellés attendus :  
+  - `Conditions calmes`  
+  - `Turbulences moyennes`  
+  - `Turbulences fortes et fréquentes`  
+  - `Turbulences très fortes et constantes`  
+- Vérifier la bannière d’avertissement en bas :  
+  `Une fermeture reste toujours une erreur de pilotage`.
+
+2. **Navigation (pushNamed → /personal_weather)**  
+- Monter un `MaterialApp` avec `navigatorKey` et la route `/personal_weather` pointant vers un écran factice.  
+- Appeler `navKey.currentState!.pushNamed('/personal_weather')`.  
+- `pump()` puis `pump(Duration(milliseconds:50))` et vérifier que l’écran cible (`ROUTE: personal_weather`) est rendu.
+
+3. **Rendu AppScaffold**  
+- Avec `mockMinimalAssets()`, monter la page dans un `MaterialApp`.  
+- Vérifier que la page rend bien un `AppScaffold`.
+
+Données de test :
+- Assets minimal mockés (manifest + images 1x1) pour garantir l’indépendance vis-à-vis du package d’assets réel.
+
+Résultats attendus :
+- Les 4 niveaux de turbulence et la bannière d’avertissement sont visibles.  
+- La route `/personal_weather` est navigable via `pushNamed`.  
+- La page rend un `AppScaffold`.
+
+Notes :
+- Tests ciblent rendu statique et navigation. On peut compléter par des tests d’accessibilité (semantics) ou d’affichage responsive si nécessaire.
+
+==== PostFlightDebriefPage
+*Fichier source des tests* : `test/pages/postflight_debrief_test.dart`  
+*Localisation dans l’application* : écran de débrief post-vol (formulaire basé sur un JSON d’assets).
+
+Prérequis :
+- Mock des assets via `_installPostflightAssetMocks()` installé avant chaque test.  
+  - Fournit un JSON de base (`assets/postflight_questions.json`) avec 5 questions : Site, Date, Durée, Altitude, Commentaires.  
+  - Fournit aussi des réponses par défaut aux requêtes `AssetManifest` et `FontManifest`.  
+  - Les images sous `assets/` sont remplacées par un PNG transparent 1×1.  
+- `MaterialApp` nécessaire autour de la page pour le rendu et la navigation.
+
+Cas de tests :
+
+1. **Chargement de l’asset JSON**  
+- Charger `assets/postflight_questions.json` via `rootBundle.loadString`.  
+- Vérifier que la donnée est non vide (`isNotEmpty`).  
+- Vérifier que le premier élément contient bien `"label": "Site"`.
+
+2. **Navigation vers /radar**  
+- Monter un `MaterialApp` avec `navigatorKey` et définir la route `/radar` vers un écran factice.  
+- Appeler `navKey.currentState!.pushNamed('/radar')`.  
+- `pump()` puis `pump(Duration(milliseconds:50))`.  
+- Vérifier que l’écran attendu (`ROUTE: radar`) est rendu.
+
+Données de test :
+- JSON de formulaire mocké (5 labels).  
+- Écran factice `_RouteScreen` pour tester la navigation.
+
+Résultats attendus :
+- L’asset JSON se charge correctement et contient les labels attendus.  
+- La route `/radar` est navigable via `pushNamed`.
+
+Notes :
+- Les tests actuels couvrent uniquement le chargement du JSON et la navigation.  
+- On peut compléter par des tests de rendu de formulaire (présence des champs, validation, envoi).
+
+==== RadarPage
+*Fichier source des tests* : `test/pages/radar_page_test.dart`  
+*Localisation dans l’application* : page "Radar de compétences" (édition / lecture des scores radar liés à un vol).
+
+Prérequis :
+- Mock minimal des assets (manifests + images → PNG 1×1) via `_installMinimalAssets()`.  
+- `SharedPreferences` mockable pour seed d’un vol (utiliser `_seedFlight(...)` ou `SharedPrefsFlightRepository()` directement).  
+- `MaterialApp` autour de la page pour permettre le rendu et la navigation.
+
+Cas de tests :
+
+1. **radarFeatures (source) non vide**  
+- Vérifier que la constante `radarFeatures` contient des éléments (test pur Dart, pas de widget).
+
+2. **Navigation (pushNamed → /postflight_debrief)**  
+- Monter un `MaterialApp` avec `navigatorKey` et une route `/postflight_debrief` pointant vers un écran factice.  
+- Appeler `navKey.currentState!.pushNamed('/postflight_debrief')`.  
+- `pump()` puis `pump(Duration(milliseconds:50))` et vérifier que `ROUTE: postflight_debrief` est rendu.
+
+3. **Rendu AppScaffold + titre**  
+- Seed d’un vol en mémoire (ex. `_seedFlight(id: 'f1')`) pour que `RadarPage(flightId: 'f1')` trouve le vol.  
+- Monter la page dans un `MaterialApp` et `pump(Duration(milliseconds:50))`.  
+- Vérifier la présence d’un `AppScaffold` et la présence du titre `Radar de compétences`.
+
+Données de test :
+- Vol seedé via `_seedFlight` (id, site par défaut, date, durée, altitude, optionnellement un `Radar` si lecture seule).  
+- Assets minimal mockés pour éviter les erreurs liées aux images/manifests.
+
+Résultats attendus :
+- `radarFeatures` n’est pas vide.  
+- La route `/postflight_debrief` est navigable via `pushNamed`.  
+- La page rend un `AppScaffold` et affiche le titre `Radar de compétences`.
+
+Notes :
+- Le test 3 valide principalement le rendu de scaffolding et du titre ; la logique d’édition/lecture du radar peut être couverte par des tests supplémentaires (ex. présence/édition des sliders, persistance des scores, mode lecture quand `flight.radar != null`).
+
+
+[[Suivi_Pages]]
 === Suivi des Tests
-
 [cols="3,1,2", options="header"]
 |===
-| Test                         | Statut | Observations
-| Accès à la page d’accueil    | ☑      | Ok
-| Navigation entre les pages   | ☑      | Ok, nécessité de remplacer la flèche de retour automatique par une flèche avec un chemin forcé car considère le bouton principal comme une page à part entière 
-| Chargement des fichiers JSON | ☑      | Ok
+| Cas de Test | Statut | Commentaires
+| MaviePage — Chargement JSON | ☑ | Asset chargé et question `"Q1?"` trouvée
+| MaviePage — Navigation /breathing | ☑ | Route atteinte et écran `"ROUTE: breathing"` rendu
+| MaviePage — Rendu AppScaffold | ☑ | Scaffold affiché avec titre `"MAVIE"`
+| PersonalWeather — Chargement JSON | ☑ | Asset chargé et question `"Q1?"` trouvée
+| PersonalWeather — Navigation /mavie | ☑ | Route atteinte et écran `"ROUTE: mavie"` rendu
+| PersonalWeather — Rendu AppScaffold | ☑ | Scaffold affiché avec titre `"Météo personnelle"`
+| HomePage — Loading puis état vide | ☑ | Spinner affiché puis `no_flights_text` présent
+| HomePage — Affiche max 3 StatTile | ☑ | `flights_3last_list` présent, 3 StatTile rendues
+| HomePage — Navigation via Keys | ☑ | Buttons mènent à HISTORY/PRE/POST screens
+| HomePage — Erreur JSON invalide | ☑ | Message `Erreur de chargement` affiché
+| FlightsHistoryPage — Loading → Empty state | ☑ | Spinner puis message "Aucun vol enregistré pour le moment."
+| FlightsHistoryPage — Affiche liste (2 items) | ☑ | 2 ListTile rendues, site + sous-titre OK
+| FlightsHistoryPage — Bottom sheet (tap) | ☑ | BottomSheet monté, détails affichés, "Aucune rose..." présent
+| FlightsHistoryPage — Suppression + snackbar | ☑ | Dialog + Snackbar "Vol supprimé", liste mise à jour
+| FlightsHistoryPage — Pull-to-refresh | ☑ | Refresh recharge la liste (1 → 2 items)
+| FlightsHistoryPage — Erreur JSON invalide | ☑ | Message "Erreur de chargement des vols" affiché
+| FlightConditionPage — 4 niveaux & bannière | ☑ | Titres des niveaux et bannière d’avertissement présents
+| FlightConditionPage — Navigation /personal_weather | ☑ | Route atteinte et écran cible rendu
+| FlightConditionPage — Rendu AppScaffold | ☑ | AppScaffold présent
+| PostFlightDebriefPage — Chargement JSON | ☑ | Asset postflight_questions.json chargé et premier label = "Site"
+| PostFlightDebriefPage — Navigation /radar | ☑ | Route atteinte et écran cible rendu
+| RadarPage — radarFeatures non vide | ☑ | Source `radarFeatures` contient des clés
+| RadarPage — Navigation /postflight_debrief | ☑ | Route atteinte et écran cible rendu
+| RadarPage — Rendu AppScaffold & titre | ☑ | `AppScaffold` et titre "Radar de compétences" présents
 |===
+
+
 
 
 // ==========================================================
-[[Tests_Backend]]
-== Tests pour la logique et services (Backend Flutter)
 
-[[Contexte_Backend]]
+[[Tests_Models]]
+== Models
+
+[[Contexte_Models]]
 === Contexte
-Ces tests visent à valider la logique métier (services, utils, widgets) ainsi que le routage et le thème global de l’application.  
+Les tests *Models* visent à vérifier l’intégrité et la cohérence des objets métiers utilisés par l’application.  
+Chaque modèle est testé pour s’assurer que :  
+- La sérialisation/désérialisation JSON fonctionne correctement.  
+- Les conversions de types et formats utilitaires sont correctes.  
+- Les scénarios d’erreurs sont bien gérés.  
 
-[[Tests_Backend_List]]
+[[Tests_Models_List]]
 === Tests à effectuer
 
-==== 1. Routage de l’application
-*Objectif* :: Vérifier que `app_router.dart` gère correctement les routes.  
+==== DebriefEntry
+*Localisation dans l’application* : utilisé dans la fonctionnalité de *Débriefing* (après un vol).
 
-*Critères d’acceptation* ::  
-- Chaque route redirige vers la bonne page.  
-- Une erreur de navigation affiche un écran d’erreur lisible.  
+Cas de tests :  
+- `toJson` doit produire la map `{label, value}`.  
+- `fromJson` doit reconstruire correctement un objet valide.  
+- Round-trip JSON (encodage + décodage) fonctionne avec une entrée unique et une liste d’entrées.  
+- Gestion d’erreurs :  
+  * Label ou value non-string → doit lever une erreur.  
+  * Clés manquantes → doit lever une erreur.  
 
-==== 2. Gestion des thèmes
-*Objectif* :: Vérifier que `theme.dart` applique bien les polices et couleurs.  
+==== Flight
+*Localisation dans l’application* : utilisé pour la gestion et l’enregistrement des vols (site, date, durée, altitude).
 
-*Critères d’acceptation* ::  
-- Les polices définies dans `assets/fonts` sont bien appliquées.
+Cas de tests :  
+- `toJson` doit contenir les champs principaux : `id`, `site`, `date`, `duration_sec`, `altitude_m`.  
+- `fromJson` doit reconstruire un objet identique.  
+- Conversion `Duration` ↔ secondes correcte (ex. 1h45 = 6300 s).  
+- Date conservée en ISO 8601.  
+- Méthodes utilitaires : `formatDuration(2h03) → "2h 3m"`.
 
-==== 3. Widgets réutilisables
-*Objectif* :: Vérifier que les composants dans `widgets/` fonctionnent correctement.  
+==== Radar
+*Localisation dans l’application* : utilisé pour représenter les scores d’auto-évaluation / évaluation (radar chart) sur plusieurs dimensions (pilotage, météo, gestion du stress, etc.).
 
-*Critères d’acceptation* ::  
-- Les widgets personnalisés s’affichent sans erreur.  
-- Ils gardent le même style sur toutes les pages.  
+Cas de tests :  
+- `fromJson` doit caster des entiers en `double` lorsqu’il le faut (ex. `10` → `10.0`).  
+- `average()` :  
+  * retourne `0.0` si la map est vide.  
+  * calcule la moyenne correcte sinon (ex. (10 + 14 + 16)/3).  
+- `scoreOf(key)` : retourne la valeur si la clé existe, sinon `0.0`.  
+- `toOrderedList(order)` : respecte l’ordre fourni et place `0.0` pour les clés inconnues.  
+- `normalizedScores(requiredList)` :  
+  * remplit les clés requises manquantes avec `0.0`.  
+  * conserve les entrées « extra » existantes.  
+  * ne perd aucune clé (taille attendue = requis + extras).  
+- JSON round-trip : `toJsonString()` ↔ `fromJsonString()` doit restituer les mêmes scores.  
+- `descriptionFor(feature)` :  
+  * retourne la description attendue pour une clé connue (ex. `PIL - Pilotage` → texte descriptif).  
+  * retourne `''` pour une clé inconnue.  
+- `radarFeatures` : doit être non vide et contenir au minimum quelques clés majeures (`PIL - Pilotage`, `STS - Gestion du stress`).
 
-[[Suivi_Backend]]
+[[Suivi_Models]]
 === Suivi des Tests
-
 [cols="3,1,2", options="header"]
 |===
-| Test                  | Statut | Observations
-| Routage (app_router)  | ☑      | Ok
-| Thème (theme.dart)    | ☑      | Ok, problèmes sur l'émulateur du client (??)
-| Widgets réutilisables | ☑      | Ok
+| Cas de Test | Statut | Commentaires
+| DebriefEntry.toJson | ☑ | Map correcte générée
+| DebriefEntry.fromJson (valide) | ☑ | Objet reconstruit
+| DebriefEntry Round-trip JSON (1 entrée) | ☑ | Fonctionnel
+| DebriefEntry Round-trip JSON (liste) | ☑ | Fonctionnel
+| DebriefEntry.fromJson (types invalides) | ☑ | Erreurs levées comme attendu
+| Flight.toJson (champs principaux) | ☑ | Conversion correcte (id, site, durée, altitude)
+| Flight.fromJson (valide) | ☑ | Objet reconstruit avec les bonnes valeurs
+| Flight.date (ISO 8601) | ☑ | Conservation correcte
+| Flight.duration (conversion) | ☑ | 1h45 = 6300s validé
+| Flight.formatDuration | ☑ | "2h 3m" généré
+| Radar.fromJson (int → double) | ☑ | Cast correct des ints en double
+| Radar.average | ☑ | 0.0 si vide, moyenne correcte sinon
+| Radar.scoreOf | ☑ | Retourne 0.0 pour clés absentes
+| Radar.toOrderedList | ☑ | Respecte l’ordre, met 0.0 pour inconnus
+| Radar.normalizedScores | ☑ | Remplit requis et préserve extras
+| Radar.JSON round-trip | ☑ | toJsonString ↔ fromJsonString OK
+| Radar.descriptionFor | ☑ | Description connue renvoyée; inconnue → ''
+| Radar.radarFeatures | ☑ | Contient clés majeures
 |===
