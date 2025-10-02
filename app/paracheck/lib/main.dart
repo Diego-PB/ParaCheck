@@ -1,4 +1,12 @@
+/*
+  This file defines the main of the application, allowing it to launch.
+  It sets up the MaterialApp with theming, the initial splash screen,
+  and the routing table for navigation.
+  This is the entry point of the application.
+*/
+
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:paracheck/app_router.dart';
 import 'pages/splash_screen.dart';
 import 'package:paracheck/theme.dart';
@@ -19,6 +27,11 @@ class MyApp extends StatelessWidget {
       theme: buildTheme(),
       debugShowCheckedModeBanner: false,
       routes: appRoutes,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
     );
   }
 }

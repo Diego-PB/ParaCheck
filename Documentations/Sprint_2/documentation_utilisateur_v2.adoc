@@ -1,6 +1,6 @@
 :toc: macro
 
-= Documentation Utilisateur sprint n°2 SAE-5.01-ParaCheck
+= Documentation Utilisateur sprint n°1 SAE-5.01-ParaCheck
 
 image::../../img/Paracheck_logo.png[align="center", width=100%]
 
@@ -41,15 +41,48 @@ link:../guide_installation.adoc[Guide d'installation]
 
 === Fonctionnalités principales
 
-* **Vérification de la sécurité avant le vol**  
-** Questionnaire pour valider l’état du matériel  
-** Questionnaire pour valider l’état physique et mental du pilote  
+==== Vérification de la sécurité avant le vol
 
-* **Enregistrement des données de vol**  
-** Formulaire complet pour saisir les informations relatives au vol (site, météo, type de vol, observations) et les enregistrer  
+image::../../img/prevol.jpg[align="center", width=20%]
 
-* **Consultation de l’historique des vols**  
-** Accéder à l’historique des vols précédents pour analyser les données et les incidents éventuels  
+===== Vérification des conditions météo (et de vols) par le parapentiste  
+
+image::../../img/cond_vol.jpg[align="center", width=20%]
+
+===== Questionnaire pour valider l’état physique et mental du pilote  
+
+image::../../img/met_int.jpg[align="center", width=20%]
+
+===== Questionnaire pour valider l’état du matériel  
+
+image::../../img/mavie.jpg[align="center", width=20%]
+
+===== Exercice de respiration et de stress (optionnel) 
+
+image::../../img/gest_resp.jpg[align="center", width=20%]
+ 
+
+==== Enregistrement des données de vol
+
+image::../../img/postvol.jpg[align="center", width=20%]
+
+===== Formulaire complet pour saisir les informations relatives au vol (site, météo, type de vol, observations) et les enregistrer 
+
+image::../../img/debrief.jpg[align="center", width=20%]
+
+===== Remplissage et affichage d'une rose de compétences pour suivre son niveau.
+
+image::../../img/rose1.jpg[align="center", width=20%]
+
+image::../../img/rose2.jpg[align="center", width=20%]
+
+==== Consultation de l’historique des vols 
+
+image::../../img/histo.jpg[align="center", width=20%]
+
+===== Accéder à l’historique des vols précédents pour analyser les données et les incidents éventuels  
+
+image::../../img/test_histo.jpg[align="center", width=20%]
 
 === Fonctionnalités secondaires
 

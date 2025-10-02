@@ -1,15 +1,24 @@
+/*
+ AppScaffold is a reusable scaffold widget that provides a consistent app layout structure.
+ It includes an AppBar with customizable title and optional return button,
+ a body area for main content, an optional floating action button,
+ and a custom bottom navigation bar with a "bubble" style dock that toggles open/closed.
+ The bottom navigation bar contains fixed quick-access actions to key pages,
+ displayed as tappable bubbles above a blurred dark overlay when open.
+*/
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:paracheck/widgets/bottom_bubble_nav.dart';
 
 class AppScaffold extends StatefulWidget {
-  final String title;
-  final Widget body;
-  final Widget? fab;
-  final String logoPath;
-  final bool showReturnButton;
-  final VoidCallback? onReturn;
+  final String title;           // Title shown in the AppBar
+  final Widget body;            // Main page content
+  final Widget? fab;            // Optional floating action button
+  final String logoPath;        // Asset path for logo in bottom nav toggle
+  final bool showReturnButton;  // Whether to show a back arrow in the AppBar
+  final VoidCallback? onReturn; // Callback when the back arrow is pressed
 
   const AppScaffold({
     super.key,
@@ -26,10 +35,10 @@ class AppScaffold extends StatefulWidget {
 }
 
 class _AppScaffoldState extends State<AppScaffold> {
-  bool _open = false;
+  bool _open = false; // Controls if the bottom bubble dock is expanded
 
+  // Defines the fixed navigation actions available in the bubble dock
   List<NavAction> _fixedActions(BuildContext context) => [
-    
     NavAction(
       label: 'Pré-vol',
       icon: Icons.checklist,
@@ -50,7 +59,6 @@ class _AppScaffoldState extends State<AppScaffold> {
       icon: Icons.history,
       onTap: () => {Navigator.pushNamed(context, '/flights_history')},
     ),
-    
     NavAction(
       label: 'Paramètres',
       icon: Icons.settings,
@@ -63,15 +71,14 @@ class _AppScaffoldState extends State<AppScaffold> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
-        automaticallyImplyLeading: false, // Jamais de flèche système
-        leading:
-            widget.showReturnButton
-                ? IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  tooltip: 'Retour',
-                  onPressed: widget.onReturn,
-                )
-                : null,
+        automaticallyImplyLeading: false, // Never show default system back arrow
+        leading: widget.showReturnButton
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                tooltip: 'Retour',
+                onPressed: widget.onReturn,
+              )
+            : null,
         title: Text(
           widget.title,
           style: const TextStyle(
@@ -87,7 +94,7 @@ class _AppScaffoldState extends State<AppScaffold> {
       ),
       body: Stack(
         children: [
-          // Contenu
+          // Main content area with padding inside SafeArea
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -95,8 +102,7 @@ class _AppScaffoldState extends State<AppScaffold> {
             ),
           ),
 
-          // Overlay bulles (au-dessus du contenu, collé en bas)
-          // On le rend cliquable uniquement quand _open = true
+          // Overlay for bubble dock; only interactive when open
           IgnorePointer(
             ignoring: !_open,
             child: AnimatedOpacity(
@@ -104,19 +110,17 @@ class _AppScaffoldState extends State<AppScaffold> {
               opacity: _open ? 1 : 0,
               child: Stack(
                 children: [
-                  // Flou + voile semi-transparent
+                  // Background blur and translucent black veil
                   Positioned.fill(
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
                       child: Container(
-                        color: Colors.black.withValues(
-                          alpha: 0.2,
-                        ), // voile optionnel
+                        color: Colors.black.withValues(alpha: 0.2), // subtle veil
                       ),
                     ),
                   ),
 
-                  // Bulles
+                  // Bubble dock aligned at bottom center
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: BubbleDock(
@@ -135,12 +139,15 @@ class _AppScaffoldState extends State<AppScaffold> {
 
       floatingActionButton: widget.fab,
 
-      // BOTTOM BAR = bandeau + logo (toggle)
+      // Bottom navigation bar area with a toggleable logo bubble overlay
       bottomNavigationBar: Stack(
         alignment: Alignment.topCenter,
         clipBehavior: Clip.none,
         children: [
+          // Bottom color bar matching primary theme color
           Container(height: 64, color: Theme.of(context).colorScheme.primary),
+
+          // Positioned circular logo bubble, toggles the bubble dock when tapped
           Positioned(
             top: -28,
             child: GestureDetector(

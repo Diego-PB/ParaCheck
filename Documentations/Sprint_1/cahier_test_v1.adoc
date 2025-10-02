@@ -1,8 +1,4 @@
-= Cahier de Test - Application ParaCheck
-:toc:
-:toclevels: 3
-
-image::../../img/Paracheck_logo.png
+= Cahier de Test - ParaCheck
 
 == Introduction
 Ce document décrit les cas de test pour l’application mobile *ParaCheck*.  
@@ -10,14 +6,15 @@ Il inclut des scénarios de test détaillés, des prérequis, des étapes à sui
 L'objectif est de garantir que toutes les fonctionnalités de l’application fonctionnent correctement et répondent aux exigences spécifiées.  
 
 == Sommaire
-- <<Tests_Frontend>>
-  * <<Contexte_Frontend>>
-  * <<Tests_Frontend_List>>
-  * <<Suivi_Frontend>>
-- <<Tests_Backend>>
-  * <<Contexte_Backend>>
-  * <<Tests_Backend_List>>
-  * <<Suivi_Backend>>
+
+* <<Tests_Frontend, Tests pour l’interface utilisateur (Frontend Flutter)>>
+** <<Contexte_Frontend, Contexte>>
+** <<Tests_Frontend_List, Tests à effectuer>>
+** <<Suivi_Frontend, Suivi des Tests>>
+* <<Tests_Backend, Tests pour la logique et services (Backend Flutter)>>
+** <<Contexte_Backend, Contexte>>
+** <<Tests_Backend_List, Tests à effectuer>>
+** <<Suivi_Backend, Suivi des Tests>>
 
 // ==========================================================
 [[Tests_Frontend]]
@@ -32,65 +29,49 @@ Ces tests visent à valider les fonctionnalités liées aux pages principales de
 
 ==== 1. Accès à la page d’accueil (HomePage)
 *Objectif* :: Vérifier que la page d’accueil se charge correctement.  
-*Préconditions* ::
+*Préconditions* ::  
 - L’application est installée sur l’appareil.  
 
-*Étapes* ::
-1. Lancer l’application.  
-2. Observer le chargement de la page d’accueil.  
+*Étapes* ::  
+. Lancer l’application.  
+. Observer le chargement de la page d’accueil.  
 
-*Critères d’acceptation* ::
+*Critères d’acceptation* ::  
 - La page d’accueil s’affiche sans erreur.  
-- Le logo et les éléments principaux sont visibles.  
-
-----
+- Le logo et les éléments principaux sont visibles.
 
 ==== 2. Navigation entre les pages
 *Objectif* :: Vérifier que l’utilisateur peut naviguer entre les différentes pages (`mavie`, `meteo_int`, `condition_vol`, etc.).  
 
-*Étapes* ::
-1. Depuis la HomePage, cliquer sur les boutons de navigation.  
-2. Vérifier que la page correspondante s’affiche.  
+*Étapes* ::  
+. Depuis la HomePage, cliquer sur les boutons de navigation.  
+. Vérifier que la page correspondante s’affiche.  
 
-*Critères d’acceptation* ::
+*Critères d’acceptation* ::  
 - Chaque clic redirige correctement vers la page attendue.  
 - Aucun crash de l’application.  
-
-----
 
 ==== 3. Chargement des questions JSON
 *Objectif* :: Vérifier que les fichiers JSON (`questions_mavie.json`, `questions_meteo_int.json`, `questions_postvol.json`) sont correctement lus et affichés.  
 
-*Étapes* ::
-1. Ouvrir la page correspondante à chaque questionnaire.  
-2. Vérifier que les questions sont affichées.  
+*Étapes* ::  
+. Ouvrir la page correspondante à chaque questionnaire.  
+. Vérifier que les questions sont affichées.  
 
-*Critères d’acceptation* ::
+*Critères d’acceptation* ::  
 - Toutes les questions apparaissent correctement.  
-- Les données correspondent au contenu des fichiers JSON.  
-
-----
-
-==== 4. Débrief post-vol
-*Objectif* :: Vérifier que la page `post_flight_debrief` fonctionne correctement.  
-
-*Étapes* ::
-1. Accéder à la page de débrief.  
-2. Remplir et valider un formulaire de test.  
-
-*Critères d’acceptation* ::
-- Les réponses sont enregistrées ou affichées correctement.  
-- Pas d’erreur lors de la validation.  
+- Les données correspondent au contenu des fichiers JSON.   
 
 [[Suivi_Frontend]]
 === Suivi des Tests
 
-| Test                         | Statut | Observations |
-|------------------------------|--------|--------------|
-| Accès à la page d’accueil    |  ☐     |              |
-| Navigation entre les pages   |  ☐     |              |
-| Chargement des fichiers JSON |  ☐     |              |
-| Débrief post-vol             |  ☐     |              |
+[cols="3,1,2", options="header"]
+|===
+| Test                         | Statut | Observations
+| Accès à la page d’accueil    | ☑      | Ok
+| Navigation entre les pages   | ☑      | Ok, nécessité de remplacer la flèche de retour automatique par une flèche avec un chemin forcé car considère le bouton principal comme une page à part entière 
+| Chargement des fichiers JSON | ☑      | Ok
+|===
 
 
 // ==========================================================
@@ -107,33 +88,30 @@ Ces tests visent à valider la logique métier (services, utils, widgets) ainsi 
 ==== 1. Routage de l’application
 *Objectif* :: Vérifier que `app_router.dart` gère correctement les routes.  
 
-*Critères d’acceptation* ::
+*Critères d’acceptation* ::  
 - Chaque route redirige vers la bonne page.  
 - Une erreur de navigation affiche un écran d’erreur lisible.  
-
-----
 
 ==== 2. Gestion des thèmes
 *Objectif* :: Vérifier que `theme.dart` applique bien les polices et couleurs.  
 
-*Critères d’acceptation* ::
-- Les polices définies dans `assets/fonts` sont bien appliquées.  
-- Le thème clair/sombre est géré correctement.  
-
-----
+*Critères d’acceptation* ::  
+- Les polices définies dans `assets/fonts` sont bien appliquées.
 
 ==== 3. Widgets réutilisables
 *Objectif* :: Vérifier que les composants dans `widgets/` fonctionnent correctement.  
 
-*Critères d’acceptation* ::
+*Critères d’acceptation* ::  
 - Les widgets personnalisés s’affichent sans erreur.  
 - Ils gardent le même style sur toutes les pages.  
 
 [[Suivi_Backend]]
 === Suivi des Tests
 
-| Test                 | Statut | Observations |
-|----------------------|--------|--------------|
-| Routage (app_router) |  ☐     |              |
-| Thème (theme.dart)   |  ☐     |              |
-| Widgets réutilisables|  ☐     |              |
+[cols="3,1,2", options="header"]
+|===
+| Test                  | Statut | Observations
+| Routage (app_router)  | ☑      | Ok
+| Thème (theme.dart)    | ☑      | Ok, problèmes sur l'émulateur du client (??)
+| Widgets réutilisables | ☑      | Ok
+|===

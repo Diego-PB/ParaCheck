@@ -1,9 +1,8 @@
 :toc: macro
 
-= Documentation Technique sprint n°2 SAE-5.01-ParaCheck
+= Documentation Technique sprint n°1 SAE-5.01-ParaCheck
 
 image::../../img/Paracheck_logo.png[align="center", width=100%]
-
 
 == Sommaire
 toc::[]
@@ -64,6 +63,58 @@ Celui-ci présente le diagramme des cas d’utilisation de notre projet :
 
 image::../../img/use_case_v0.png[]
 
-== Présentation des Fichiers Clés
+== Présentation des Fichiers Clés et l'arborescence de l'application
 
-#### A COMPLETER 
+----
+.
+├── .github                               // Configurations GitHub (actions, workflows…)
+├── app
+│   └── paracheck
+│       ├── android                       // Projet Android natif
+│       ├── assets                        // Ressources statiques
+│       │   ├── fonts                     // Polices utilisées
+│       │   │   ├── Poppins-Bold.ttf
+│       │   │   └── Poppins-Regular.ttf
+│       │   ├── Paracheck_logo.png        // Logo de l'application
+│       │   ├── questions_mavie.json      // Fichier de questions (Ma Vie)
+│       │   ├── questions_meteo_int.json  // Fichier de questions (Météo interne)
+│       │   └── questions_postvol.json    // Fichier de questions (Post-vol)
+│       ├── build                         // Fichiers générés par la compilation
+│       ├── ios                           // Projet iOS natif
+│       └── lib                           // Code source principal (Flutter/Dart)
+│           ├── design                    // Gestion du design
+│           ├── models                    // Modèles de données
+│           ├── pages                     // Pages de l’application
+│           │   ├── condition_vol.dart
+│           │   ├── flights_history.dart
+│           │   ├── home_page.dart
+│           │   ├── mavie.dart
+│           │   ├── meteo_int.dart
+│           │   ├── post_flight_debrief.dart
+│           │   ├── respiration_stress.dart
+│           │   ├── rose.dart
+│           │   ├── splash_screen.dart
+│           │   └── uiktdemopage.dart
+│           ├── services                  // Services (logique, API…)
+│           ├── utils                     // Fonctions utilitaires
+│           ├── widgets                   // Composants réutilisables
+│           ├── app_router.dart           // Gestion des routes
+│           ├── main.dart                 // Point d’entrée de l’application
+│           └── theme.dart                // Définition des thèmes
+├── test                                  // Tests unitaires / widgets
+├── web                                   // Fichiers liés au déploiement web
+├── .dart_tool                            // Fichiers internes de Flutter/Dart
+├── .flutter-plugins-dependencies         // Dépendances Flutter
+├── .gitignore                            // Fichiers/dossiers ignorés par Git
+├── .metadata                             // Métadonnées du projet Flutter
+├── analysis_options.yaml                 // Configuration de l'analyse statique
+├── devtools_options.yaml                 // Configurations DevTools
+├── pubspec.lock                          // Version verrouillée des dépendances
+├── pubspec.yaml                          // Dépendances et configuration Flutter
+├── README.md                             // Documentation principale (Markdown)
+├── Documentations                        // Documentation du projet
+├── files                                 // Autres fichiers liés au projet
+├── img                                   // Images liées à la doc
+├── index.html                            // Page HTML (probablement pour le web)
+└── README.adoc                           // Documentation principale (AsciiDoc)
+----

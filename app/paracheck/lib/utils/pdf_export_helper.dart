@@ -1,7 +1,7 @@
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
-import '../models/flights.dart';
+import '../models/flight.dart';
 
 Future<void> exportFlightsPdf(List<Flight> flights) async {
   final pdf = pw.Document();

@@ -1,7 +1,13 @@
+/*
+ * This page displays the user's flight history as a list of recorded flights.
+ * It allows viewing details for each flight, including radar chart and debrief, and supports deleting flights.
+ * Data is loaded from local storage using the SharedPrefsFlightRepository.
+ * The page handles loading, error, and empty states, and supports pull-to-refresh.
+ */
 import 'package:flutter/material.dart';
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:paracheck/design/spacing.dart';
-import 'package:paracheck/models/flights.dart';
+import 'package:paracheck/models/flight.dart';
 import 'package:paracheck/models/radar.dart';
 import 'package:paracheck/services/flight_repository.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
@@ -14,19 +20,25 @@ class FlightsHistoryPage extends StatefulWidget {
 }
 
 class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
+  // Repository for accessing stored flights
   final _flightRepository = SharedPrefsFlightRepository();
 
+  // Loading state for async operations
   bool _loading = true;
+  // Error message if loading fails
   String? _error;
+  // List of loaded flights
   List<Flight> _flights = [];
 
   @override
   void initState() {
     super.initState();
+    // Load flights when the page is initialized
     _reload();
   }
 
   Future<void> _reload() async {
+    // Loads all flights from the repository and updates state
     setState(() {
       _loading = true;
       _error = null;
@@ -46,6 +58,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
   }
 
   Future<void> _confirmDelete(int index) async {
+    // Confirm and delete a flight at the given index
     final ok = await showDialog<bool>(
       context: context,
       builder:
@@ -81,6 +94,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
   }
 
   void showDetails(Flight flight) {
+    // Show details for a single flight, including radar chart and debrief
     final featuresShort = radarFeatures
         .map((f) => f.split(' - ').first)
         .toList(growable: false);
@@ -117,6 +131,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Flight site and details
                     Text(
                       flight.site.isEmpty ? 'Site inconnu' : flight.site,
                       style: Theme.of(context).textTheme.titleLarge,
@@ -126,6 +141,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
                     Text('Durée : ${flight.formatDuration(flight.duration)}'),
                     Text('Altitude max : ${flight.altitude} m'),
                     const SizedBox(height: AppSpacing.md),
+                    // Radar chart if available
                     if (flight.radar != null) ...[
                       const Divider(),
                       const Text(
@@ -138,6 +154,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
                       const SizedBox(height: AppSpacing.md),
                       const Text('Aucune rose enregistrée pour ce vol.'),
                     ],
+                    // Debrief section if available
                     if (flight.debrief.isNotEmpty) ...[
                       const Divider(),
                       const Text(
@@ -155,6 +172,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
                         const SizedBox(height: AppSpacing.sm),
                       ],
                     ],
+                    // Close button
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
@@ -172,7 +190,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Ecran de chargement / erreur
+    // Main build method: handles loading, error, empty, and list states
     if (_loading) {
       return AppScaffold(
         title: 'Historique des vols',
@@ -194,7 +212,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
       );
     }
 
-    // Etat vide
+    // Empty state: no flights recorded
     if (_flights.isEmpty) {
       return AppScaffold(
         title: 'Historique des vols',
@@ -220,7 +238,7 @@ class _FlightsHistoryPageState extends State<FlightsHistoryPage> {
         ),
       );
     }
-    // Liste avec pull-to-refesh
+    // List state: show all flights with pull-to-refresh
     return AppScaffold(
       title: 'Historique des vols',
       showReturnButton: true,

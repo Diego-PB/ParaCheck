@@ -1,10 +1,17 @@
+/*
+ PrimaryButton is a customizable elevated button widget.
+ It displays a label with an optional icon positioned before the text,
+ with adjustable size controlling the icon and text font size.
+ This button uses minimal styling by default and is intended as a primary call-to-action.
+*/
+
 import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
-  final String label;
-  final VoidCallback? onPressed;
-  final IconData? icon;
-  final double? size;
+  final String label;           // Button text label
+  final VoidCallback? onPressed; // Callback triggered on button press
+  final IconData? icon;          // Optional icon displayed before the label
+  final double? size;            // Font and icon size (default 16)
 
   const PrimaryButton({
     super.key,

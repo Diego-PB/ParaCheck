@@ -1,10 +1,17 @@
+/*
+ A reusable Flutter widget to display different types of notices to the user,
+ such as success confirmations, warnings, or attention alerts.
+ The widget shows an icon, an optional title, and a message with customizable styles,
+ adapting automatically to light/dark themes and offering compact and outlined variants.
+*/
+
 import 'package:flutter/material.dart';
 
-/// Types de message : succès, avertissement, attention.
+// Notice kinds: success, warning, attention.
 enum NoticeKind { valid, warning, attention }
 
-/// AppNotice – version simple : icône + (titre optionnel) + message.
-/// Pas de boutons d’action, pas de fermeture.
+// AppNotice – simple version: icon + (optional title) + message.
+// No action buttons, no close functionality.
 class AppNotice extends StatelessWidget {
   const AppNotice({
     super.key,
@@ -15,14 +22,19 @@ class AppNotice extends StatelessWidget {
     this.outlined = false,
   });
 
+  // Type of the notice (success, warning, attention)
   final NoticeKind kind;
+
+  // Main message text to display
   final String message;
+
+  // Optional title displayed above the message
   final String? title;
 
-  /// Réduit les paddings/tailles.
+  // If true, reduces padding and sizes for a compact display
   final bool compact;
 
-  /// Variante bordée (fond plus discret).
+  // If true, applies an outlined variant with a more subtle background
   final bool outlined;
 
   @override
@@ -30,9 +42,11 @@ class AppNotice extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final _Palette p = _palette(kind, isDark);
 
+    // Padding varies depending on compact mode
     final EdgeInsets pad =
         compact ? const EdgeInsets.all(10) : const EdgeInsets.all(14);
 
+    // Box decoration: background color and border determined by kind and variants
     final BoxDecoration decoration = BoxDecoration(
       color: outlined ? _tint(p.base, isDark ? 0.12 : 0.08)
                       : _tint(p.base, isDark ? 0.22 : 0.15),
@@ -47,8 +61,8 @@ class AppNotice extends StatelessWidget {
     return Semantics(
       container: true,
       label: switch (kind) {
-        NoticeKind.valid => 'Message de confirmation',
-        NoticeKind.warning => 'Avertissement',
+        NoticeKind.valid => 'Confirmation message',
+        NoticeKind.warning => 'Warning',
         NoticeKind.attention => 'Attention',
       },
       child: Container(
@@ -57,7 +71,7 @@ class AppNotice extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Barre d’accent
+            // Accent bar on left side
             Container(
               width: compact ? 4 : 6,
               height: compact ? 32 : 40,
@@ -67,9 +81,10 @@ class AppNotice extends StatelessWidget {
                 borderRadius: BorderRadius.circular(999),
               ),
             ),
+            // Icon representing the notice type
             Icon(p.icon, size: compact ? 18 : 22, color: p.fg),
             const SizedBox(width: 10),
-            // Texte
+            // Text content (title + message)
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +103,7 @@ class AppNotice extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
-                        ?.copyWith(color: p.fg.withOpacity(0.95)),
+                        ?.copyWith(color: p.fg.withValues(alpha: 0.95)),
                   ),
                 ],
               ),
@@ -100,16 +115,17 @@ class AppNotice extends StatelessWidget {
   }
 }
 
-/// Palette interne minimale
+// Minimal internal color and icon palette for notice types
 class _Palette {
   const _Palette({required this.base, required this.fg, required this.icon});
-  final Color base; // couleur d’accent
-  final Color fg;   // couleur du texte/icône
-  final IconData icon;
+  final Color base; // Accent color (background highlight)
+  final Color fg;   // Foreground color (text and icon)
+  final IconData icon; // Icon to display for the notice
 }
 
+// Returns the color palette and icon for each NoticeKind based on theme brightness
 _Palette _palette(NoticeKind kind, bool isDark) {
-  // Couleurs de base
+  // Base colors for notice types
   const success = Color(0xFF2E7D32);   // green 800
   const warn    = Color(0xFFB08900);   // amber-ish
   const alert   = Color(0xFFEF6C00);   // orange 800
@@ -136,5 +152,6 @@ _Palette _palette(NoticeKind kind, bool isDark) {
   }
 }
 
+// Helper to apply opacity to base color, clamped between 0 and 1
 Color _tint(Color base, double opacity) =>
-    base.withOpacity(opacity.clamp(0.0, 1.0));
+    base.withValues(alpha: opacity.clamp(0.0, 1.0));

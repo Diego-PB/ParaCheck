@@ -1,6 +1,9 @@
 = ParaCheck 
 :toc: macro
 
+image:https://github.com/Diego-PB/ParaCheck/actions/workflows/flutter-ci.yml/badge.svg[link=https://github.com/Diego-PB/ParaCheck/actions/workflows/flutter-ci.yml, title="CI Status"]
+image:https://github.com/Diego-PB/ParaCheck/actions/workflows/pages/pages-build-deployment/badge.svg[link=https://Diego-PB.github.io/ParaCheck/, title="GitHub Pages"]
+
 ++++
 <p align="center">
   <img src="./img/Paracheck_logo.png" width="50%">
@@ -13,13 +16,20 @@ toc::[]
 
 == Projet : 
 
-Le parapente est un sport à risque où la sécurité est importante.
-Il n’existe pas d’application dédiée.
+=== ParaCheck – Un outil numérique pour la sécurité en parapente
 
-Un embryon a été initié sur la base d’un PDF utilisé par un moniteur et se trouve ici :
-https://github.com/jmbruel/paranote
+Le parapente est une activité passionnante mais qui comporte aussi une part de risque importante. 
+La sécurité y occupe donc une place centrale, aussi bien pour les pilotes débutants que pour les pratiquants confirmés. 
+Pourtant, à ce jour, il n’existe pas d’application réellement dédiée qui centralise les bonnes pratiques, les vérifications pré-vol et les outils d’aide à la décision.  
 
-L’idée est de rendre cet outil robuste, sûr et validé par la fédération de vol libre pour inciter tous les parapentistes à l’utiliser.
+Un premier prototype a déjà vu le jour sous la forme d’un simple PDF, utilisé par un moniteur 
+comme support pédagogique et de vérification (voir https://github.com/Diego-PB/ParaCheck/blob/main/files/carnetA4.pdf[PDF]). 
+Ce document a été transposé en version numérique et se trouve actuellement dans un dépôt public : 
+https://github.com/jmbruel/paranote[Paranote]. 
+Ce point de départ constitue une base intéressante, mais reste encore limité en termes de fonctionnalités et d’ergonomie.  
+
+Avec *ParaCheck*, l’ambition est de transformer cet embryon en un outil robuste, fiable et validé par la Fédération Française de Vol Libre. 
+L’objectif est de proposer une application accessible et reconnue, que tous les parapentistes pourraient adopter comme référence pour renforcer leur sécurité au quotidien.  
 Pour ce sujet, il y a énormément d’ouvertures et d’extensions possibles (prise en compte de la météo en temps réel, analyse de risques, suivi en temps réel de la position, …).
 
 == Equipe :
@@ -53,6 +63,7 @@ La version en ligne est disponible ici : https://bit.ly/paranote.
 |   |   | Sujet SAE    | https://webetud.iut-blagnac.fr/pluginfile.php/61576/mod_resource/content/1/SAES5.01_Support.pdf[Sujet SAE] | Sujet de la SAE, à retrouver sur Webetud
 |   |   | Backlog Produit Global | https://github.com/users/Diego-PB/projects/4/[Backlog Produit] | Backlog Produit Global
 |   |   | Guide d'installation | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/guide_installation.adoc[Guide d'installation] | Guide d'installation
+|   |   | Chiffrage du projet | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Devis.pdf[Chiffrage du projet] | Chiffrage du projet, validé et accepté par le client
 | Sem. 36 ( 01/09/25 - 05/09/25 )  | Sprint 0 | Sprint 0 | https://github.com/users/Diego-PB/projects/5[Sprint 0] | Sprint 0, avec User Story et tâches associées
 |   | Sprint 0 | Documentation Utilisateur | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_0/documentation_utilisateur_v0.adoc[Documentation Utilisateur] | Installation et présentation du projet avec ses fonctionnalités
 |   | Sprint 0 | Documentation Technique | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_0/documentation_technique_v0.adoc[Documentation Technique] | Fonctionnement et fichiers clés du projet
@@ -62,11 +73,23 @@ La version en ligne est disponible ici : https://bit.ly/paranote.
 |   | Sprint 1 | Cahier de tests | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/cahier_test_v1.adoc[Cahier de tests] | Cahiers de tests
 |   | Sprint 1 | Documentation Utilisateur | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/documentation_utilisateur_v1.adoc[Documentation Utilisateur]| Installation et présentation du projet avec ses fonctionnalités
 |   | Sprint 1 | Documentation Technique | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/documentation_technique_v1.adoc[Documentation Technique] | Fonctionnement et fichiers clés du projet
-|   | Sprint 1 | Release de fin de Sprint 1 | [Release de fin de Sprint 1] | Release de fin de Sprint 1
+|   | Sprint 1 | Release de fin de Sprint 1 | https://github.com/Diego-PB/ParaCheck/releases/tag/V1[Release de fin de Sprint 1] | Release de fin de Sprint 1
 |   | Sprint 1 | Prévision Sprint 2 | https://github.com/users/Diego-PB/projects/7[Prévision Sprint 2] | Prévision du prochain Sprint (2) 
 | Sem. 39-40 ( 22/09/25 - 03/10/25 )   | Sprint 2 | Sprint 2 |  https://github.com/users/Diego-PB/projects/7[Sprint 2] | Sprint 2, avec User Story et tâches associées
 |   | Sprint 2 | Cahier de tests | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_2/cahier_test_v2.adoc[Cahier de tests] | Cahiers de tests
 |   | Sprint 2 | Documentation Utilisateur |  https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_2/documentation_utilisateur_v2.adoc[Documentation Utilisateur] |  Installation et présentation du projet avec ses fonctionnalités
 |   | Sprint 2 | Documentation Technique | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_2/documentation_technique_v2.adoc[Documentation Technique] | Fonctionnement et fichiers clés du projet
 |   | Sprint 2 | Release de fin de Sprint 2 | [Release de fin de Sprint 2] | Release de fin de Sprint 2
+|===
+
+== Réunions : 
+
+[cols="1,2,3",options="header"]
+|===
+| Date | ODJ | CR 
+| 03/09  | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_0/odj_reunion_v0.adoc[ODJ 1 Sprint 0] | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_0/cr_reunion_v0.adoc[CR 1 Sprint 0]
+| 08/09 | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/odj_reunion_v1.adoc[ODJ 1 Sprint 1] | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/cr_reunion_v1.adoc[CR 1 Sprint 1]
+| 15/09 | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/odj_reunion_v1_1.adoc[ODJ 2 Sprint 1] | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/odj_reunion_v1_1.adoc[CR 2 Sprint 1]
+| 16/09 | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/odj_reunion_v1_2.adoc[ODJ 3 Sprint 1] | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_1/cr_reunion_v1_2.adoc[CR 3 Sprint 1]
+| 22/09 | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_2/odj_reunion_v2.adoc[ODJ 1 Sprint 2] | https://github.com/Diego-PB/ParaCheck/blob/main/Documentations/Sprint_2/cr_reunion_v2.adoc[CR 1 Sprint 2]
 |===

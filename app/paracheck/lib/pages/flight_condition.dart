@@ -1,3 +1,10 @@
+/*
+ * This page allows the user to select the current flight condition (weather/turbulence level) using radio buttons.
+ * The selected value is saved locally using SharedPreferences and can be used by other parts of the app.
+ * The page displays a contextual message based on the selected condition and a warning at the bottom.
+ * After validation, the user is redirected to the next step.
+ */
+
 import 'package:flutter/material.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
 import 'package:paracheck/design/spacing.dart';
@@ -15,9 +22,13 @@ class FlightConditionPage extends StatefulWidget {
 }
 
 class _FlightConditionPageState extends State<FlightConditionPage> {
+  // Key used to store the selected flight condition in SharedPreferences
   static const _key = 'condition_vol_level';
+
+  // Stores the currently selected flight condition (null if not selected)
   int? selectedLevel;
 
+  // List of available flight conditions for user selection
   final conditions = [
     {'level': 1, 'label': 'Conditions calmes '},
     {'level': 2, 'label': 'Turbulences moyennes et localisées '},
@@ -28,18 +39,22 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
   @override
   void initState() {
     super.initState();
+    // You could load the saved condition here if you want to restore previous selection
   }
 
   Future<void> _saveLevel(int level) async {
+    // Saves the selected flight condition to local storage
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_key, level);
   }
 
   @override
   Widget build(BuildContext context) {
+    // Main UI structure for the flight condition selection page
     return AppScaffold(
       title: 'Conditions de vol',
       showReturnButton: true,
+      // Handles navigation when the return button is pressed
       onReturn: () {
         Navigator.pushNamed(context, '/homepage');
       },
@@ -48,29 +63,39 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SectionTitle('Choisis la cotation'),
+            // Title for the radio group section
+            const SectionTitle('Choix de la cotation'),
             const SizedBox(height: AppSpacing.md),
-            Column(
-              children:
-                  conditions.map((c) {
-                    final level = c['level'] as int;
-                    return RadioListTile<int>(
-                      title: Text(c['label'] as String),
-                      value: level,
-                      groupValue: selectedLevel,
-                      onChanged: (val) {
-                        setState(() => selectedLevel = val);
-                      },
-                    );
-                  }).toList(),
+
+            // Radio buttons for selecting the flight condition
+            RadioGroup<int>(
+              groupValue: selectedLevel,
+              onChanged: (val) => setState(() => selectedLevel = val),
+              child: Column(
+                children:
+                    conditions.map((c) {
+                      final level = c['level'] as int;
+                      return RadioListTile<int>(
+                        title: Text(c['label'] as String),
+                        value:
+                            level, 
+                      );
+                    }).toList(),
+              ),
             ),
+
             const SizedBox(height: AppSpacing.lg),
+
+            // Show contextual message if a condition is selected
             if (selectedLevel != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: AppSpacing.lg),
                 child: _buildNotice(selectedLevel!),
               ),
+
             const Spacer(),
+
+            // Warning message always shown at the bottom
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.md,
@@ -83,7 +108,7 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
                   horizontal: AppSpacing.md,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.danger.withOpacity(0.1),
+                  color: AppColors.danger.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Text(
@@ -96,6 +121,8 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
                 ),
               ),
             ),
+
+            // Validation button aligned to the right
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.md,
@@ -111,8 +138,9 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
                         selectedLevel == null
                             ? null
                             : () async {
+                              // Save the selected condition and navigate to the next page
                               await _saveLevel(selectedLevel!);
-                              print('Cotation sauvegardée : $selectedLevel');
+                              if (!context.mounted) return;
                               Navigator.pushNamed(context, '/personal_weather');
                             },
                   ),
@@ -126,6 +154,7 @@ class _FlightConditionPageState extends State<FlightConditionPage> {
   }
 
   Widget _buildNotice(int level) {
+    // Returns a contextual message widget based on the selected flight condition
     switch (level) {
       case 1:
         return const AppNotice(

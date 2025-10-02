@@ -1,13 +1,24 @@
+/*
+ StatTile is a reusable widget to display a statistic or key-value pair with an optional icon.
+ It shows an icon, a label, and a value horizontally inside a decorated container,
+ applying custom shadows, radius, and theme colors for consistent styling.
+*/
+
 import 'package:flutter/material.dart';
 import '../design/shadows.dart';
 import '../design/radius.dart';
 
 class StatTile extends StatelessWidget {
-  final String label;
-  final String value;
-  final IconData? icon;
+  final String label;         // Label for the statistic
+  final String value;         // Value of the statistic
+  final IconData? icon;       // Optional icon representing the stat
 
-  const StatTile({super.key, required this.label, required this.value, required this.icon});
+  const StatTile({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {

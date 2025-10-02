@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paracheck/services/flight_repository.dart';
-import '../models/flights.dart';
+import '../models/flight.dart';
 import '../widgets/stat_tile.dart';
 import 'package:paracheck/widgets/app_scaffold.dart';
 import 'package:paracheck/widgets/home_button.dart';
@@ -50,10 +50,12 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.symmetric(vertical: 8),
                         child: Text(
                           'Aucun vol enregistré pour le moment. Enregistrez votre premier vol dans la section Post-vol 👇',
+                          key: ValueKey('no_flights_text'),
                         ),
                       );
                     }
                     return Column(
+                      key: const ValueKey('flights_3last_list'),
                       children: [
                         for (final f in last3)
                           Padding(
@@ -80,6 +82,7 @@ class _HomePageState extends State<HomePage> {
                         () => {
                           Navigator.pushNamed(context, '/flights_history'),
                         },
+                    key: const ValueKey('flights_history_button'),
                   ),
                 ),
 
@@ -92,6 +95,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/flight_condition');
                   },
+                  key: const ValueKey('pre_flight_button'),
                 ),
                 const SizedBox(height: 50),
                 HomeButton(
@@ -100,6 +104,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/postflight_debrief');
                   },
+                  key: const ValueKey('post_flight_button'),
                 ),
                 const SizedBox(height: 16),
               ],
