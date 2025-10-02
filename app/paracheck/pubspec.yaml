@@ -44,6 +44,8 @@ dependencies:
   shared_preferences: ^2.3.2
   flutter_localizations:
     sdk: flutter
+  http: ^1.2.2
+  xml: ^6.5.0
 
 dev_dependencies:
   flutter_test:
