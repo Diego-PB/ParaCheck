@@ -16,7 +16,6 @@ import 'package:paracheck/pages/flight_condition.dart';
 import 'package:paracheck/pages/personal_weather.dart';
 import 'package:paracheck/pages/radar_page.dart';
 import 'package:paracheck/pages/breathing_stress.dart';
-import 'package:paracheck/pages/settings.dart';
 import 'package:paracheck/pages/manage_sites.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
