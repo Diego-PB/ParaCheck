@@ -154,7 +154,7 @@ Future<void> exportFlightsPdf(List<Flight> flights) async {
                                 pw.Positioned(
                                   left: 0,
                                   bottom: (140.0 * (i * 1000) / 3000) - 8,
-                                  child: pw.Text('${i} km', style: pw.TextStyle(fontSize: 9)),
+                                  child: pw.Text('$i km', style: pw.TextStyle(fontSize: 9)),
                                 ),
                               // Lignes de graduation
                               for (var i = 1; i <= 3; i++)
