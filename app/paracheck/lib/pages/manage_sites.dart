@@ -15,12 +15,9 @@ class ManageSitesPage extends StatefulWidget {
 }
 
 class _ManageSitesPageState extends State<ManageSitesPage> {
-  final _siteRepo = SharedPrefsSiteRepository();
-  final _pgeService = PgeService();
-  final PgeImporter _importer = PgeImporter(
-    pgeService: PgeService(),
-    siteRepository: SharedPrefsSiteRepository(),
-  );
+  final SharedPrefsSiteRepository _siteRepo = SharedPrefsSiteRepository();
+  final PgeService _pgeService = PgeService();
+  late final PgeImporter _importer;
 
   final TextEditingController _newSiteCtrl = TextEditingController();
   List<String> _sites = const [];
@@ -28,11 +25,16 @@ class _ManageSitesPageState extends State<ManageSitesPage> {
   @override
   void initState() {
     super.initState();
+    _importer = PgeImporter(
+      pgeService: _pgeService,
+      siteRepository: _siteRepo,
+    );
     _refresh();
   }
 
   Future<void> _refresh() async {
     final list = await _siteRepo.getAllNames();
+    if (!mounted) return;
     setState(() => _sites = list);
   }
 
@@ -45,12 +47,16 @@ class _ManageSitesPageState extends State<ManageSitesPage> {
   // Import sites from ParaGliding Earth by picking countries
   Future<void> _importFromPge() async {
     final picked = await showCountryPickerDialog(context);
-    if (picked == null || picked.isEmpty) return;
+    if (!mounted || picked == null || picked.isEmpty) return;
+
+    final navigator = Navigator.of(context);
+    final messenger = ScaffoldMessenger.of(context);
 
     final progressDialogFuture = showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (context) => const _ProgressDialog(text: 'Import en cours...'),
+      builder: (dialogContext) =>
+          const _ProgressDialog(text: 'Import en cours...'),
     );
 
     String? error;
@@ -63,18 +69,20 @@ class _ManageSitesPageState extends State<ManageSitesPage> {
     } catch (e) {
       error = e.toString();
     } finally {
-      if (mounted) {
-        Navigator.of(context).pop();
+      if (navigator.canPop()) {
+        navigator.pop();
       }
     }
 
     await progressDialogFuture;
 
-    if (error != null && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
+    if (error != null) {
+      messenger.showSnackBar(
         SnackBar(content: Text('Erreur lors de l\'import: $error')),
       );
     }
+
+    if (!mounted) return;
 
     await _refresh();
   }
@@ -146,30 +154,28 @@ class _ManageSitesPageState extends State<ManageSitesPage> {
                               );
                               final newName = await showDialog<String>(
                                 context: context,
-                                builder:
-                                    (ctx) => AlertDialog(
-                                      title: const Text('Renommer le site'),
-                                      content: TextField(
-                                        controller: controller,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Nouveau nom',
-                                        ),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () => Navigator.pop(ctx),
-                                          child: const Text('Annuler'),
-                                        ),
-                                        TextButton(
-                                          onPressed:
-                                              () => Navigator.pop(
-                                                ctx,
-                                                controller.text.trim(),
-                                              ),
-                                          child: const Text('Enregistrer'),
-                                        ),
-                                      ],
+                                builder: (ctx) => AlertDialog(
+                                  title: const Text('Renommer le site'),
+                                  content: TextField(
+                                    controller: controller,
+                                    decoration: const InputDecoration(
+                                      labelText: 'Nouveau nom',
                                     ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(ctx),
+                                      child: const Text('Annuler'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(
+                                        ctx,
+                                        controller.text.trim(),
+                                      ),
+                                      child: const Text('Enregistrer'),
+                                    ),
+                                  ],
+                                ),
                               );
                               if (newName != null && newName.isNotEmpty) {
                                 await _siteRepo.renameByName(
@@ -186,25 +192,22 @@ class _ManageSitesPageState extends State<ManageSitesPage> {
                             onPressed: () async {
                               final ok = await showDialog<bool>(
                                 context: context,
-                                builder:
-                                    (ctx) => AlertDialog(
-                                      title: const Text('Supprimer'),
-                                      content: Text(
-                                        'Supprimer "${_sites[i]}" ?',
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed:
-                                              () => Navigator.pop(ctx, false),
-                                          child: const Text('Annuler'),
-                                        ),
-                                        TextButton(
-                                          onPressed:
-                                              () => Navigator.pop(ctx, true),
-                                          child: const Text('Supprimer'),
-                                        ),
-                                      ],
+                                builder: (ctx) => AlertDialog(
+                                  title: const Text('Supprimer'),
+                                  content: Text(
+                                    'Supprimer "${_sites[i]}" ?',
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(ctx, false),
+                                      child: const Text('Annuler'),
                                     ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(ctx, true),
+                                      child: const Text('Supprimer'),
+                                    ),
+                                  ],
+                                ),
                               );
                               if (ok == true) {
                                 await _siteRepo.removeByName(_sites[i]);
@@ -245,4 +248,3 @@ class _ProgressDialog extends StatelessWidget {
     );
   }
 }
-
