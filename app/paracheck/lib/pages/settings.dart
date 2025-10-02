@@ -120,6 +120,11 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: 'Paramètres',
+      showReturnButton: true,
+      // Handles navigation when the return button is pressed
+      onReturn: () {
+        Navigator.pushNamed(context, '/homepage');
+      },
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
