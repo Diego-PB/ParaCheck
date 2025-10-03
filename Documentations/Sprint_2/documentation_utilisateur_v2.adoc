@@ -51,7 +51,7 @@ image::../../img/cond_vol.jpg[align="center", width=20%]
 
 ===== Questionnaire pour valider l’état physique et mental du pilote  
 
-image::../../img/met_int.jpg[align="center", width=20%]
+
 
 ===== Questionnaire pour valider l’état du matériel  
 
@@ -68,25 +68,27 @@ image::../../img/postvol.jpg[align="center", width=20%]
 
 ===== Formulaire complet pour saisir les informations relatives au vol (site, météo, type de vol, observations) et les enregistrer 
 
-image::../../img/debrief.jpg[align="center", width=20%]
+
 
 ===== Remplissage et affichage d'une rose de compétences pour suivre son niveau.
 
-image::../../img/rose1.jpg[align="center", width=20%]
+
 
 image::../../img/rose2.jpg[align="center", width=20%]
 
-==== Consultation de l’historique des vols 
+===== Consultation de l’historique des vols 
 
 image::../../img/histo.jpg[align="center", width=20%]
 
 ===== Accéder à l’historique des vols précédents pour analyser les données et les incidents éventuels  
 
-image::../../img/test_histo.jpg[align="center", width=20%]
 
-=== Fonctionnalités secondaires
+==== Exportation des données et gestion des sites de vol (via paramètres)
 
-* **Gestion des données de vol** : Les pilotes peuvent enregistrer et consulter les informations relatives à leurs vols, incluant les conditions météo, le type de site et les observations de sécurité.  
+
+
+=== Fonctionnalités secondaires (non implémentées)
+  
 * **Analyse des risques** : L’application propose des évaluations de risques basées sur les paramètres du vol et les conditions locales, afin d’aider les parapentistes à prendre des décisions éclairées.  
 * **Suivi en temps réel** : Possibilité de suivre la position d’un pilote pendant le vol grâce à l’intégration de données GPS.
 
