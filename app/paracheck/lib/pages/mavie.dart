@@ -121,7 +121,6 @@ class _MaviePageState extends State<MaviePage> {
     );
   }
 
-  // Comptage global des états
   ({int rouges}) _countStates() {
     // Counts the number of "red" (critical) answers
     int rouges = 0;
