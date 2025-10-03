@@ -211,20 +211,20 @@ class _PostFlightDebriefPageState extends State<PostFlightDebriefPage> {
       }
 
       // Show confirmation/summary dialog.
-      await showDialog(
-        context: context,
-        builder:
-            (_) => AlertDialog(
-              title: const Text("Résumé du débriefing"),
-              content: SingleChildScrollView(child: Text(buffer.toString())),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text("Fermer"),
-                ),
-              ],
-            ),
-      );
+      //await showDialog(
+      //  context: context,
+      //  builder:
+      //      (_) => AlertDialog(
+      //        title: const Text("Résumé du débriefing"),
+      //        content: SingleChildScrollView(child: Text(buffer.toString())),
+      //        actions: [
+      //          TextButton(
+      //            onPressed: () => Navigator.of(context).pop(),
+      //            child: const Text("Fermer"),
+      //          ),
+      //        ],
+      //      ),
+      //);
 
       if (!mounted) return;
 
