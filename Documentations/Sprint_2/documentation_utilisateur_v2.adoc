@@ -1,6 +1,6 @@
 :toc: macro
 
-= Documentation Utilisateur sprint n°1 SAE-5.01-ParaCheck
+= Documentation Utilisateur sprint n°2 SAE-5.01-ParaCheck
 
 image::../../img/Paracheck_logo.png[align="center", width=100%]
 
