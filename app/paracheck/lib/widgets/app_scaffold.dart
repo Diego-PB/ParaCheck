@@ -42,7 +42,7 @@ class _AppScaffoldState extends State<AppScaffold> {
     NavAction(
       label: 'Pré-vol',
       icon: Icons.checklist,
-      onTap: () => {Navigator.pushNamed(context, '/personal_weather')},
+      onTap: () => {Navigator.pushNamed(context, '/flight_condition')},
     ),
     NavAction(
       label: 'Post-vol',
