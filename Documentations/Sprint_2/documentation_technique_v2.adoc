@@ -79,7 +79,7 @@ Le champ des évolutions possibles est vaste : intégration de données météo 
 
 Celui-ci présente le diagramme des cas d’utilisation de notre projet :
 
-image::../../img/use_case_v0.png[]
+image::../../img/use_case_v2.png[]
 
 == Présentation des Fichiers Clés et l'arborescence de l'application
 
@@ -106,7 +106,7 @@ image::../../img/use_case_v0.png[]
 │       |   │   ├── breathing_stress.dart
 │       |   │   ├── flight_condition.dart
 │       |   │   ├── flights_history.dart
-│       |   │   ├── Home_page.dart
+│       |   │   ├── home_page.dart
 │       |   │   ├── manage_sites.dart
 │       |   │   ├── mavie.dart
 │       |   │   ├── personal_weather.dart
