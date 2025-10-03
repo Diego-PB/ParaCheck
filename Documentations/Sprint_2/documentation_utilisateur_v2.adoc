@@ -1,6 +1,6 @@
 :toc: macro
 
-= Documentation Utilisateur sprint n°1 SAE-5.01-ParaCheck
+= Documentation Utilisateur sprint n°2 SAE-5.01-ParaCheck
 
 image::../../img/Paracheck_logo.png[align="center", width=100%]
 
@@ -51,7 +51,7 @@ image::../../img/cond_vol.jpg[align="center", width=20%]
 
 ===== Questionnaire pour valider l’état physique et mental du pilote  
 
-
+image::../../img/meteo_int.jpg[align="center", width=20%]
 
 ===== Questionnaire pour valider l’état du matériel  
 
@@ -60,7 +60,6 @@ image::../../img/mavie.jpg[align="center", width=20%]
 ===== Exercice de respiration et de stress (optionnel) 
 
 image::../../img/gest_resp.jpg[align="center", width=20%]
- 
 
 ==== Enregistrement des données de vol
 
@@ -68,11 +67,11 @@ image::../../img/postvol.jpg[align="center", width=20%]
 
 ===== Formulaire complet pour saisir les informations relatives au vol (site, météo, type de vol, observations) et les enregistrer 
 
-
+image::../../img/debrief.jpg[align="center", width=20%]
 
 ===== Remplissage et affichage d'une rose de compétences pour suivre son niveau.
 
-
+image::../../img/rose1.jpg[align="center", width=20%]
 
 image::../../img/rose2.jpg[align="center", width=20%]
 
@@ -80,12 +79,21 @@ image::../../img/rose2.jpg[align="center", width=20%]
 
 image::../../img/histo.jpg[align="center", width=20%]
 
-===== Accéder à l’historique des vols précédents pour analyser les données et les incidents éventuels  
+===== Accéder au détail de l’historique des vols précédents pour analyser les données et les incidents éventuels  
 
+image::../../img/detail_histo.jpg[align="center", width=20%]
 
 ==== Exportation des données et gestion des sites de vol (via paramètres)
 
+image::../../img/settings.jpg[align="center", width=20%]
 
+- Gestion sites 
+
+image::../../img/gestion_sites.jpg[align="center", width=20%]
+
+- Export PDF 
+
+image::../../img/pdf.jpg[align="center", width=20%]
 
 === Fonctionnalités secondaires (non implémentées)
   

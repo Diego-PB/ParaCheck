@@ -1,6 +1,6 @@
 :toc: macro
 
-= Documentation Technique sprint n°1 SAE-5.01-ParaCheck
+= Documentation Technique sprint n°2 SAE-5.01-ParaCheck
 
 image::../../img/Paracheck_logo.png[align="center", width=100%]
 
@@ -44,17 +44,35 @@ Le champ des évolutions possibles est vaste : intégration de données météo 
 
 * Vérifier l'état du matériel et du parapentiste avant le décollage pour valider la sécurité du vol
 
+** Questionnaire pour valider l'état météoroligue extérieur
+
 ** Questionnaire pour valider l'état du matériel
 
 ** Questionnaire pour valider l'état du parapentiste
+
+** Information d'un exercice de respiration  pour gestion du stress
 
 * Entrer ses données de vol
 
 ** Formulaire complets pour entrer ses données de vol et les enregistrer
 
+** Formulaire pour avoir un radar de compétences pour suivre sa progression
+
 * Historique de vols
 
 ** Consulter l’historique des données de vols
+
+** Consulter le détail de ses vols
+
+* Paramètres
+
+** Gérer les sites de vols (via import map notamment)
+
+** Exporter ses données 
+
+*** en PDF pour une review annuelle
+
+*** en JSON pour transfert d'appareils (import disponible)
 
 
 == Diagrammes des cas d'utilisation
@@ -81,37 +99,39 @@ image::../../img/use_case_v0.png[]
 │       │   └── questions_postvol.json    // Fichier de questions (Post-vol)
 │       ├── build                         // Fichiers générés par la compilation
 │       ├── ios                           // Projet iOS natif
-│       └── lib                           // Code source principal (Flutter/Dart)
-│           ├── design                    // Gestion du design
-│           ├── models                    // Modèles de données
-│           ├── pages                     // Pages de l’application
-│           │   ├── condition_vol.dart
-│           │   ├── flights_history.dart
-│           │   ├── home_page.dart
-│           │   ├── mavie.dart
-│           │   ├── meteo_int.dart
-│           │   ├── post_flight_debrief.dart
-│           │   ├── respiration_stress.dart
-│           │   ├── rose.dart
-│           │   ├── splash_screen.dart
-│           │   └── uiktdemopage.dart
-│           ├── services                  // Services (logique, API…)
-│           ├── utils                     // Fonctions utilitaires
-│           ├── widgets                   // Composants réutilisables
-│           ├── app_router.dart           // Gestion des routes
-│           ├── main.dart                 // Point d’entrée de l’application
-│           └── theme.dart                // Définition des thèmes
-├── test                                  // Tests unitaires / widgets
-├── web                                   // Fichiers liés au déploiement web
-├── .dart_tool                            // Fichiers internes de Flutter/Dart
-├── .flutter-plugins-dependencies         // Dépendances Flutter
-├── .gitignore                            // Fichiers/dossiers ignorés par Git
-├── .metadata                             // Métadonnées du projet Flutter
-├── analysis_options.yaml                 // Configuration de l'analyse statique
-├── devtools_options.yaml                 // Configurations DevTools
-├── pubspec.lock                          // Version verrouillée des dépendances
-├── pubspec.yaml                          // Dépendances et configuration Flutter
-├── README.md                             // Documentation principale (Markdown)
+│       ├── lib                           // Code source principal (Flutter/Dart)
+│       |   ├── design                    // Gestion du design
+│       |   ├── models                    // Modèles de données
+│       |   ├── pages                     // Pages de l’application
+│       |   │   ├── breathing_stress.dart
+│       |   │   ├── flight_condition.dart
+│       |   │   ├── flights_history.dart
+│       |   │   ├── Home_page.dart
+│       |   │   ├── manage_sites.dart
+│       |   │   ├── mavie.dart
+│       |   │   ├── personal_weather.dart
+│       |   │   ├── postflight_debrief.dart
+│       |   │   ├── radar_page.dart
+│       |   │   ├── settings.dart
+│       |   │   ├── splash_screen.dart
+│       |   │   └── uiktdemopage.dart
+│       |   ├── services                  // Services (logique, API…)
+│       |   ├── utils                     // Fonctions utilitaires
+│       |   ├── widgets                   // Composants réutilisables
+│       |   ├── app_router.dart           // Gestion des routes
+│       |   ├── main.dart                 // Point d’entrée de l’application
+│       |   └── theme.dart                // Définition des thèmes
+|       ├── test                          // Tests unitaires / widgets
+|       ├── web                           // Fichiers liés au déploiement web
+|       ├── .dart_tool                    // Fichiers internes de Flutter/Dart
+|       ├── .flutter-plugins-dependencies // Dépendances Flutter
+|       ├── .gitignore                    // Fichiers/dossiers ignorés par Git
+|       ├── .metadata                     // Métadonnées du projet Flutter
+|       ├── analysis_options.yaml         // Configuration de l'analyse statique
+|       ├── devtools_options.yaml         // Configurations DevTools
+|       ├── pubspec.lock                  // Version verrouillée des dépendances
+|       ├── pubspec.yaml                  // Dépendances et configuration Flutter
+|       ├── README.md                     // Documentation principale (Markdown)
 ├── Documentations                        // Documentation du projet
 ├── files                                 // Autres fichiers liés au projet
 ├── img                                   // Images liées à la doc
