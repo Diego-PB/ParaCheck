@@ -54,7 +54,7 @@ Jean-Michel Bruel (jean-michel.bruel@univ-tlse2.fr / jbruel@gmail.com)
 Outil de check pré/post vol. 
 La version en ligne est disponible ici : https://bit.ly/paranote.
 
-== Lien pratiques 
+== Liste des livrables par Sprints et Lien pratiques 
 
 
 [cols="1,2,3,4,5",options="header"]
