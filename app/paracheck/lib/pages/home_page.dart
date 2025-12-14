@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
 
                 // Deux gros boutons : Pré-vol et Post-vol
                 HomeButton(
-                  label: "Pre-flight",
+                  label: "Pré-vol",
                   icon: Icons.checklist,
                   onPressed: () {
                     Navigator.pushNamed(context, '/flight_condition');
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 50),
                 HomeButton(
-                  label: "Post-flight",
+                  label: "Post-vol",
                   icon: Icons.assignment_turned_in,
                   onPressed: () {
                     Navigator.pushNamed(context, '/postflight_debrief');
